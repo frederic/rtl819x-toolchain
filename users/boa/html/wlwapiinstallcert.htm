@@ -1,0 +1,204 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2003. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>WAPI Certification Installation</title>
+<style>
+.on {display:on}
+.off {display:none}
+</style>
+<script type="text/javascript" src="util_gw.js"></script>
+<script>
+var MWJ_progBar = 0;
+var time=0;
+var delay_time=1000;
+var loop_num=0;
+var auth_mode ="<% getInfo("auth_mode_2or3_certification"); %>";
+var localAsSupport = "<% getInfo("wapiLocalAsSupport"); %>";
+
+function progress()
+{
+  if (loop_num == 3) {
+	alert("Update firmware failed!");
+	return false;
+  }
+  if (time < 1) 
+	time = time + 0.033;
+  else {
+	time = 0;
+	loop_num++;
+  }
+  setTimeout('progress()',delay_time);  
+  myProgBar.setBar(time); 
+}
+
+
+function sendClicked(F)
+{
+
+	if(F.uploadcerttype.value == "ca" && F.ca_binary.value == "")
+	{
+      	F.ca_binary.focus();
+  		alert('File name can not be empty !');
+  		return false;
+  	}
+
+  	if(F.uploadcerttype.value=="asu" && F.asu_binary.value == "")
+	{
+      	F.asu_binary.focus();
+  		alert('File name can not be empty !');
+  		return false;
+  	}
+
+  	if(F.uploadcerttype.value=="user" && F.user_binary.value == "")
+	{
+      	F.user_binary.focus();
+  		alert('File name can not be empty !');
+  		return false;
+  	}
+
+  	if(auth_mode != "three_certification")
+  	{
+  		F.auth_mode.value = "two_certification";
+  	}else
+  	{
+  		F.auth_mode.value = "three_certification";  		
+  	}
+  F.submit();
+  show_div(true, "progress_div");   
+  progress();
+}
+
+function show_twoCert_upload()
+{
+	get_by_id("uploadASUCertAS0_asu").style.display = "none";
+	if(localAsSupport == "true")
+		get_by_id("uploadASUCert_asu").style.display = "none";
+	auth_mode = "two_certification";
+}
+
+function show_threeCert_upload()
+{
+	get_by_id("uploadASUCertAS0_asu").style.display = "";
+	if(localAsSupport == "true")
+		get_by_id("uploadASUCert_asu").style.display = "";
+	auth_mode = "three_certification";
+}
+
+function init()
+{
+	if(auth_mode != "three_certification")
+  	{
+  		show_twoCert_upload();
+  		document.form0.auth_mode_radio[0].checked = true;
+  		document.form0.auth_mode_radio[1].checked = false;
+  	}else
+  	{
+  		show_threeCert_upload();  		
+  		document.form0.auth_mode_radio[0].checked = false;
+  		document.form0.auth_mode_radio[1].checked = true;
+  	}
+}
+</script>
+
+</head>
+<BODY onload="init();">
+<blockquote>
+<form name="form0">
+<h2><font color="#0000FF">Certification Installation</font></h2>
+
+<table border="0" cellspacing="4" width="500">
+ <tr><font size=2>
+  This page allows you to install ASU and user certification for our AP. Please note, certification type 
+ X.509 is supported at present.
+ </tr>
+</table>
+
+<table width="100%" border="0" cellpadding="0" cellspacing="4">
+        <tr><font size=2></tr>
+        <tr><hr size=1 noshade align=top></tr>
+                <tr>
+                        <td width="30%"><font size="2"><b>Select WAPI Mode:</b></font></td>
+                        <td width="70%"><font size="2">
+                                <input checked name="auth_mode_radio" type="radio" value="0" onClick="show_twoCert_upload()">two certification
+                                <input name="auth_mode_radio" type="radio" value="1" onClick="show_threeCert_upload()">three certification
+                                        </font></td>
+                </tr>
+</table>
+</form>
+ <!-- Only for Remote AS0 -->
+<form method="post" action="/boafrm/formUploadWapiCertAS0" enctype="multipart/form-data" name="uploadCACertAS0">
+<table border="0" cellspacing="0" width="500">
+ <tr><font size=2></tr>
+ <tr><hr size=1 noshade align=top></tr>
+  <tr>
+  <td width="55%"><font size=2><b>Certificate Type of Remote AS:</b></td>
+  <td width="45%"><font size=2> <input name="cert_type" type=radio value=0 checked>X.509</td>
+  </tr>
+  <tr>
+      <td width="55%"><font size=2><b>CA Certificate from Remote AS:</b></td>
+      <td width="45%"><font size=2><input type="file" name="ca_binary" size=20></td>
+  </tr>
+  </table>
+	<input onclick=sendClicked(this.form) type=button value="Upload" name="send">&nbsp;&nbsp;
+	<input type="reset" value="Reset" name="reset">
+	<input type="hidden" value="/wlwapiinstallcert.htm" name="submit-url">
+	<input type="hidden" value="ca" name="uploadcerttype">
+	<input type="hidden" value= "two_certification" name="auth_mode">
+ </form>
+
+ 
+<form method="post" action="/boafrm/formUploadWapiCertAS0" enctype="multipart/form-data" name="uploadASUCertAS0"\
+id="uploadASUCertAS0_asu" style="display:none">
+<table border="0" cellspacing="0" width="500">
+ <tr><font size=2></tr>  
+  <tr>
+      <td width="55%"><font size=2><b>ASU Certificate from Remote AS:</b></td>
+      <td width="45%"><font size=2><input type="file" name="asu_binary" size=20></td>
+  </tr>
+  </table> 
+	<input onclick=sendClicked(this.form) type=button value="Upload" name="send">&nbsp;&nbsp;    
+	<input type="reset" value="Reset" name="reset">
+	<input type="hidden" value="/wlwapiinstallcert.htm" name="submit-url">
+	<input type="hidden" value="asu" name="uploadcerttype">
+ 	<input type="hidden" value= "two_certification" name="auth_mode">
+</form>
+
+<form method="post" action="/boafrm/formUploadWapiCertAS0" enctype="multipart/form-data" name="uploadUserCertAS0">
+<table border="0" cellspacing="0" width="500">
+ <tr><font size=2></tr>
+  <tr>
+      <td width="55%"><font size=2><b>User Certificate from Remote AS:</b></td>
+      <td width="45%"><font size=2><input type="file" name="user_binary" size=20></td>
+  </tr>
+  </table>
+	<input onclick=sendClicked(this.form) type=button value="Upload" name="send">&nbsp;&nbsp;
+	<input type="reset" value="Reset" name="reset">
+	<input type="hidden" value="/wlwapiinstallcert.htm" name="submit-url">
+	<input type="hidden" value="user" name="uploadcerttype">
+ 	<input type="hidden" value= "two_certification" name="auth_mode">
+</form>
+ 
+
+
+
+<!-- Only for Local AS -->
+<% getInfo("wapiLocalAsCertsUploadForm");%>
+ 
+ <script type="text/javascript" language="javascript1.2">
+		var myProgBar = new progressBar(
+			1,         //border thickness
+			'#000000', //border colour
+			'#ffffff', //background colour
+			'#043db2', //bar colour
+			300,       //width of bar (excluding border)
+			15,        //height of bar (excluding border)
+			1          //direction of progress: 1 = right, 2 = down, 3 = left, 4 = up
+		);
+</script>
+ 
+ 
+ </blockquote>
+</body>
+</html>

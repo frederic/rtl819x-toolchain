@@ -1,0 +1,47 @@
+
+comment "rtl8196c"
+choice
+prompt "Selected Target of SDK"
+default CONFIG_RTL819X_GW
+config RTL819X_GW
+	bool "11nRouter_GW"
+config ROUTER_POCKET_SUPPORT
+	bool "11nPocket_Router"
+config AP_POCKET_SUPPORT
+	bool "11nPocket_AP"
+config AP_RTL8196C_iNIC_AP
+	bool "11n iNIC_AP"
+endchoice
+
+choice
+prompt "Selected Board Configuration"
+default DEFAULT
+config DEFAULT
+	bool "default"
+config MODEL_RTL8196C_MP
+	bool "MP"
+config MODEL_RTL8196C_NOR_SQUASHFS
+	bool "NOR flash + Squahfs"
+config MODEL_RTL8196C_SPI_SQUASHFS
+	bool "SPI flash + Squashfs"
+config MODEL_RTL8196C_AP_SPI_SQUASHFS
+	bool "AP, SPI slash + Squash"
+config MODEL_rtl8196c_ict
+	bool "IC Test"
+config MODEL_RTL8196C_iNIC_AP
+	bool "8196c 11n iNic AP "
+endchoice
+
+menu "IC Test Configuration"
+config ICT_SUPPORT
+	bool "IC test support"
+config ICT_FOLDER
+	string "IC test folder"
+	depends on ICT_SUPPORT
+	default "../../../../ICTest"
+	
+config ICT_SCRIPT
+	string "IC test script"
+	depends on ICT_SUPPORT
+	default ""
+endmenu

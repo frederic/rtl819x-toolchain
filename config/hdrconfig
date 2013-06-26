@@ -1,0 +1,77 @@
+#!/usr/bin/perl
+#
+# Realtek Semiconductor Corp.
+#
+# Tony Wu (tonywu@realtek.com)
+# Dec. 07, 2008
+#
+# The Right Thing
+#
+
+my @CONFIG = ();
+my %HASH = ();
+my $config = '';
+my $header = '';
+my $key, $val;
+
+
+##
+## 
+##
+if (@ARGV != 1) {
+  print "usage: $0 DIR_ROOT", "\n";
+  exit -1;
+}
+
+$DIR_ROOT = $ARGV[0];
+
+##
+## list config files
+##
+system("mkdir -p $DIR_ROOT/tmpfs/include");
+system("mkdir -p $DIR_ROOT/tmpfs/lib");
+
+$header = $DIR_ROOT . '/tmpfs/include/appconfig.h';
+push @CONFIG, $DIR_ROOT . '/users/.config';
+
+open(PIPE, $DIR_ROOT . '/.config') || die $_;
+while (<PIPE>) {
+    if (m|CONFIG_LINUXDIR=(.*)|) {
+        push @CONFIG, $DIR_ROOT . "/$1/.config";
+    }
+
+    if (m|CONFIG_BZBOXDIR=(.*)|) {
+        push @CONFIG, $DIR_ROOT . "/$1/.config";
+    }
+}
+close(PIPE);
+
+##
+## generate config header file
+##
+print "INFO: generating appconfig.h from $DIR_ROOT", "\n";
+
+open(DOTH, '>', $header) || die $_;
+foreach $config (@CONFIG) {
+  open(PIPE, $config) || die $_;
+  while (<PIPE>) {
+    chomp;
+    if (m|^([^=]+)=(.*)|) {
+      $key = $1;
+      $val = $2;
+
+      if ($HASH{$key} == 1) {
+        print "ERROR: duplicate key $key", "\n";
+      }
+      $HASH{$key} = 1;
+
+      $val = 1 if (length($val)==1 and $val =~ m|[yY]|);
+      print DOTH "#define $key $val", "\n";
+    }
+  }
+  close(PIPE);
+}
+
+close(DOTH);
+
+exit 0;

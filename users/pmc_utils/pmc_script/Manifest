@@ -1,0 +1,5 @@
+dallas_lib
+dallas_app/dallas_ctrl
+dallas_drv/dallas_ctrl.ko
+dallas
+

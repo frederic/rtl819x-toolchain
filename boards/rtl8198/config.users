@@ -1,0 +1,39 @@
+#
+# Automatically generated make config: don't edit
+# RLX Linux builder
+# Thu Sep 24 09:33:04 2009
+#
+
+#
+# Basic Applications
+#
+CONFIG_APP_BUSYBOX=y
+# CONFIG_APP_CLE_SHELL is not set
+# CONFIG_APP_DHCPV6 is not set
+CONFIG_APP_DHRYSTONE=y
+# CONFIG_APP_DNRD is not set
+# CONFIG_APP_DNSMASQ is not set
+# CONFIG_APP_EXAMPLE is not set
+# CONFIG_APP_FLEX is not set
+# CONFIG_APP_GOAHEAD is not set
+# CONFIG_APP_IGMPPROXY is not set
+# CONFIG_APP_IPROUTE is not set
+# CONFIG_APP_IPTABLES is not set
+# CONFIG_APP_L2TPD is not set
+# CONFIG_APP_NTPCLIENT is not set
+# CONFIG_APP_PPPD is not set
+# CONFIG_APP_PPTP is not set
+# CONFIG_APP_RADVD is not set
+# CONFIG_APP_ROUTED is not set
+# CONFIG_APP_SAMBA is not set
+# CONFIG_APP_SCRIPT is not set
+# CONFIG_APP_SQUASHFS40 is not set
+# CONFIG_APP_USBMOUNT is not set
+# CONFIG_APP_WIRELESSTOOLS is not set
+# CONFIG_APP_HOSTAPD is not set
+
+#
+# Basic Libraries
+#
+# CONFIG_LIB_PNG is not set
+# CONFIG_LIB_Z is not set

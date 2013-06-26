@@ -1,0 +1,28 @@
+HOW TO USE GEBSERVER 
+
+1.Debugging an Already-running Process
+	1.1 remote step
+		1)gdbserver <host ip:port> --attach <pid of debugged process>
+
+	1.2 host step
+		1)export PATH=YOUR_PATH/rlxlinux-v2.2/users/gdb/gdb-host/bin/:$PATH 
+		2)cd <source file dir of debugged program>
+		3)mips-linux-gdb <debugged program>
+		/**enter gdb**/
+		4)target remote <remote ip:port>
+		
+
+2.Starting and debugging your program
+	1.1 remote step
+		1)gdbserver <host ip:port> <debugged program>
+	
+	1.2 host step
+		1)export PATH=YOUR_PATH/rlxlinux-v2.2/users/gdb/gdb-host/bin/:$PATH
+		2)cd <source file dir of debugged program>:
+		3)mips-linux-gdb <debugged program>
+                /**enter gdb**/
+		4)target remote <remote ip:port>
+
+
+notice:
+	host should ping remote succeed

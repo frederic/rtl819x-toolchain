@@ -1,0 +1,402 @@
+/**************************************************
+ * Realtek VoIP suite
+ * Bruce (kfchang@realtek.com.tw)
+ * ***********************************************/
+
+
+
+#include <linux/config.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/init.h>
+#include <linux/if_ether.h>
+#include <linux/netdevice.h>
+#include <linux/etherdevice.h>
+#include <linux/ip.h>
+#include <linux/udp.h>
+#include <linux/inet.h>
+
+#include <asm/uaccess.h>
+
+#include "rtk_system.h"
+#include "rtk_system_netfilter.h"
+
+#include "../include/type.h"
+#include "../voip_manager/voip_mgr_netfilter.h"
+
+#if 0
+
+struct nf_sockopt_ops rtk_trap_sockopts =
+{
+list:		{NULL, NULL},
+pf:		PF_INET,
+set_optmin:	RTK_TRAP_BASE_CTL,
+set_optmax:	RTK_TRAP_GET_MAX,
+set:		do_rtk_trap_set_ctl,
+get_optmin:	RTK_TRAP_BASE_CTL,
+get_optmax:	RTK_TRAP_SET_MAX,
+get:		do_rtk_trap_get_ctl,
+use:		0,
+cleanup_task:	NULL
+};
+
+#endif
+#define CHANNEL 4
+struct RTK_TRAP_profile *filter[CHANNEL]={0,0,0,0};
+struct preprocess_result
+{
+	void *ptr_data;
+	Tuint32 data_len;
+};
+
+//int (*rtk_trap_hook)(struct sk_buff *skb) = NULL;
+extern int (*rtk_trap_hook)(struct sk_buff *skb);
+struct RTK_TRAP_profile *header;
+
+MODULE_AUTHOR ("Bruce <kfchang@realtek.com.tw>");
+MODULE_DESCRIPTION ("REALTEK VoIP Suite [TRAP]");
+
+//#define REG_INIT_SOCKET
+#ifdef REG_INIT_SOCKET 
+extern struct socket *serv_sock;
+extern struct sockaddr_in serv;
+#endif
+
+#if 0
+
+int do_rtk_trap_get_ctl (struct sock *sk, int cmd, void *user, int *len)
+{
+	int i;
+	TstPPortMask stPMask;
+	TstLPortMask stLMask;
+	Tuint8 p, sp, du;
+
+	printk("do_rtk_trap_get_ctl\n");
+	switch (cmd) {
+	}
+	return 0;
+}
+
+
+int do_rtk_trap_set_ctl (struct sock *sk, int cmd, void *user, unsigned int len)
+{
+	Tuint8 ucId;
+	TstTrkMem stTrk;
+
+	printk("do_rtk_trap_set_ctl\n");
+	switch (cmd) {
+	}
+	return 0;
+}
+
+#endif
+
+#ifdef REG_INIT_SOCKET 
+void system_process_rtp_tx(unsigned char CH, unsigned int media_type, void *ptr_data, unsigned int data_len)
+{
+	struct RTK_TRAP_profile *ptr;
+
+        ptr = header;
+
+	printk("%s-%d\n", __FUNCTION__, __LINE__);
+        if(ptr == NULL)
+        {
+                printk("profile not exist\n");
+                return;
+        }
+        else
+        {
+                if(ptr->ch_id == CH){
+		  udp_msg_send(ptr->serv_sock, &(ptr->serv), ptr_data, data_len);
+                  //send(ptr, ptr_data, data_len);
+                  //printk("send ok\n");
+                  return;
+                }
+                ptr=ptr->next;
+
+        }
+        printk("there is no match CH profile\n");
+        return;
+
+}
+#endif
+Tint32 rtk_trap_register(TstVoipMgrSession *stVoipMgrSession, Tuint8 c_id, Tuint32 m_id, Tuint32 s_id, Tint32(*callback)(Tuint8 ch_id, Tint32 m_id, void *ptr_data, Tuint32 data_len, Tuint32 flags))
+{
+
+	struct RTK_TRAP_profile *ptr;
+#if 0
+	printk("ip_src_addr = %d\n", stVoipMgrSession->ip_src_addr);
+	printk("ip_dst_addr = %d\n", stVoipMgrSession->ip_dst_addr);
+	printk("udp_src_port = %d\n", stVoipMgrSession->udp_src_port);
+	printk("udp_dst_port = %d\n", stVoipMgrSession->udp_dst_port);
+	printk("protocol = %d\n", stVoipMgrSession->protocol);
+#endif
+#ifdef REG_INIT_SOCKET //for UDP socket send
+	TstUDPSession stUDPSession;
+	stUDPSession.ip_src_addr = stVoipMgrSession->ip_src_addr;
+	stUDPSession.ip_dst_addr = stVoipMgrSession->ip_dst_addr;
+	stUDPSession.udp_src_port= stVoipMgrSession->udp_src_port;
+	stUDPSession.udp_dst_port= stVoipMgrSession->udp_dst_port;
+	udp_socket_establish( &stUDPSession);
+
+#endif
+	if(s_id <0 || s_id >3){
+		printk("s_id %d non-support now!(support 0~3)\n", s_id);
+		return -1;
+	}
+	if(filter[s_id]!=0) {
+		printk("s_id %d in used, please unregister first\n", s_id);
+		return -1;
+	}
+
+	if(header == NULL)
+	{
+		printk("path 0\n");
+		header=(struct RTK_TRAP_profile *) kmalloc(sizeof(struct RTK_TRAP_profile), GFP_ATOMIC);	
+		if(header == NULL)
+		{
+			printk("RTK TRAP allocate memory error !!\n");
+			return -1;
+		}
+		header->ip_src_addr = stVoipMgrSession->ip_src_addr;
+		header->ip_dst_addr = stVoipMgrSession->ip_dst_addr;
+		header->udp_src_port = stVoipMgrSession->udp_src_port;
+		header->udp_dst_port = stVoipMgrSession->udp_dst_port;
+		header->protocol = stVoipMgrSession->protocol;
+		header->c_id = c_id;
+		header->m_id = m_id;
+		header->s_id = s_id;
+#ifdef REG_INIT_SOCKET 
+		header->serv_sock= serv_sock;
+		memcpy(&(header->serv), &serv, sizeof(struct sockaddr_in) );
+#endif
+		header->rtk_trap_callback=(void *)callback;
+		header->next=NULL;
+		ptr = header;
+	}	
+	else
+	{
+		printk("path 1\n");
+		ptr=header;
+
+		while(ptr!=NULL && ptr->next!=NULL)
+		{
+			ptr=ptr->next;	
+		}
+
+		ptr->next=(struct RTK_TRAP_profile *)kmalloc(sizeof(struct RTK_TRAP_profile), GFP_ATOMIC);	
+		if(ptr->next == NULL) 
+		{
+			printk("RTK TRAP allocate memory error !!\n");
+			return -1;
+		}
+		ptr->next->ip_src_addr = stVoipMgrSession->ip_src_addr;
+		ptr->next->ip_dst_addr = stVoipMgrSession->ip_dst_addr;
+		ptr->next->udp_src_port = stVoipMgrSession->udp_src_port;
+		ptr->next->udp_dst_port = stVoipMgrSession->udp_dst_port;
+		ptr->next->protocol = stVoipMgrSession->protocol;
+		ptr->next->c_id= c_id;
+		ptr->next->m_id= m_id;
+		ptr->next->s_id= s_id;
+#ifdef REG_INIT_SOCKET 
+		header->serv_sock= serv_sock;
+		memcpy(&(header->serv), &serv, sizeof(struct sockaddr_in) );
+#endif
+		ptr->next->rtk_trap_callback=(void *)callback;
+		ptr->next->next=NULL;
+
+	}
+	filter[s_id] = ptr;
+	printk("establish complete\n");
+	return 0;
+}
+
+
+Tint32 rtk_trap_unregister(Tuint32 s_id)
+{
+	struct RTK_TRAP_profile *ptr, *ptr1;
+
+	ptr=header;
+	ptr1=header;
+
+	if(s_id <0 || s_id >3){
+		printk("s_id %d non-support now!(support 0~3)\n", s_id);
+		return -1;
+	}
+	if(filter[s_id]==0) {
+		printk("s_id %d non-used now, can't unregister\n", s_id);
+		return -1;
+	}
+	while(ptr != NULL) {
+		if(ptr->s_id==s_id) {
+			filter[s_id]=0;
+			if(ptr!=header) {
+				ptr1->next=ptr->next;
+			} else {
+				header=header->next;
+			}
+				kfree(ptr);
+			return 0;
+		}
+		ptr1 = ptr;
+		ptr = ptr->next;
+	}
+	printk("no found\n");
+	return -1;
+#if 0
+	while( ptr !=NULL ) 
+	{
+		if(ptr->s_id!=s_id){
+		  ptr1=ptr;	
+		  ptr = ptr->next;
+		}
+		ptr1->next = ptr->next;
+		if(header == ptr)
+		  header = NULL;
+		kfree(ptr);
+		filter[s_id]=0;
+		return 0;
+	}
+	printk("ptr is NULL\n");
+	return -1;
+#endif
+}
+
+struct preprocess_result * preprocess(struct sk_buff *skb)
+{
+	static struct preprocess_result rst;
+	// ip_tot_len - ip header - udp header
+	rst.data_len = (Tuint32)( ((skb->nh.iph)->tot_len) - 28) ; 
+	rst.ptr_data = (void *) kmalloc(rst.data_len, GFP_ATOMIC);	
+	memcpy(rst.ptr_data, skb->data + 20 + 8, rst.data_len);
+	skb_unlink(skb);
+	kfree_skb(skb);
+
+	return &rst;
+}
+
+int get_filter(Tuint8 ch_id, struct RTK_TRAP_profile *myptr)
+{
+	struct RTK_TRAP_profile *ptr, *ptr1;
+
+        ptr=header;
+	while( ptr !=NULL )
+        {
+                if(ptr->c_id!=ch_id){
+                  ptr = ptr->next;
+                }
+		myptr = ptr;
+                return 0;
+        }
+	return -1;
+}
+
+/****************************************************************/
+static int rtk_trap(struct sk_buff *skb)
+{
+	struct RTK_TRAP_profile *ptr;
+	struct preprocess_result *rst;
+	struct net_device *rx_dev;
+
+	Tuint32 src_ip;
+       	Tuint32 dst_ip;
+	Tuint16 src_port;
+	Tuint16 dst_port;
+	Tuint8 proto;
+	Tuint16 tmp;
+
+	//printk("skb enter rtk_trap= %x\n",skb);
+	skb->mac.ethernet=((void *)skb->data -14);
+	rx_dev = skb->dev;
+	ptr = header;
+	while(ptr!=NULL) 
+	{
+	  //printk("packet enter filter\n");
+	  tmp = ntohs((skb->mac.ethernet)->h_proto);
+	  if ( 0x0800 != tmp ) {
+		  //printk("h_proto = %x\n",tmp);
+	    break;
+	  }
+
+	  skb->nh.iph=(void *)((skb->data));
+	  proto = (skb->nh.iph)->protocol;
+	  src_ip = ((skb->nh.iph)->saddr);
+	  dst_ip = ((skb->nh.iph)->daddr);
+
+	  if ( src_ip != ptr->ip_src_addr ||
+	       dst_ip != ptr->ip_dst_addr ||
+	       proto != ptr->protocol
+	     )
+	  {
+	    //printk("src_ip = %x\n",src_ip);
+	    //printk("dst_ip = %x\n",dst_ip);
+	    //printk("proto = %x\n",proto);
+	    ptr=ptr->next;
+	    continue;
+	  }
+
+	  skb->h.uh=(struct udphdr *)((char *)(skb->nh.iph)+20);
+	  src_port =(Tuint16) ((skb->h.uh)->source);
+	  dst_port =(Tuint16) ((skb->h.uh)->dest);
+	  if ( src_port != ptr->udp_src_port ||
+	       dst_port != ptr->udp_dst_port 
+	     )
+	  {
+	    //printk("src_port = %x\n",src_port);
+	    //printk("dst_port = %x\n",dst_port);
+	    //printk("src_port = %x\n",ptr->udp_src_port);
+	    ptr=ptr->next;
+	    continue;
+	  }
+#if 0
+		if(ptr->m_id==1)
+	  printk("#%d %d#\n",ptr->m_id, *((unsigned short *)((char *)(skb->nh.iph)+30))  );
+#endif
+	  //printk("RTK TRAP catch one packet!!\n");
+	  //rst = (struct preprocess_result *)preprocess(skb);
+	  //printk("CH = %x\n");
+	  //ptr->rtk_trap_callback(CH, 0, rst->ptr_data, rst->data_len, 0);
+	  ptr->rtk_trap_callback(ptr->c_id, ptr->m_id, skb->data + 28, ((skb->nh.iph)->tot_len) - 28, 0);
+	  skb_unlink(skb);
+	  kfree_skb(skb);
+	  dev_put(rx_dev);	
+	  return RTK_TRAP_ACCEPT;
+	}
+	return RTK_TRAP_NONE;	
+}	
+
+static int __init rtk_trap_init_module(void)
+{
+#if 0
+	struct RTK_TRAP_profile myptr;
+	if(nf_register_sockopt(&rtk_trap_sockopts))
+	  printk("rtk_trap: cannot register sockopt \n");
+#endif
+
+	printk("============= RTK VoIP SUITE ============\n");	
+	printk("INITIAL RTP TRAP\n");
+	printk("=========================================\n");    	
+
+	//printk("1.rtk_trap_hook = %x\n", rtk_trap_hook);
+	rtk_trap_hook = rtk_trap;
+	header = NULL;
+	//printk("2. rtk_trap_hook = %x\n", rtk_trap_hook);
+	return 0;
+}	
+
+
+static void __exit rtk_trap_cleanup_module(void)
+{
+	rtk_trap_hook = NULL;
+	header = NULL;
+
+	printk("============= RTK VoIP SUITE ============\n");	
+	printk("Remove RTK TRAP\n");
+	printk("=========================================\n");    	
+
+}
+
+
+module_init(rtk_trap_init_module);
+module_exit(rtk_trap_cleanup_module);
+

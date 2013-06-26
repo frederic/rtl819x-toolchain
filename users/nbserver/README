@@ -1,0 +1,156 @@
+This is a development version of my free netbios client server for unix.
+
+Please let me know if it works for you!
+
+There is a mailing list for discussion of this software. To subscribe
+send mail to lists@arvidsjaur.anu.edu.au with a body of "subscribe netbios"
+
+To send mail to everyone on the list mail to netbios@arvidsjaur.anu.edu.au
+
+The mail ftp distribution site for this software is nimbus.anu.edu.au
+in the directory pub/tridge/server/.
+
+This software is freely distributable under the GNU public license, a
+copy of which you should have received with this software (in a file
+called COPYING). If you like this software then please let me know.
+
+If you want to contribute to the development of the software then
+please join the mailing list. I'm definately looking for people to
+help with the development.
+
+You could also send hardware/software/money/jewelry or pizza vouchers
+directly to me. The pizza vouchers would be especially welcome.
+
+Andrew Tridgell
+Andrew.Tridgell@anu.edu.au
+
+December 1993
+
+
+
+HOW TO TRY IT OUT
+=================
+
+STEP 1. install a smb client. There are several, eg: Pathworks, Lanmanager
+for DOS, Lanmanager for Windows, Lanmanager for OS/2, and lanmanager
+for NT come to mind. Lanmanager for dos is available via ftp from
+ftp.microsoft.com in Advsys/MSclient/. Please read the licensing stuff
+before downloading. Use the TCP/IP option in the client. Add your
+server to the \etc\hosts (or equivalent) file on the client.
+
+STEP 2. Install my server on a unix box. To do this edit the Makefile for
+your flavour of unix and preferences then type "make". This will
+create smbserver and smbclient.
+
+STEP 3. Create the smb configuration file. There is a sample configuration file
+called smb.conf.sample supplied with the distribution.
+
+The simplest useful configuration file would be something like this:
+
+[homes]
+	guest ok = no
+	read only = no
+
+which would allow connections by anyone with an account on the server,
+using their login name as the service name.
+
+STEP 4. Test the unix server with the unix client, just to make sure it
+works. You don't need root privilages for this. Do something like this:
+
+smbserver -D -p 8001 -d 3 -s smb.conf -l log &
+
+smbclient "\\yourhostname\aservicename" -p 8001 -d 3 -l client_log
+
+It will ask you for a password. After answering you should get a
+"connected" message and the smb> prompt. You can now do dir,get,put,cd
+etc. If it doesn't work then look in the log file and try and find
+out why.
+
+NOTE: If your machine uses shadow passwords then you can only make
+password queries if running as root. Thus you must use guest services
+or run the server as root. You *could* make the server suid root, but
+I don't recommend this as the server isn't really designed for it, and
+it would probably be a security hole. Instead use guest services for
+this initial testing then run the server as root from inetd.conf, or
+as root with the -D switch.
+
+STEP 5. Put the smbserver, nmbserver and smb configuration file in some
+sensible place, like /usr/local/smb/.
+
+STEP 6. Next choose a method for starting the server. Either you can place 
+it in inetd.conf and have it started on demand by inetd, or you can start 
+it as a daemon either from the command line or in /etc/rc.local
+
+STARTING IT FROM INETD.CONF
+===========================
+
+Look at your /etc/services. What is defined at port 139/tcp. If
+nothing is defined then add a line like this:
+
+netbios-ssn     139/tcp
+
+similarly for 137/udp you should have an entry like:
+
+netbios-ns	137/udp
+
+Next edit your /etc/inetd.conf and add two lines something like this:
+
+netbios-ssn stream tcp nowait root /usr/local/smb/smbserver smbserver -s /usr/local/smb/smb.conf -l /usr/local/smb/log -d 1
+netbios-ns dgram udp wait root /usr/local/smb/nmbserver nmbserver -d 1
+
+or more simply:
+netbios-ssn stream tcp nowait root /usr/local/smb/smbserver smbserver -d 1
+netbios-ns dgram udp wait root /usr/local/smb/nmbserver nmbserver -d 1
+
+assuming you compiled the appropriate paths in by putting them in the Makefile.
+
+The exact syntax of /etc/inetd.conf varies between unixes. Look at the
+other entries in inetd.conf for a guide.
+
+NOTE: On some unixes you may need to give the nmbserver a -B parameter
+to specify the broadcast address of your interface. Run ifconfig as
+root if you don't know what the broadcast is for your net. nmbserver
+tries to determine it at run time, but fails on some unixes.
+
+Restart inetd, perhaps just send it a HUP.
+
+ALTERNATIVE: STARTING IT AS A DAEMON
+====================================
+
+To start the server as a daemon you should create a script something
+like this one, perhaps calling it "startsmb"
+
+#!/bin/sh
+/usr/local/smb/smbserver -D -d 1
+/usr/local/smb/nmbserver -D -d 1 -n YOURNETBIOSNAME
+
+then make it executable with "chmod +x startsmb"
+
+You can then run startsmb by hand or execute it from /etc/rc.local
+
+To kill it send a kill signal to the processes nmbserver and smbserver.
+
+
+STEP 7. try connecting with the unix client. eg:
+
+smbclient "\\yourhostname\aservice" -d 3
+
+STEP 8. Try connecting from a dos/NT/os-2 client. Try mounting disks. eg:
+
+net use d: \\servername\service
+
+Try printing. eg:
+
+net use lpt1: \\servername\spoolservice
+print filename
+
+Celebrate, or send me a bug report!
+
+
+PRINTING FROM UNIX
+==================
+
+To use a printer that is available via a smb server from a unix host
+you will need to compile the smbclient program. You then need to
+install the script "smbprint". Read the instruction in smbprint for
+more details.

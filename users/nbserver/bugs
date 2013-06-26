@@ -1,0 +1,6 @@
+error codes need improving
+
+nameserver doesn't support all nmb packets. It will recognise but not
+respond to them.
+
+the client needs to do a name query to find names before using gethostbyname().

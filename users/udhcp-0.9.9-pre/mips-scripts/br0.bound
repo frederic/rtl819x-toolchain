@@ -1,0 +1,37 @@
+#!/bin/sh
+# Sample udhcpc renew script
+
+RESOLV_CONF="/etc/udhcpc/resolv.conf"
+[ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+[ -n "$subnet" ] && NETMASK="netmask $subnet"
+
+TOOL=flash
+GETMIB="$TOOL get"
+
+ifconfig $interface $ip $BROADCAST $NETMASK
+
+if [ "$router" ]
+then
+	echo "deleting routers"
+	while route del default dev $interface
+	do :
+	done
+
+	for i in $router
+	do
+		echo $1
+		route add -net default gw $i dev $interface
+	done
+fi
+
+echo -n > $RESOLV_CONF
+[ -n "$domain" ] && echo domain $domain >> $RESOLV_CONF
+
+for i in $dns
+do
+	echo adding dns $i
+	echo nameserver $i >> $RESOLV_CONF
+done
+
+# start wlan application daemon
+init.sh ap wlan_app

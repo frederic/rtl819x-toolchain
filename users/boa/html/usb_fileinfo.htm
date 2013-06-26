@@ -1,0 +1,1 @@
+var __result=new Array("OK", "<%Check_directory_status();%>");

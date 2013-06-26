@@ -1,0 +1,8 @@
+
+menu "Custom: Netfilter Configuration"
+ 
+config BASEON_SCHEDULE_FILTER
+        tristate "Ethernet URL filter baseon Schedule tables  support"
+        help
+           enable Url baseon schedule table filter
+endmenu

@@ -1,0 +1,141 @@
+/*
+** Generated from si3226x_patch_C_FB_2010OCT20.dsp_prom
+** on 10-20-2010 at 16:31:26
+*/
+#include "si_voice_datatypes.h"
+#include "si3226x.h"
+
+static const uInt32 patchData [] = {
+141541L,
+540867L,
+141541L,
+543427L,
+141541L,
+549059L,
+141541L,
+562371L,
+141541L,
+564419L,
+141541L,
+565955L,
+141541L,
+566467L,
+141541L,
+566979L,
+141541L,
+567491L,
+141541L,
+568003L,
+141541L,
+568515L,
+141541L,
+569027L,
+141541L,
+569539L,
+141541L,
+570051L,
+141541L,
+570563L,
+141541L,
+571075L,
+736L,
+491712L,
+452200L,
+141541L,
+491200L,
+3682L,
+71909L,
+547011L,
+524292L,
+5L,
+141541L,
+135362L,
+524291L,
+5L,
+141541L,
+135362L,
+521733L,
+843365L,
+188002L,
+524315L,
+145125L,
+552643L,
+843365L,
+522850L,
+523387L,
+147685L,
+557763L,
+522363L,
+145125L,
+559811L,
+521826L,
+141541L,
+560323L,
+518757L,
+521826L,
+141541L,
+560323L,
+521824L,
+522245L,
+522338L,
+141541L,
+716481L,
+173669L,
+523845L,
+141541L,
+730304L,
+523877L,
+141541L,
+690368L,
+524293L,
+524293L,
+524293L,
+524293L,
+524293L,
+524293L,
+524293L,
+524293L,
+524293L,
+524293L,
+524293L,
+0L
+};
+
+static const uInt16 patchEntries [] = {
+950,
+4347,
+3446,
+1425,
+1347,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0,
+0
+};
+
+static const uInt16 patchSupportAddr [] = {
+0
+};
+
+static const uInt32 patchSupportData [] = {
+0x0L
+};
+
+#ifdef SIVOICE_MULTI_BOM_SUPPORT
+const proslicPatch si3226xPatchRevCFlbk = {
+#else
+const proslicPatch RevCPatch = {
+#endif
+    patchData,
+    patchEntries,
+    0x10202010L,
+    patchSupportAddr,
+    patchSupportData
+};

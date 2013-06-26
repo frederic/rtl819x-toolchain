@@ -1,0 +1,56 @@
+/**
+ * @mainpage VoIP DSP Application Interface
+ *
+ * @brief This document mainly describe DSP API, but also drivers API. 
+ *
+ * @section intro Introduction 
+ * This document contains API of Realtek's VoIP DSP, and these 
+ * API are collect into @ref VOIP_CONTROL module, which is divided into many categories. <br>
+ * The categories are:<br>
+ *  - Protocol
+ *    - @ref VOIP_PROTOCOL_RTP "RTP" and @ref VOIP_PROTOCOL_RTCP "RTCP" related API are described here. 
+ *  - DSP
+ *    - DSP is the most important part. <br>
+ *      It contains @ref VOIP_DSP_CODEC "codec", @ref VOIP_DSP_FAXMODEM "FAX, modem", 
+ *      @ref VOIP_DSP_LEC "LEC", @ref VOIP_DSP_DTMF "DTMF", @ref VOIP_DSP_CALLERID "caller ID", 
+ *      @ref VOIP_DSP_TONE "tone", @ref VOIP_DSP_AGC "AGC", @ref VOIP_DSP_PLUSEDIAL "pluse dial", 
+ *      @ref VOIP_DSP_IVR "IVR" and so on. <br>
+ *      In order to make it clear, each feature owns an individual sub-module. <br>
+ *  - Driver
+ *    - Both @ref VOIP_DRIVER_PCM "PCM controller" and @ref VOIP_DRIVER_SLIC "SLIC" are 
+ *      highly realted to VoIP application, they are placed in this module. <br>
+ *      Besides, @ref VOIP_DRIVER_DAA "DAA (FXO)" is also widely used now. And it may be integrated with FXS into a single chip. <br>
+ *      Moreover, @ref VOIP_DRIVER_NETWORK "Network driver" can realize QoS, so we can guarantee a good speech quality through RTP packets. <br>
+ *      Finally, @ref VOIP_DRIVER_GPIO "GPIO driver" can control any GPIO, but we recommend that someone uses this API only in debuging stage. <br>
+ *  - @ref VOIP_MISC "Misc"
+ *    - Miscellaneous section provides some API to help application, such as SIP register indicator,
+ *      DSP features, resource check, and firmware update. 
+ *  - @ref VOIP_IPPHONE "IP phone" 
+ *    - Some equipments are proper to IP phone, such as keypad, LCM, and voice codec. <br>
+ *      Also, there are many LED in normal class IP phone, so it was ioslated from driver section. <br>
+ *  - @ref VOIP_DEBUG "Debug" 
+ *    - This API set provides debug functions containing T.38 debuging, voice record, print function and so on. <br>
+ * 
+ * @section study Tips to use this document
+ *  -# Starting with modules sheet or @ref VOIP_CONTROL module. 
+ *  -# Choose an interesting module, such as VOIP_DSP_CODEC or VOIP_DSP_TONE. 
+ *  -# See its function section to know supported functions. 
+ *  -# Click an interesting function, and click its realted structure such as TstVoipPlayToneConfig. 
+ *  -# Now, you may know how to use the API. If not, try to trace source code in voip_manager. 
+ *
+ * @section versoin Version History
+ *
+ * @verbatim
+ * -----------------------------------------------------------------------------
+ * Ver    | Date       | Note
+ * -----------------------------------------------------------------------------
+ * 1.0    | 03/16/2009 | Initial Version.
+ * -----------------------------------------------------------------------------
+ * @endverbatim
+ *
+ * @section version Documented with software version
+ * @include voip_version.h
+ * @image html realtek.jpg
+ *
+ *
+ */

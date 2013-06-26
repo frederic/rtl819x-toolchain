@@ -1,0 +1,23 @@
+#ifndef _RTK_TRAP_NETFILTER_H
+#define _RTK_TRAP_NETFILTER_H
+
+#include <linux/netfilter.h>
+
+#include "../include/type.h"
+
+int do_rtk_trap_set_ctl (struct sock *sk, int cmd, void *user, unsigned int len);
+int do_rtk_trap_get_ctl (struct sock *sk, int cmd, void *user, int *len);
+
+
+#define RTK_TRAP_BASE_CTL		(64 + 1024 + 64 + 64 + 900)
+
+
+#define RTK_TRAP_GET_DBG		(RTK_TRAP_BASE_CTL + 1)
+#define RTK_TRAP_GET_MAX		(RTK_TRAP_BASE_CTL + 10)
+
+
+#define RTK_TRAP_SET_DBG		(RTK_TRAP_BASE_CTL + 1)
+#define RTK_TRAP_SET_REG		(RTK_TRAP_BASE_CTL + 2)
+#define RTK_TRAP_SET_MAX		(RTK_TRAP_BASE_CTL + 10)
+
+#endif

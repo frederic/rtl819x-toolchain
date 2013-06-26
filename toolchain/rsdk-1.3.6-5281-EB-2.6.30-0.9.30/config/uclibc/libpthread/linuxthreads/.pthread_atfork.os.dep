@@ -1,0 +1,243 @@
+libpthread/linuxthreads/pthread_atfork.os \
+  libpthread/linuxthreads/pthread_atfork.os:  \
+ libpthread/linuxthreads/pthread_atfork.c ././include/libc-symbols.h \
+  ./include/bits/uClibc_arch_features.h \
+  libpthread/linuxthreads/internals.h \
+  ./libpthread/linuxthreads/sysdeps/pthread/uClibc-glue.h \
+  ./include/features.h ./include/bits/uClibc_config.h \
+  ./include/sys/cdefs.h ./include/libc-internal.h \
+  ./include/bits/stackinfo.h ./include/bits/uClibc_page.h \
+  ./libpthread/linuxthreads/sysdeps/pthread/kernel-features.h \
+  ./include/sgidefs.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/linux/version.h \
+  ./include/limits.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/limits.h \
+  ./include/bits/posix1_lim.h ./include/bits/local_lim.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/linux/limits.h \
+  ./include/bits/uClibc_local_lim.h ./include/bits/posix2_lim.h \
+  ./include/bits/xopen_lim.h ./include/bits/stdio_lim.h \
+  ./include/signal.h ./include/bits/sigset.h ./include/bits/types.h \
+  ./include/bits/wordsize.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h \
+  ./include/bits/kernel_types.h ./include/bits/typesizes.h \
+  ./include/bits/pthreadtypes.h ./include/bits/sched.h \
+  ./include/bits/signum.h ./include/time.h ./include/bits/siginfo.h \
+  ./include/bits/sigaction.h ./include/bits/sigcontext.h \
+  ./include/bits/sigstack.h ./include/ucontext.h ./include/sys/ucontext.h \
+  ./include/bits/sigthread.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stdbool.h \
+  ./include/unistd.h ./include/bits/posix_opt.h \
+  ./include/bits/environments.h ./include/bits/confname.h \
+  ./include/bits/getopt.h ./include/ctype.h \
+  ./include/bits/uClibc_touplow.h ./include/bits/sigcontextinfo.h \
+  libpthread/linuxthreads/descr.h ./include/resolv.h \
+  ./include/sys/types.h ./include/endian.h ./include/bits/endian.h \
+  ./include/sys/select.h ./include/bits/select.h ./include/bits/time.h \
+  ./include/sys/sysmacros.h ./include/netinet/in.h ./include/stdint.h \
+  ./include/sys/socket.h ./include/sys/uio.h ./include/bits/uio.h \
+  ./include/bits/socket.h ./include/bits/sockaddr.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm/socket.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm/sockios.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm/ioctl.h \
+  ./include/bits/in.h ./include/bits/byteswap.h ./include/sched.h \
+  ./include/setjmp.h ./include/bits/setjmp.h ./include/hp-timing.h \
+  ./libpthread/linuxthreads/sysdeps/rlx/pt-machine.h ./include/sys/tas.h \
+  ./libpthread/linuxthreads_db/thread_dbP.h ./include/string.h \
+  ./libpthread/linuxthreads_db/proc_service.h ./include/sys/procfs.h \
+  ./include/sys/time.h ./include/sys/user.h \
+  ./libpthread/linuxthreads_db/thread_db.h ./include/pthread.h \
+  ./include/bits/uClibc_clk_tck.h ./include/bits/initspin.h \
+  ./libpthread/linuxthreads_db/../linuxthreads/descr.h \
+  libpthread/linuxthreads/semaphore.h \
+  ./libpthread/linuxthreads/sysdeps/pthread/pthread-functions.h \
+  ./libpthread/linuxthreads/descr.h \
+  ./libpthread/linuxthreads/sysdeps/unix/sysv/linux/fork.h \
+  ./libpthread/linuxthreads/sysdeps/pthread/list.h \
+  ./libpthread/linuxthreads/sysdeps/pthread/bits/libc-lock.h
+
+././include/libc-symbols.h:
+
+./include/bits/uClibc_arch_features.h:
+
+libpthread/linuxthreads/internals.h:
+
+./libpthread/linuxthreads/sysdeps/pthread/uClibc-glue.h:
+
+./include/features.h:
+
+./include/bits/uClibc_config.h:
+
+./include/sys/cdefs.h:
+
+./include/libc-internal.h:
+
+./include/bits/stackinfo.h:
+
+./include/bits/uClibc_page.h:
+
+./libpthread/linuxthreads/sysdeps/pthread/kernel-features.h:
+
+./include/sgidefs.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/linux/version.h:
+
+./include/limits.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/limits.h:
+
+./include/bits/posix1_lim.h:
+
+./include/bits/local_lim.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/linux/limits.h:
+
+./include/bits/uClibc_local_lim.h:
+
+./include/bits/posix2_lim.h:
+
+./include/bits/xopen_lim.h:
+
+./include/bits/stdio_lim.h:
+
+./include/signal.h:
+
+./include/bits/sigset.h:
+
+./include/bits/types.h:
+
+./include/bits/wordsize.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h:
+
+./include/bits/kernel_types.h:
+
+./include/bits/typesizes.h:
+
+./include/bits/pthreadtypes.h:
+
+./include/bits/sched.h:
+
+./include/bits/signum.h:
+
+./include/time.h:
+
+./include/bits/siginfo.h:
+
+./include/bits/sigaction.h:
+
+./include/bits/sigcontext.h:
+
+./include/bits/sigstack.h:
+
+./include/ucontext.h:
+
+./include/sys/ucontext.h:
+
+./include/bits/sigthread.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stdbool.h:
+
+./include/unistd.h:
+
+./include/bits/posix_opt.h:
+
+./include/bits/environments.h:
+
+./include/bits/confname.h:
+
+./include/bits/getopt.h:
+
+./include/ctype.h:
+
+./include/bits/uClibc_touplow.h:
+
+./include/bits/sigcontextinfo.h:
+
+libpthread/linuxthreads/descr.h:
+
+./include/resolv.h:
+
+./include/sys/types.h:
+
+./include/endian.h:
+
+./include/bits/endian.h:
+
+./include/sys/select.h:
+
+./include/bits/select.h:
+
+./include/bits/time.h:
+
+./include/sys/sysmacros.h:
+
+./include/netinet/in.h:
+
+./include/stdint.h:
+
+./include/sys/socket.h:
+
+./include/sys/uio.h:
+
+./include/bits/uio.h:
+
+./include/bits/socket.h:
+
+./include/bits/sockaddr.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm/socket.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm/sockios.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm/ioctl.h:
+
+./include/bits/in.h:
+
+./include/bits/byteswap.h:
+
+./include/sched.h:
+
+./include/setjmp.h:
+
+./include/bits/setjmp.h:
+
+./include/hp-timing.h:
+
+./libpthread/linuxthreads/sysdeps/rlx/pt-machine.h:
+
+./include/sys/tas.h:
+
+./libpthread/linuxthreads_db/thread_dbP.h:
+
+./include/string.h:
+
+./libpthread/linuxthreads_db/proc_service.h:
+
+./include/sys/procfs.h:
+
+./include/sys/time.h:
+
+./include/sys/user.h:
+
+./libpthread/linuxthreads_db/thread_db.h:
+
+./include/pthread.h:
+
+./include/bits/uClibc_clk_tck.h:
+
+./include/bits/initspin.h:
+
+./libpthread/linuxthreads_db/../linuxthreads/descr.h:
+
+libpthread/linuxthreads/semaphore.h:
+
+./libpthread/linuxthreads/sysdeps/pthread/pthread-functions.h:
+
+./libpthread/linuxthreads/descr.h:
+
+./libpthread/linuxthreads/sysdeps/unix/sysv/linux/fork.h:
+
+./libpthread/linuxthreads/sysdeps/pthread/list.h:
+
+./libpthread/linuxthreads/sysdeps/pthread/bits/libc-lock.h:
+cmd_libpthread_linuxthreads_pthread_atfork.os := rsdk-linux-gcc -c libpthread/linuxthreads/pthread_atfork.c -o libpthread/linuxthreads/pthread_atfork.os -include include/libc-symbols.h -Wall -Wstrict-prototypes -fno-strict-aliasing -fPIC -mabi=32 -fno-builtin -nostdinc -Iinclude -I. -Ilibc/sysdeps/linux/rlx -fno-asm -march=5181 -EL -msoft-float -DUCLIBC_INTERNAL -std=gnu99 -Os -funit-at-a-time -mno-split-addresses -Ilibpthread/linuxthreads/sysdeps/unix/sysv/linux/rlx -Ilibpthread/linuxthreads/sysdeps/rlx -Ilibpthread/linuxthreads/sysdeps/unix/sysv/linux -Ilibpthread/linuxthreads/sysdeps/pthread -Ilibpthread/linuxthreads -Ilibpthread -I/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/ -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6//include-fixed -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6/include -DNDEBUG "-mno-split-addresses" -DNOT_IN_libc -DIS_IN_libpthread -MT libpthread/linuxthreads/pthread_atfork.os -MD -MP -MF libpthread/linuxthreads/.pthread_atfork.os.dep

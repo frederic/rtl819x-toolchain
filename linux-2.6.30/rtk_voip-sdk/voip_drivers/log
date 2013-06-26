@@ -1,0 +1,124 @@
+? .depend
+? .pcm.o.flags
+? .pcm_interface.o.flags
+? .si3210init.o.flags
+? .spi.o.flags
+? log
+? pcm_interface.c-bak
+===================================================================
+File: Config.in        	Status: Up-to-date
+
+   Working revision:	1.1.1.1
+   Repository revision:	1.1.1.1	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/Config.in,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: Makefile         	Status: Up-to-date
+
+   Working revision:	1.3
+   Repository revision:	1.3	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/Makefile,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: codec.c          	Status: Up-to-date
+
+   Working revision:	1.1.1.1
+   Repository revision:	1.1.1.1	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/codec.c,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: pcm_interface.c  	Status: Needs Merge
+
+   Working revision:	1.20
+   Repository revision:	1.21	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/pcm_interface.c,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: pcm_interface.h  	Status: Up-to-date
+
+   Working revision:	1.3
+   Repository revision:	1.3	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/pcm_interface.h,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: pcmctrl.c        	Status: Up-to-date
+
+   Working revision:	1.1.1.1
+   Repository revision:	1.1.1.1	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/pcmctrl.c,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: pcmctrl.h        	Status: Up-to-date
+
+   Working revision:	1.1.1.1
+   Repository revision:	1.1.1.1	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/pcmctrl.h,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: si3210init.c     	Status: Up-to-date
+
+   Working revision:	1.3
+   Repository revision:	1.3	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/si3210init.c,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: si3210init.h     	Status: Up-to-date
+
+   Working revision:	1.2
+   Repository revision:	1.2	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/si3210init.h,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: si3210init_cli.c 	Status: Up-to-date
+
+   Working revision:	1.1.1.1
+   Repository revision:	1.1.1.1	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/si3210init_cli.c,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: spi.c            	Status: Up-to-date
+
+   Working revision:	1.3
+   Repository revision:	1.3	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/spi.c,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: spi.h            	Status: Up-to-date
+
+   Working revision:	1.2
+   Repository revision:	1.2	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/spi.h,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+
+===================================================================
+File: spi_cli.c        	Status: Up-to-date
+
+   Working revision:	1.1.1.1
+   Repository revision:	1.1.1.1	/home/cvsroot/VoIP-ATA/linux-2.4.18/drivers/pcm/spi_cli.c,v
+   Sticky Tag:		(none)
+   Sticky Date:		(none)
+   Sticky Options:	(none)
+

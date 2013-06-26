@@ -1,0 +1,121 @@
+
+; INF for Realtek USB Remote NDIS Device
+
+[Version]
+Signature           = "$Windows NT$"
+Class               = Net
+ClassGUID           = {4d36e972-e325-11ce-bfc1-08002be10318}
+Provider            = %Realtek%
+DriverVer           =06/21/2006,6.0.6000.16384
+CatalogFile        = rtrndis.cat
+
+[Manufacturer]
+%Realtek%         = REALTEK,NTx86,NTamd64,NTia64
+%ASUS%            = ASUS,NTx86,NTamd64,NTia64
+%ABOCOM%          = ABOCOM,NTx86,NTamd64,NTia64
+%PCI%             = PCI,NTx86,NTamd64,NTia64
+%Edimax%          = Edimax,NTx86,NTamd64,NTia64
+
+;--- Realtek -----------------------------------------------------------
+; Decoration for x86 architecture
+[REALTEK.NTx86]
+%Realtek.DeviceDesc%    = RNDIS.NT.5.1, USB\VID_0BDA&PID_8196
+
+; Decoration for x64 architecture
+[REALTEK.NTamd64]
+%Realtek.DeviceDesc%    = RNDIS.NT.5.1, USB\VID_0BDA&PID_8196
+
+; Decoration for ia64 architecture
+[REALTEK.NTia64]
+%Realtek.DeviceDesc%    = RNDIS.NT.5.1, USB\VID_0BDA&PID_8196
+
+;---- ASUS -------------------------------------------------------------
+; Decoration for x86 architecture
+[ASUS.NTx86]
+%ASUS.DeviceDesc%       = RNDIS.NT.5.1, USB\VID_0B05&PID_17C7
+
+; Decoration for x64 architecture
+[ASUS.NTamd64]
+%ASUS.DeviceDesc%       = RNDIS.NT.5.1, USB\VID_0B05&PID_17C7
+
+; Decoration for ia64 architecture
+[ASUS.NTia64]
+%ASUS.DeviceDesc%       = RNDIS.NT.5.1, USB\VID_0B05&PID_17C7
+
+;---- ABOCOM -----------------------------------------------------------
+; Decoration for x86 architecture
+[ABOCOM.NTx86]
+%ABOCOM.DeviceDesc%     = RNDIS.NT.5.1, USB\VID_07b8&PID_8196
+
+; Decoration for x64 architecture
+[ABOCOM.NTamd64]
+%ABOCOM.DeviceDesc%     = RNDIS.NT.5.1, USB\VID_07b8&PID_8196
+
+; Decoration for ia64 architecture
+[ABOCOM.NTia64]
+%ABOCOM.DeviceDesc%     = RNDIS.NT.5.1, USB\VID_07b8&PID_8196
+
+;---- PCI --------------------------------------------------------------
+; Decoration for x86 architecture
+[PCI.NTx86]
+%PCI.DeviceDesc%        = RNDIS.NT.5.1, USB\VID_2019&PID_AB2F
+
+; Decoration for x64 architecture
+[PCI.NTamd64]
+%PCI.DeviceDesc%        = RNDIS.NT.5.1, USB\VID_2019&PID_AB2F
+
+; Decoration for ia64 architecture
+[PCI.NTia64]
+%PCI.DeviceDesc%        = RNDIS.NT.5.1, USB\VID_2019&PID_AB2F
+
+;---- Edimax --------------------------------------------------------------
+; Decoration for x86 architecture
+[Edimax.NTx86]
+%Edimax.DeviceDesc%        = RNDIS.NT.5.1, USB\VID_7392&PID_6268
+
+; Decoration for x64 architecture
+[Edimax.NTamd64]
+%Edimax.DeviceDesc%        = RNDIS.NT.5.1, USB\VID_7392&PID_6268
+
+; Decoration for ia64 architecture
+[Edimax.NTia64]
+%Edimax.DeviceDesc%        = RNDIS.NT.5.1, USB\VID_7392&PID_6268
+
+;-----------------------------------------------------------------------
+;@@@ This is the common setting for setup
+[ControlFlags]
+ExcludeFromSelect=*
+
+; DDInstall section
+; References the in-build Netrndis.inf
+[RNDIS.NT.5.1]
+Characteristics = 0x84   ; NCF_PHYSICAL + NCF_HAS_UI
+BusType         = 15
+; NEVER REMOVE THE FOLLOWING REFERENCE FOR NETRNDIS.INF
+include         = netrndis.inf
+needs           = Usb_Rndis.ndi
+
+; DDInstal.Services section
+[RNDIS.NT.5.1.Services]
+include     = netrndis.inf
+needs       = Usb_Rndis.ndi.Services
+
+
+; No sys copyfiles - the sys files are already in-build 
+; (part of the operating system).
+
+; Modify these strings for your device as needed.
+[Strings]
+; Manufacturer name
+Realtek               = "Realtek Semiconductor Corp."
+ASUS                  = "ASUSTeK Computer Inc."
+ABOCOM                = "AboCom System Inc."
+PCI                   = "PLANEX COMMUNICATIONS INC."
+Edimax                = "Edimax Technology Co., Ltd"
+
+; Product name
+Realtek.DeviceDesc    = "Realtek RTL8196EU Universal Linker"
+ASUS.DeviceDesc       = "ASUS WL-330NUL USB Ethernet adapter"
+ABOCOM.DeviceDesc     = "802.11 b/g/n universal-linker"
+PCI.DeviceDesc        = "MZK-UE150N"
+Edimax.DeviceDesc     = "Edimax N150 Wireless Personal Hotspot & Travel Router"

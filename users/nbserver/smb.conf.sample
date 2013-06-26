@@ -1,0 +1,183 @@
+; New style configuration file for smbserver.
+; 
+; This file consists of sections and parameters. A section begins with the 
+; name of the section in square brackets, and continues until the next
+; section begins. Sctions contain parameters of the form 'name = value'
+;
+; Except for the special section [global], each section represents one service.
+; The section name is the service name, and the parameters within the section 
+; define the service attributes.
+;
+; Section and parameter names are not case sensitive.
+;
+; Only the first equals sign in a parameter is significant. Whitespace before 
+; or after the first equals sign is discarded. Leading, trailing and internal
+; whitespace in section and parameter names is irrelevant. Leading and
+; trailing whitespace in a parameter value is discarded. Internal whitespace
+; within a parameter value is retained verbatim.
+;
+; Any line beginning with a semicolon is ignored, as are lines containing 
+; only whitespace.
+;
+;
+;
+; Currently valid parameter names for the [global] section are:
+;
+; print command	 -command to use to print files (printf() style format string)
+; guest account	 -default username to use for guest services
+; create mask	 -default creation mask
+; root dir	 -the server will chroot() to this directory on startup
+; max xmit	 -the maximit transmit packet size. You shouldn't need this.
+; allow hosts	 -list of allowable hosts to connect
+; deny hosts	 -list of hosts to deny connection
+;
+;   The print command specified in the global section will be used as the 
+;   default for any print service where no service-specific print command 
+;   is given.
+;
+; NOTE: The "root dir" option is not strictly necessary for secure operation.
+; Even without it the server will deny access to files not in one of the
+; service entries. It will also check for, and deny access to, soft links
+; to other parts of the filesystem, or attempts to use .. in file names
+; to access other directories.
+;
+; Adding a "root dir" entry adds an extra level of security, but at a price.
+; It absolutely ensures that no access is given to files not in the sub-tree 
+; specified in the "root dir" option, *including* some files needed for
+; complete operation of the server. To maintain full operatability of the
+; server you will need to mirror some system files into the "root dir" tree.
+; In particular you will need to mirror /etc/passwd (or a subset of it),
+; and any binaries or configuration files needed for printing (if required). 
+; The precise set of files that must be mirrored is operating system dependant.
+;
+; Currently valid parameter names for service sections are as follows, with
+; applicable defaults in parentheses:
+;
+; path		 -path supporting this service
+; username	 -user permitted to access this service
+; print command	 -command to use to print files (printf() style format string)
+; copy		 -previously specified service to copy into current service
+; read only	 -service may/may not be written (YES)
+; set directory	 -users may/may not use setdir command to change directory (NO)
+; map hidden	 -hidden files should/should not be mapped to execute bits (NO)
+; map system	 -system files should/should not be mapped to execute bits (NO)
+; guest ok	 -guest access is/is not permitted (NO)
+; print ok	 -print access is/is not permitted (NO)
+; create mask	 -file creation mask (AS PER MAKEFILE)
+; dont descend	 -a list of directories which the server shows as empty (NULL)
+; allow hosts	 -list of allowable hosts to connect
+; deny hosts	 -list of hosts to deny connection
+;
+; See below for sample entries. Basically everything is either a string
+; (no quotes needed) or a boolean, which may be given as yes/no, 0/1 or
+; true/false. Case is not significant in boolean values, but is preserved
+; in string values.
+; 
+; The copy parameter creates a copy of a PREVIOUSLY SPECIFIED service.
+; Parameters specified in the service containing the copy parameter will
+; override parameters of the same name in the service being copied.
+;
+; The special section [global] contains parameters which apply to the
+; overall function of the server.
+;
+; Here is a sample section showing all parameters in use (it is therefore
+; internally inconsistent - don't try to use it!):
+;
+; [global]
+;   print command = lpr -r -Plp %s
+;   guest account = pcuser
+;   create mask = 0755
+;   max xmit = 32768
+;
+; [sample service]
+;   path          = /tmp
+;   username      = freddy
+;   print command = lpr -r -Pmyprinter %s
+;   copy          = other section
+;   read only     = yes
+;   set directory = no
+;   guest ok      = yes
+;   print ok      = no
+;   map system    = yes
+;   map hidden    = no
+;   dont descend  = /proc /hidden
+;   create mask = 0775
+;
+; [copied service]
+;   path          = /some/other/path
+;   username      = freddy
+;   copy          = sample service
+;
+;
+; This is a special homes section. When this is included users will
+; be able to connect to their home directories using a service name
+; equal to their username.
+;
+; [homes]
+; 	read only = no
+;	guest ok = no
+;	print ok = no
+;
+; WARNING:
+;	Although the configuration file permits service names to contain
+;	spaces, your client software may not. Spaces will be ignored in
+;	comparisons anyway, so it shouldn't be a problem - but be aware
+;	of the possibility.
+;
+
+; The print command given here will be used for print services where
+; no specific print command is given. Likewise the guest account will
+; be used for access for all guest services where no account was specified.
+; (The service name will be used as the account name for non-guest services
+; with no account name specified).
+[global]
+   print command = lpr -r %s
+   guest account = pcuser
+
+; This is a home directory service. It allows read-write access to 
+; every home directory, by giving the service name as the username
+; and the appropriate password
+[homes]
+   map system = no
+   map hidden = no
+   guest ok = no
+   read only = no
+
+; This is a guest account (ie., access via the default guest user)
+; with hidden and system attributes mapped to Unix file modes.
+[public]
+   path = /usr/users/pcuser
+   map system = yes
+   map hidden = yes
+   guest ok = yes
+
+; This account requires the password for user 'manager'. The DOS hidden
+; and system attributes will be mapped to Unix file modes. Users may write
+; to the service, host permissions permitting.
+[managers]
+   path = /usr/users/managers
+   username = manager
+   read only = no
+   map system = yes
+   map hidden = yes
+
+; A private printer - access only with Fred's password. The global print
+; command is overridden so that print output is sent to freds_printer
+; instead of lp.
+[freds printer]
+   path = /usr/spool/lpd/freds_printer
+   username = fred
+   print command = lpr -r -Pfreds_printer %s
+   read only = no
+   print ok = yes
+
+; A public printer - access via the default guest user. The global print
+; command is overridden so that print output is sent to public_printer
+; instead of lp. Note that the service is read only - the 'print ok'
+; parameter will permit write access ONLY for terms of spooled print files.
+[public printer]
+   path = /usr/spool/lpd/public_printer
+   print command = lpr -r -Ppublic_printer %s
+   read only = yes
+   guest ok = yes
+   print ok = yes

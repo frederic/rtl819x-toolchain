@@ -1,0 +1,5 @@
+VOIP_IP_PHONE
+VOIP_MGR_CTL_VOICE_PATH
+vpath
+3
+run

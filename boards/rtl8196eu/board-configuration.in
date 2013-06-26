@@ -1,0 +1,13 @@
+
+comment "rtl8196eu"
+choice
+prompt "Selected Board Configuration"
+default MODEL_RTL8196EU_88E_ULINKER
+
+config MODEL_RTL8196EU_88E_ULINKER
+        bool "96EU+88E Universal Linker"
+
+config MODEL_RTL8196EU_MP
+        bool "MP"
+
+endchoice

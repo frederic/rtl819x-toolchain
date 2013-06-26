@@ -1,0 +1,11 @@
+########################################################
+# newer modems
+
+DefaultVendor= 0x1da5
+DefaultProduct=0xf000
+
+TargetVendor=  0x1da5
+TargetProduct= 0x4512
+
+CustomMode="qisda"
+CheckSuccess=20

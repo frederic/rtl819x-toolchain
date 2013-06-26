@@ -1,0 +1,436 @@
+menuconfig RTL_819X_SWCORE
+	bool "Options for Realtek SoC"
+        depends on NET && RTL_819X
+	default y
+        ---help---
+          You can say N here if you don't intend to use Realtek 819X SoC at all.
+
+          You'll have to say Y if only 819X Soc is used for your router.
+
+          If unsure, say Y.
+
+#config RTL865XC
+#	bool
+#	default y
+
+if RTL_819X_SWCORE
+
+config DEFAULTS_KERNEL_2_6
+	bool
+	default y
+	
+config NEW_PCI
+	bool 
+	default y 
+	depends on PCI
+
+config RTL_IGMP_PROXY
+	bool
+	default y
+
+config RTL_IGMP_SNOOPING
+	bool
+	default y
+	depends on BRIDGE
+
+config RTL_MLD_SNOOPING
+	bool 
+	default y
+	depends on RTL_IGMP_SNOOPING
+
+config RTL_LINKCHG_PROCESS
+	bool
+	default y
+
+config RTL_DEBUG_TOOL
+	bool
+	default y
+
+menu "Config MIPS16-Inst Option for Kernel Modules"
+	config RTL865X_KERNEL_MIPS16
+		bool "Enable MIPS16 Encoding for Linux Kernel"
+		default n
+		depends on RTL_819X
+	comment "Config Optional MIPS16-Inst Option for Kernel Modules"
+	config RTL865X_KERNEL_MIPS16_CRYPTO
+		bool "Enable MIPS16 Encoding for crypto module(linux-2.x.x/crypto)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_FS
+		bool "Enable MIPS16 Encoding for fs     module(linux-2.x.x/fs)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_IPC
+		bool "Enable MIPS16 Encoding for ipc    module(linux-2.x.x/ipc)"	
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_KERNEL
+		bool "Enable MIPS16 Encoding for core   module(linux-2.x.x/kernel)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_LIB
+		bool "Enable MIPS16 Encoding for lib    module(linux-2.x.x/lib)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_MM
+		bool "Enable MIPS16 Encoding for mm    module(linux-2.x.x/mm)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_NET
+		bool "Enable MIPS16 Encoding for net   module(linux-2.x.x/net)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	comment "Config Optional MIPS16-Inst Option for Device Drivers"
+	config RTL865X_KERNEL_MIPS16_MTD
+		bool "Enable MIPS16 Encoding for mtd    module(linux-2.x.x/drivers/mtd)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_LAYERDRIVER
+		bool "Enable MIPS16 Encoding for lan   module(linux-2.x.x/drivers/net/re865x)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_WLAN
+		bool "Enable MIPS16 Encoding for wlan   module(linux-2.x.x/drivers/net/wirless/rtl8190)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_PCI
+		bool "Enable MIPS16 Encoding for pci    module(linux-2.x.x/drivers/pci)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_CHAR
+		bool "Enable MIPS16 Encoding for char    module(linux-2.x.x/drivers/char)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+	config RTL865X_KERNEL_MIPS16_BLOCK
+		bool "Enable MIPS16 Encoding for block    module(linux-2.x.x/drivers/block)"
+		default n
+		depends on RTL865X_KERNEL_MIPS16
+endmenu
+
+menu "Config for Layered Driver Features"
+	config RTL_LAYERED_DRIVER
+        	bool
+	        default y
+        	depends on RTL_819X
+
+	config RTL_LAYERED_ASIC_DRIVER
+                bool
+                default n
+                depends on RTL_LAYERED_DRIVER
+	
+	config RTL_LAYERED_ASIC_DRIVER_L3
+                bool
+                default n
+                depends on RTL_LAYERED_ASIC_DRIVER
+
+	config RTL_LAYERED_ASIC_DRIVER_L4
+                bool
+                default n
+		depends on RTL_LAYERED_ASIC_DRIVER
+		depends on RTL_8198 || RTL_8196CT || RTL_8198T
+
+	config RTL_LAYERED_DRIVER_ACL
+		bool
+		default n
+		depends on RTL_LAYERED_DRIVER
+
+	config RTL_LAYERED_DRIVER_L2
+		bool
+		default n
+		depends on RTL_LAYERED_DRIVER
+
+	config RTL_HW_QOS_SUPPORT
+		bool
+                default n
+		depends on RTL_LAYERED_DRIVER
+		depends on RTL_8196CT || RTL_8198T || RTL_8198 || RTL_819XDT
+
+	config RTL_LAYERED_DRIVER_L3
+		bool
+                default n
+                depends on RTL_LAYERED_DRIVER
+
+
+	config RTL_LAYERED_DRIVER_L4
+		bool
+                default n
+		depends on RTL_LAYERED_DRIVER
+		depends on RTL_8198 || RTL_8196CT || RTL_8198T
+	
+	comment 'Choose basic features.'
+
+        config RTL_LINKCHG_PROCESS
+		bool
+                default n 
+                depends on RTL_LAYERED_DRIVER
+
+        config RTL_EXTPORT_VLANID
+       	        int
+               	default "9"
+                depends on RTL_LAYERED_DRIVER
+
+	comment 'Choose hardware features.'	
+	
+	choice  
+       		prompt "Hardware Features Selection"
+        	default RTL_HW_MULTICAST_ONLY
+		depends on RTL_LAYERED_DRIVER
+
+	config RTL_HW_NAPT
+		bool "Enable RTL Hardware NAPT"
+		depends on RTL_8198 || RTL_8196CT || RTL_8198T || RTL_819XDT
+		select RTL_LAYERED_ASIC_DRIVER
+		select RTL_LAYERED_ASIC_DRIVER_L3
+		select RTL_LAYERED_ASIC_DRIVER_L4
+		select RTL_LAYERED_DRIVER_ACL
+		#select RTL_HW_QOS_SUPPORT
+		select RTL_LAYERED_DRIVER_L2
+                select RTL_LAYERED_DRIVER_L3
+                select RTL_LAYERED_DRIVER_L4
+                select RTL_HARDWARE_MULTICAST if RTL_IGMP_SNOOPING
+		select RTL_HARDWARE_NAT
+	
+	config RTL_HW_MULTICAST_ONLY
+		bool "Enable RTL Hardware Multicast Only"
+		select RTL_LAYERED_ASIC_DRIVER
+		select RTL_LAYERED_ASIC_DRIVER_L3
+		select RTL_LAYERED_DRIVER_ACL
+		select RTL_LAYERED_DRIVER_L2
+                select RTL_LAYERED_DRIVER_L3
+		select RTL_HARDWARE_MULTICAST
+
+	config RTL_HW_L2_ONLY
+		bool "Enable RTL Hardware switch Only"
+		select RTL_LAYERED_ASIC_DRIVER		
+		select RTL_LAYERED_DRIVER_ACL		#because mld snooping need add acl to trap ipv6 multicast packet to cpu
+		select RTL_LAYERED_DRIVER_L2
+	
+	endchoice
+	        
+	comment 'Choose advance features.'	
+
+	config RTL_NETIF_MAPPING
+                bool "enable linux ps vs rtl819x driver netif mapping"
+                default y
+                depends on RTL_LAYERED_DRIVER
+
+	config RTL_MULTIPLE_WAN
+                bool "Enable multiple wan in hw nat mode"
+                default n
+                depends on RTL_NETIF_MAPPING && RTL_HARDWARE_NAT
+		depends on RTL_8198T || RTL_8196CT || RTL_819XDT
+
+	config RTL865X_LANPORT_RESTRICTION
+                bool "Rtl865x lan port restriction"
+                default n
+                depends on RTL_LAYERED_DRIVER
+
+	config RTL_QOS_8021P_SUPPORT
+		bool "HW Qos support vlan priority"
+                default n
+                depends on RTL_HW_QOS_SUPPORT
+
+	config RTL_IVL_SUPPORT
+		bool "Support multi-vlan in bridge/wisp mode"
+                default n
+                depends on RTL_LAYERED_DRIVER
+	config RTL_LOCAL_PUBLIC
+		bool "Enable RTL local public"
+		default n
+		depends on RTL_HW_NAPT
+endmenu
+	
+#config RTK_KERNEL_MIPS16
+#        bool "Encode Kernel Code with MIPS16 Instruction Set"
+#        default y
+#        depends on RTL_819X
+
+config RTL_IPTABLES_RULE_2_ACL
+	bool "Enable iptables rule to RTL ACL rule"
+	default y
+	depends on RTL_LAYERED_DRIVER_ACL 
+
+config RTL_FAST_FILTER
+	bool "Enable realtek fast filter"
+	default n
+	depends on RTL_819X
+
+config RTL865X_MBUF_HEADROOM
+	int
+	range 0 256
+	default "128"
+	depends on RTL_819X
+
+config RTL_ETH_PRIV_SKB
+	bool "Enable Ethernet Private Skb"
+	default n
+	depends on RTL_819X
+
+config RTL_ETH_PRIV_SKB_DEBUG
+	bool 
+	default n
+	depends on RTL_ETH_PRIV_SKB
+
+#config RTL8190_PRIV_SKB
+#	bool "Enable 8190 Private Skb"
+#	default y
+#	depends on RTL_819X
+	
+#config RTL8214_SUPPORT
+#	bool
+#	default n
+#	depends on RTL_819X
+	
+config EXTRTL8212_PHYID_P1
+	int
+	default "18"
+	depends on RTL_819X
+
+config EXTRTL8212_PHYID_P3
+	int
+	default "20"
+	depends on RTL_819X
+
+config EXTRTL8212_PHYID_P5
+	int
+	default "22"
+	depends on RTL_819X
+
+
+#config RTL865X_EXTPORT
+#	bool "Rtl865x extension port"
+#	default n
+#	depends on RTL865X_LAYERED_DRIVER
+
+#config RTL865X_EXTPORT_VLANID
+#	int
+#	default "9"
+#	depends on RTL865X_EXTPORT
+
+config RTL_HW_QOS_SUPPORT
+	bool "Support HW Qos"
+	default n
+	depends on RTL_LAYERED_DRIVER
+	depends on RTL_HARDWARE_NAT
+	depends on RTL_8196CT || RTL_8198T || RTL_8198 || RTL_819XDT
+
+config RTL_QOS_PATCH
+	bool "HW QoS patch"
+	default n
+	depends on RTL_HW_QOS_SUPPORT
+
+config RTL_HARDWARE_MULTICAST
+	bool
+	default n
+	depends on RTL_LAYERED_DRIVER
+	depends on RTL_IGMP_SNOOPING
+
+config RTL_HARDWARE_NAT
+	bool
+	default n
+	depends on RTL_819X
+	depends on RTL_8196CT || RTL_8198 || RTL8198T
+
+#config RTL865x_TCPFLOW_NONE_STATUS_CHECK
+#	bool "Create HW NAT Entry without checking tcp flow status (For SMB/IXIA tcp test)"
+#	default n
+#	depends on RTL865X_HARDWARE_NAT
+
+config RTL_PPPOE_HWACC
+	bool
+	default y
+	depends on RTL_HARDWARE_NAT
+
+config RTL865X_HW_PPTPL2TP
+	bool
+	default n
+	depends on RTL_HARDWARE_NAT
+
+config RTL_PROC_DEBUG
+	bool "Enable proc filesystem for debug"
+	default n
+	depends on RTL_819X
+
+config RTL_LOG_DEBUG
+	bool "Enable log print system for debug"
+	default n
+
+config RTL865X_ROMEPERF
+	bool "Enable rome perf"
+	default n
+	depends on RTL_819X
+
+config RTK_VLAN_SUPPORT
+	bool "Support rtk vlan feature"
+	default y
+	depends on RTL_819X
+
+config RTK_VLAN_WAN_TAG_SUPPORT
+	bool "Support rtk vlan wan tag feature"
+	default n
+	depends on RTK_VLAN_SUPPORT`
+	depends on RTL_819X
+
+config RTK_VLAN_FOR_CABLE_MODEM
+	bool "rtk vlan for cable modem"
+	default n
+	depends on RTK_VLAN_SUPPORT
+
+config RTK_VLAN_NEW_FEATURE
+        bool "add rtk vlan bridge feature"
+        default n
+        depends on RTK_VLAN_SUPPORT
+
+config RTL_HW_VLAN_SUPPORT
+        bool "Support rtl hw vlan feature"
+        default n
+        depends on RTK_VLAN_SUPPORT
+	depends on RTL_8196CT || RTL_8198T
+#config NMS
+#	bool "Enable NMS"
+#	default n
+#	depends on MESH_ENABLE
+
+#config TEST_PKG
+#	bool "Test Package(test_traffic ...)" 
+#	default n
+#	depends on MESH_ENABLE
+
+#config 11S_TEST_MODE
+#	bool "Enable 11s Test Mode"
+#	default n
+#	depends on MESH_ENABLE
+	
+config RTL_UNKOWN_UNICAST_CONTROL
+	bool
+	default n
+	depends on RTL_819X
+
+config RTL_ENABLE_RATELIMIT_TABLE
+	bool
+	default y
+	depends on RTL_UNKOWN_UNICAST_CONTROL
+
+#config RTL_MULTI_LAN_DEV
+#	bool
+#	default y
+#	depends on RTL_819X
+
+config RTL_EEE_DISABLED
+	bool "Disable 802.3az EEE feature"
+	default n
+	depends on RTL_819X
+
+config RTL_REINIT_SWITCH_CORE
+	bool
+	default y
+	depends on RTL_8196C || RTL_819XD || RTL_8196E
+
+config RTL_SOCK_DEBUG
+	bool
+	default n
+endif #RTL_819X_SWCORE
+#endmenu
+#============================= End of Kconfig ===============================#
+
+	 

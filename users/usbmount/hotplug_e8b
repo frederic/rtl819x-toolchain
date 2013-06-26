@@ -1,0 +1,25 @@
+#!/bin/sh
+
+case "${ACTION}" in
+
+ add)
+   echo "\${ACTION}=add}" >>/dev/console
+   echo "\$1=$1" >>/dev/console
+#   rm /var/bftpd_root -rf
+   usbmount $1
+  ;;
+
+ remove)
+   echo "\${ACTION}=remove" >>/dev/console
+   echo "\$1=$1" >>/dev/console
+#   rm /var/bftpd_root -rf
+   usbmount $1
+  ;;
+
+ *)
+   echo "\${ACTION}=${ACTION}" >>/dev/console
+   echo "\$1=$1" >>/dev/console
+   usbmount $1
+   ;;
+
+esac

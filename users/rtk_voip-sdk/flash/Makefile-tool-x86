@@ -1,0 +1,39 @@
+include ../.linux_config
+
+DIR_FLASH = $(shell pwd)
+
+HOSTCC = gcc
+HOSTAR = ar
+EXE = cvvoip
+LIB = libvoip_flash_tool.x86.a
+OBJS_EXE = cvvoip.x86.o 
+OBJS_LIB = voip_flash_mib.x86.o voip_flash_tool.x86.o
+
+CFLAGS = -g -Wall -I../includes
+LDFLAGS = #--static
+
+DEPENDENCY	= $(OBJS:.o=.d)
+
+all: voip_flash_mib.txt $(EXE) 
+
+$(EXE): $(OBJS_EXE) $(LIB)
+	$(HOSTCC) $(LDFLAGS) $(OBJS_EXE) $(LIB) -o $@
+
+$(LIB): $(OBJS_LIB)
+	$(HOSTAR) rcs $@ $^
+
+%.x86.o: %.c
+	$(HOSTCC) -c -o $@ $(CFLAGS) $<
+	$(HOSTCC) -M $(CFLAGS) $< | sed -e "s#^$(*F).x86.o[ :]*#$(@D)\/$(*F).x86.o : #" > $(@:.x86.o=.x86.d)
+
+# Reference file
+# TLV use macro to generate C structure and MIB table. It is not easy to debug. 
+# We use -E to genrage voip_flash_mib.txt after the preprocessing stage. 
+# This file is easy for user to trace C structure and Mib table.
+voip_flash_mib.txt: 
+	$(HOSTCC) -E -o voip_flash_mib.txt $(CFLAGS) voip_flash_mib.c
+
+clean:
+	rm -f $(EXE) $(LIB) $(OBJS_EXE) $(OBJS_LIB) *.x86.d voip_flash_mib.cc
+
+-include $(DEPENDENCY)

@@ -1,0 +1,18 @@
+			INSTALLING SQUASHFS
+
+The squashfs4.0.tar.gz file contains the squashfs-tools directory containing
+mksquashfs and unsquashfs.
+
+1. Patching the kernel
+----------------------
+
+This release is for 2.6.29 only.  Kernel patching is not necessary.
+
+2. Building squashfs tools
+--------------------------
+
+The squashfs-tools directory contains the mksquashfs and unsquashfs programs.
+These can be made by typing make.  The source files use a local copy of
+squashfs_fs.h (included in the kernel patches) allowing the tools to be made
+without needing to patch the kernel.
+

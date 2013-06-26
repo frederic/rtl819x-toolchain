@@ -1,0 +1,12 @@
+#
+# drivers/net/r8198ep
+#
+# Makefile for the Linux Wireless network device drivers.
+#
+
+
+
+obj-y := r8198_n.o \
+	r8198_asf.o
+	
+

@@ -1,0 +1,43 @@
+#!/bin/sh
+
+SVN_VER_H="$DIR_USERS/boa/src/svn_version.h"
+SDK_VER_H="$DIR_USERS/boa/src/version.c" 
+DIR_NIC_DRIVER_SOURCE="$DIR_LINUX/drivers/net/rtl819x/"
+DIR_NIC_DRIVER_HEADER="$DIR_LINUX/include/net/rtl/"
+DIR_WLAN_DIRVER_SOURCE="$DIR_LINUX/drivers/net/wireless/rtl8192cd/"
+DIR_WLAN_DIRVER_HEADER="$DIR_LINUX/drivers/net/wireless/rtl8192cd/"
+DIR_FASTPATH_SOURCE="$DIR_LINUX/net/rtl/fastpath/"
+DIR_FASTPATH_HEADER="$DIR_LINUX/include/net/rtl/fastpath/"
+DIR_FEATURE_SOURCE="$DIR_LINUX/net/rtl/features/"
+DIR_FEATURE_HEADER="$DIR_LINUX/include/net/rtl/features/"
+DELIMITER="-r"
+
+
+# Get current SDK version
+SDK_VER=`cat $SDK_VER_H | grep "#define SDK_VERSION" | cut -f2 -d "\""`
+
+# Get SVN subversion
+SVN_VER=`svn info | grep Revision | cut -f2 -d" "`
+
+# Append sub version to SDK version 
+CURRENT_VER="$SDK_VER$DELIMITER$SVN_VER"
+
+# Check current version
+if [ -f $SVN_VER_H ]; then 
+
+	echo "CURRENT_VERSION=\"$CURRENT_VER\"" > $SVN_VER_H
+	NIC_DRIVER_C_VER=`svn info $DIR_NIC_DRIVER_SOURCE | grep Rev:| cut -f4 -d " " | sed -n 1p`
+	NIC_DRIVER_H_VER=`svn info $DIR_NIC_DRIVER_HEADER | grep Rev: | cut -f4 -d " " | sed -n 1p`
+	echo "NIC_DRIVER_VERSION=\"$NIC_DRIVER_C_VER-$NIC_DRIVER_H_VER\"" >> $SVN_VER_H
+	WLAN_DRIVER_C_VER=`svn info $DIR_WLAN_DRIVER_SOURCE | grep Rev: | cut -f4 -d " " | sed -n 1p`
+	WLAN_DRIVER_H_VER=`svn info $DIR_WLAN_DRIVER_HEADER | grep Rev: | cut -f4 -d " " | sed -n 1p`
+	echo "WLAN_DRIVER_VERSION=\"$WLAN_DRIVER_C_VER-$WLAN_DRIVER_H_VER\"" >> $SVN_VER_H
+	FASTPATH_C_VER=`svn info $DIR_FASTPATH_SOURCE | grep Rev: | cut -f4 -d " " | sed -n 1p`
+	FASTPATH_H_VER=`svn info $DIR_FASTPATH_HEADER | grep Rev: | cut -f4 -d " " | sed -n 1p`
+	echo "FASTPATH_VERSION=\"$FASTPATH_C_VER-$FASTPATH_H_VER\"" >> $SVN_VER_H
+	FEATURE_C_VER=`svn info $DIR_FEATURE_SOURCE | grep Rev: | cut -f4 -d " " | sed -n 1p`
+	FEATURE_H_VER=`svn info $DIR_FEATURE_HEADER | grep Rev: | cut -f4 -d " " | sed -n 1p`
+	echo "FEATURE_VERSION=\"$FEATURE_C_VER-$FEATURE_H_VER\"" >> $SVN_VER_H
+fi
+
+

@@ -1,0 +1,23 @@
+include ../.linux_config
+
+OBJS = voip_flash_client.o
+LIBS = libvoip_flash_client.a
+
+CFLAGS = -g -Wall -I../includes -I../ui/include -I../../goahead-2.1.1/LINUX -fPIC
+LDFLAGS = --static
+
+DEPENDENCY	= $(OBJS:.o=.d)
+
+all: $(LIBS) 
+
+$(LIBS): $(OBJS)
+	$(AR) rcs $@ $<
+
+%.o: %.c
+	$(CC) -c -o $@ $(CFLAGS) $<
+	$(CC) -M $(CFLAGS) $< | sed -e "s#^$(*F).o[ :]*#$(@D)\/$(*F).o : #" > $(@:.o=.d)
+
+clean:
+	rm -f $(LIBS) $(OBJS) *.d
+
+-include $(DEPENDENCY)

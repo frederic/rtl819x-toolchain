@@ -1,0 +1,209 @@
+GeeXboX uShare - Introduction
+=============================
+
+GeeXboX uShare is a UPnP (TM) A/V Media Server. It implements the server
+component that provides UPnP media devices with information on available
+multimedia files. uShare uses the built-in http server of libupnp to
+stream the files to clients.
+
+GeeXboX uShare is able to provide access to both images, videos, music
+or playlists files (see below for a complete file format support list).
+It does not act as an UPnP Media Adaptor and thus, can't transcode
+streams to fit the client requirements.
+
+uShare is written in C for the GeeXboX project (see http://www.geexbox.org/).
+It is designed to provide access to multimedia contents to GeeXboX but can of
+course be used by any other UPnP client device.
+It should compile and run on any modern POSIX compatible system such as Linux.
+
+GeeXboX uShare is free software - it is licensed under the terms of the GNU
+General Public License (GPL).
+
+Copyright and License
+=====================
+
+GeeXboX uShare is copyright (C) 2005-2007 Benjamin Zores.
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2 of the License, or (at your option)
+any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc., 51
+Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+Note that uShare links with libupnp, which is licensed under the
+terms of a modified BSD license (i.e. the original BSD license without the
+advertising clause). This license is compatible with the GNU GPL.
+
+Homepage
+========
+
+Web site and file area for uShare is hosted on GeeXboX server :
+
+   http://ushare.geexbox.org/
+
+The latest version of uShare should always be available on this site.
+
+Requirements
+============
+
+The following programs are required to build uShare:
+
+ * GNU C Compiler (gcc), 2.95 or later.
+
+   The GNU C Compiler is part of the GNU Compiler Collection which can be
+   downloaded from http://gcc.gnu.org/.
+
+ * pkg-config.
+
+   pkg-config is a helper tool used when compiling applications and libraries.
+   It helps you insert the correct compiler options on the command line.
+   (see http://pkg-config.freedesktop.org/wiki/ ).
+
+The following UPnP library is required to build and run uShare :
+
+ * Linux SDK for UPnP Devices (libupnp), 1.4.2 or later
+
+   The libupnp library is used to communicate using the UPnP protocol.
+   libupnp can be downloaded from http://pupnp.sourceforge.net/.
+
+The following DLNA library is required for proper DLNA support :
+
+ * libdlna, 0.2.1 or later
+
+   The libdlna library is used to provides DLNA profiles informations.
+   libdlna can be downloaded from http://libdlna.geexbox.org/.
+
+Building and Installation
+=========================
+
+Compile uShare by running configure and then make. This should
+produce an executable ushare in the src subdirectory, which can be
+used right away. No extra files need to be installed.
+
+You can pass the CFLAGS you want to configure including -DDEBUG in order
+to activate support for debug messages in uShare.
+
+Example :
+
+CFLAGS="-Os" ./configure --prefix=/usr
+make
+
+You can enable DLNA support by doing a:
+./configure --enable-dlna
+
+If you want to install uShare on your system, run :
+
+make install-strip
+
+This will copy the executable and manual page into their appropriate
+directories (/usr/bin and /usr/man/man1 in this example).
+
+For more information regarding configure and make, see the INSTALL document.
+
+Usage
+=====
+
+uShare runs from the console only. It supports the usual --help option
+which displays usage and option information.
+
+Usage: ushare [-n name] [-i interface] [-c directory] [[-c directory] ...]
+Options:
+ -n, --name=NAME        Set UPnP Friendly Name (default is 'uShare')
+ -i, --interface=IFACE  Use IFACE Network Interface (default is 'eth0')
+ -f, --cfg=FILE         Config file to be used
+ -p, --port=PORT        Forces the HTTP server to run on PORT
+ -q, --telnet-port=PORT Forces the TELNET server to run on PORT
+ -c, --content=DIR      Share the content of DIR directory.
+ -w, --no-web           Disable the control web page (enabled by default)
+ -t, --no-telnet        Disable the TELNET control (enabled by default)
+ -o, --override-iconv-err       If iconv fails parsing name, still add to media contents (hoping the renderer can handle it)
+ -v, --verbose          Set verbose display
+ -x, --xbox             Use XboX 360 compliant profile
+ -d, --dlna             Use DLNA compliant profile (PlayStation3 needs this)
+ -D, --daemon           Run as a daemon.
+ -V, --version          Display the version of uShare and exit
+ -h, --help             Display this help
+
+uShare gets its configuration from the /etc/ushare.conf file.
+You can force configuration options through command line.
+
+uShare expects one or several directory argument (-c argument),
+specifying where multimedia files are stored. You should probably also use
+the -i option to specify which interface uShare should listen on.
+
+   ushare -c /shares
+   ushare -c /shares1 --content=/shares2
+
+You can also perform remote control of uShare UPnP Media Server through its
+web interface. This let you define new content locations at runtime or
+update the currently shared one in case the filesystem has changed.
+Just go to :
+
+   http://ip_address:port/web/ushare.html
+
+See the manual page for more details :
+
+   man ushare
+
+Supported File Formats List
+===========================
+
+- Video files : asf, avi, dv, divx, wmv, mjpg, mjpeg, mpeg, mpg, mpe,
+                mp2p, vob, mp2t, m1v, m2v, m4v, m4p, mp4ps, ts, ogm, mkv,
+                rmvb, mov, qt
+
+- Audio files : aac, ac3, aif, aiff, at3p, au, snd, dts, rmi, mp1, mp2, mp3,
+                mp4, mpa, ogg, wav, pcm, lpcm, l16, wma, mka, ra, rm, ram
+
+- Images files : bmp, ico, gif, jpeg, jpg, jpe, pcd, png, pnm, ppm,
+                 qti, qtf, qtif, tif, tiff
+
+- Playlist files : pls, m3u, asx
+
+If you want uShare to support more file formats, simply add its properties
+in the src/mime.c table. Do not forget to send a patch to update uShare.
+
+Feedback
+========
+
+Please send bug reports, suggestions, ideas, comments or patches to :
+
+   ushare@geexbox.org
+
+Known bugs and limitations
+==========================
+
+If you need to listen on more than one interface, you will have to start
+multiple instances of the media server.
+
+uShare keeps some information on files in memory.
+If your multimedia collection is huge, this might be a problem.
+
+Thanks
+======
+
+Many thanks to Oskar Liljeblad for its original work on GMediaServer
+(which is much more functionnal in terms of UPnP A/V features that
+uShare will ever be).
+
+References
+==========
+
+Note that this list of references is not complete.
+
+ * UPnP(TM) Standards (http://www.upnp.org/standardizeddcps/default.asp)
+
+Trademarks
+==========
+
+UPnP(TM) is a trademark of the UPnP(TM) Implementers Corporation.
+
+-

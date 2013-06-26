@@ -1,0 +1,208 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2003. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>Save/Reload Setting</title>
+<script type="text/javascript" src="util_gw.js"> </script>
+<script>
+var isIE = (document.all)? true:false;
+var max_cert_period = 628321220;
+function IsNum(num)
+{
+        var number="0123456789";
+        for(i=0;i<num.length;i++)
+        {
+                for(j=0;j<10;j++)
+                        if (num.charAt(i)==number.charAt(j)) break;
+                if (j>=10) return (false);
+         }
+        return (true);
+}
+function parseInt_dec(value)
+{
+	return parseInt(value,10);	
+}
+function app_cert(theForm)
+{
+	var T_Y = 365;
+	var T_MO = 30;
+	var DAYS =24;
+	var T_H = 60;
+	var T_M = 60;
+	var TIMEOUT = 7305;
+
+        var time_unit=0;
+        time_unit = theForm.time_unit.selectedIndex;
+
+	TIMEOUT = Math.floor(max_cert_period/3600/24)-1;
+	if (TIMEOUT <= 0)
+	{
+		alert("AS time out");
+		theForm.cert_name.focus();
+                theForm.cert_name.select();
+		return false;
+	}
+
+
+        if (theForm.cert_name.value == "")
+        {
+                alert("Please Input User Name!");
+                theForm.cert_name.focus();
+                theForm.cert_name.select();
+                return false;
+        }
+        if(theForm.cert_name.value.length > 32)
+        {
+		alert("The length of User name can not max than 32!");
+		theForm.cert_name.focus();
+                return;
+	}
+
+        if (isIE)
+        {
+		if (theForm.cert_period.value.length == 0)
+                {
+                        alert("please input Valid time!");
+                        return false;
+                }
+                if (!IsNum(theForm.cert_period.value))
+                {
+                        alert("time must be number!");
+                        return false;
+                }
+                tmp_period = theForm.cert_period.value;
+        }
+        else
+        {
+                if (theForm.cert_period.value.length == 0)
+                {
+                        alert("please input Valid time!");
+                        return false;
+                }
+                if (!IsNum(theForm.cert_period.value))
+                {
+			alert("time must be number!");
+			return false;
+		}
+		tmp_period = parseInt_dec(theForm.cert_period.value);
+	}
+        if(tmp_period == 0)
+	{
+		theForm.cert_period.focus();
+                theForm.cert_period.select();
+                return false;
+        }
+
+        switch (time_unit)
+        {
+        case 0:
+                break;
+        case 1:
+                tmp_period = tmp_period*T_MO;
+                break;
+        default:
+                tmp_period = tmp_period*T_Y;
+                break;
+        }
+
+        if(tmp_period > TIMEOUT)
+        {
+                switch (time_unit)
+		{
+		case 0:
+			alert("valid time can't exceed "+TIMEOUT+" day");
+			break;
+		case 1:
+			alert("valid time can't exceed "+Math.floor(TIMEOUT/30)+" year");
+			break;
+		default:
+			alert("valid time can't exceed "+Math.floor(TIMEOUT/365)+" year");
+			break;
+		}
+		theForm.cert_period.focus();
+                theForm.cert_period.select();
+		return false;
+	}
+        theForm.certPeriod.value = tmp_period;
+	return true;
+}
+
+function resetClick()
+{
+   if ( !confirm('Do you really want to reset the current settings to default?') ) {
+	return false;
+  }
+  else
+	return true;
+}
+
+function saveClick(url)
+{
+  var form=document.saveConfig;
+  if(!app_cert(form))
+	return false;
+  form.submit();
+  //if (verifyBrowser() == "ie4" ) {
+  //	window.location.href = url;
+  //	return false;
+  //}
+  //else
+  //{
+  //	window.location.href = url;
+  //	return true;
+  //}
+}
+
+</script>
+
+</head>
+<body>
+<blockquote>
+<h2><font color="#0000FF">Save/Reload Settings</font></h2>
+  <table border="0" cellspacing="4" width="500">
+  <tr><font size=2>
+ This page allows you save current settings to a file or reload the settings
+ from the file which was saved previously. Besides, you could reset the current
+ configuration to factory default.
+  </tr>
+  <tr><hr size=1 noshade align=top></tr>
+  <form action=/boafrm/formWapiCertDistribute method=POST name="saveConfig">
+  <tr>
+  	<td align=center width="123"> <p align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Type
+  	<td align=left width="225">  
+  	<input type="radio" value="1" name="cert_type" checked style="float: left">X.509 Certification&nbsp;&nbsp;
+  	<input type="radio" name="cert_type" disabled style="display:none" value="2">
+	<input name="text_gbw" id="Text_gbw" tabindex="0" style="display:none" value="GBW" size="8" readonly></td> 
+  </tr> 
+  <tr>
+  <td align=center height="18" width="346" colspan="2"><hr></td> 
+  </tr> 
+  <tr>
+  	<td align=left height="39" width="256">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Name</td>
+	<td align=left height="39" width="225">
+	<input type="text" name="cert_name" size="26" class="mytxt" maxlength="32" tabindex="0" style="ime-mode:Disabled"></td> 
+  </tr>
+   <tr>
+   <td align=left height="50" width="256">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Valid Time</td>
+         <td align=left height="50" width="225"> 
+	 <input name="cert_period" size="16" maxlength =5 class="mytxt" style="ime-mode:Disabled">&nbsp;&nbsp;&nbsp;
+	<select size="1" name="time_unit" style="width =60; border-style: outset; border-width: 1" class="mytxt" tabindex="0"> 
+            <option value="0">day</option> 
+            <option value="1">month</option> 
+            <option value="2">year</option> 
+          </select> </td> 
+          </tr> 
+  <tr>
+    <td width="32%"><font size=2><b>Save Certification to File:</b></td>
+    <td width="30%"><font size=2>
+    <p><input type="button" value="Save..." name="save" onclick="return saveClick('/user.cer')"></p>
+   </tr>
+   <a target="_blank" type=hidden href=""></a>
+   <input name="nextwebpage" type=hidden value="/user.cer">
+   <input name="certPeriod" type=hidden value="">
+  </form>
+</table>
+</blockquote>
+</body>
+</html>

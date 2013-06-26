@@ -1,0 +1,42 @@
+#
+# Makefile.opts.in
+#
+# 	This library is free software; you can redistribute it and/or
+#	modify it under the terms of the GNU Lesser General Public
+#	License as published by the Free Software Foundation version 2.1
+#	of the License.
+#
+# Copyright (c) 2003-2006 Thomas Graf <tgraf@suug.ch>
+#
+
+CC               := rsdk-linux-gcc
+CFLAGS           := -O2 -I/home/bert/tmp/rlxlinux-v2.2/linux-2.6.30/include
+LDFLAGS          := 
+CPPFLAGS         := 
+PACKAGE_NAME     := libnl
+PACKAGE_VERSION  := 1.1
+
+LIBNL_LIB        := -lm
+
+prefix           := /home/bert/tmp/rlxlinux-v2.2/romfs
+exec_prefix      := ${prefix}
+libdir           := ${exec_prefix}/lib
+#includedir       := ${prefix}/include
+includedir       := /home/bert/tmp/rlxlinux-v2.2/linux-2.6.30/include
+mandir           := ${prefix}/share/man
+sysconfdir       := ${prefix}/etc
+
+AR               := ar
+RM               := rm
+LN               := ln
+
+DEPFLAGS         += -M -I../include/ -I. $(CPPFLAGS)
+#CFLAGS           += -I../include -I/home/bert/tmp/rlxlinux-v2.2/linux-2.6.30/include -I. $(CPPFLAGS) -D_GNU_SOURCE
+#CFLAGS           += -I../include -I$(ROOT)/linux-2.6.30/include -I. $(CPPFLAGS) -D_GNU_SOURCE
+CFLAGS           += -I../include -I. $(CPPFLAGS) -D_GNU_SOURCE
+MAKEFLAGS        += --no-print-directory
+
+ifeq ($(CC),gcc)
+CFLAGS           += -Wall -ggdb
+endif
+

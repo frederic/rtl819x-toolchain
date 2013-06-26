@@ -1,0 +1,26 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<title>Configuring Tunnel</title><SCRIPT LANGUAGE="JavaScript">
+function onclick_func()
+{
+	if(Tunnel6form.enable_tunnel6.checked == false)	{		
+		Tunnel6form.routername.disabled=true;
+	}	else
+	{
+		Tunnel6form.routername.disabled=false;	}
+}
+</SCRIPT>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+<form method="POST" action="/boafrm/formTunnel6" name=Tunnel6form>
+<b>Configuring Tunnel(6to4)</b><BR>  <BR>
+<td bgColor=#aaddff>Enable</td><td bgColor=#ddeeff><input type=checkbox name=enable_tunnel6 value =1 <% getIPv6Info("enable_tunnel6"); %> onclick="onclick_func()"></td>
+<input type="hidden" value="/tunnel6.htm" name="submit-url">
+<tr><td colspan=2><input type=submit name="submit" value="Save"></td></tr>
+</form>
+</body>
+</html> 

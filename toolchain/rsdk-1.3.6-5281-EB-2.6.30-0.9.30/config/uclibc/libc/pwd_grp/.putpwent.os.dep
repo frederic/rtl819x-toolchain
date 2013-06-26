@@ -1,0 +1,145 @@
+libc/pwd_grp/putpwent.os libc/pwd_grp/putpwent.os:  \
+ libc/pwd_grp/putpwent.c ././include/libc-symbols.h \
+  ./include/bits/uClibc_arch_features.h libc/pwd_grp/pwd_grp.c \
+  ./include/features.h ./include/bits/uClibc_config.h \
+  ./include/sys/cdefs.h ./include/libc-internal.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h \
+  ./include/bits/stackinfo.h ./include/stdio.h ./include/bits/types.h \
+  ./include/bits/wordsize.h ./include/bits/kernel_types.h \
+  ./include/bits/typesizes.h ./include/bits/pthreadtypes.h \
+  ./include/bits/sched.h ./include/bits/uClibc_stdio.h ./include/wchar.h \
+  ./include/bits/wchar.h ./include/bits/uClibc_mutex.h \
+  ./include/pthread.h ./include/sched.h ./include/time.h \
+  ./include/bits/time.h ./include/bits/uClibc_clk_tck.h \
+  ./include/signal.h ./include/bits/sigset.h ./include/bits/initspin.h \
+  ./include/bits/sigthread.h ./include/bits/uClibc_pthread.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stdarg.h \
+  ./include/bits/stdio_lim.h ./include/stdlib.h \
+  ./include/bits/waitflags.h ./include/bits/waitstatus.h \
+  ./include/endian.h ./include/bits/endian.h ./include/sys/types.h \
+  ./include/sys/select.h ./include/bits/select.h \
+  ./include/sys/sysmacros.h ./include/alloca.h ./include/stdint.h \
+  ./include/string.h ./include/errno.h ./include/bits/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm-generic/errno-base.h \
+  ./include/bits/uClibc_errno.h ./include/tls.h ./include/assert.h \
+  ./include/ctype.h ./include/bits/uClibc_touplow.h ./include/pwd.h \
+  ./include/grp.h ./include/paths.h ./include/shadow.h
+
+././include/libc-symbols.h:
+
+./include/bits/uClibc_arch_features.h:
+
+libc/pwd_grp/pwd_grp.c:
+
+./include/features.h:
+
+./include/bits/uClibc_config.h:
+
+./include/sys/cdefs.h:
+
+./include/libc-internal.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h:
+
+./include/bits/stackinfo.h:
+
+./include/stdio.h:
+
+./include/bits/types.h:
+
+./include/bits/wordsize.h:
+
+./include/bits/kernel_types.h:
+
+./include/bits/typesizes.h:
+
+./include/bits/pthreadtypes.h:
+
+./include/bits/sched.h:
+
+./include/bits/uClibc_stdio.h:
+
+./include/wchar.h:
+
+./include/bits/wchar.h:
+
+./include/bits/uClibc_mutex.h:
+
+./include/pthread.h:
+
+./include/sched.h:
+
+./include/time.h:
+
+./include/bits/time.h:
+
+./include/bits/uClibc_clk_tck.h:
+
+./include/signal.h:
+
+./include/bits/sigset.h:
+
+./include/bits/initspin.h:
+
+./include/bits/sigthread.h:
+
+./include/bits/uClibc_pthread.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stdarg.h:
+
+./include/bits/stdio_lim.h:
+
+./include/stdlib.h:
+
+./include/bits/waitflags.h:
+
+./include/bits/waitstatus.h:
+
+./include/endian.h:
+
+./include/bits/endian.h:
+
+./include/sys/types.h:
+
+./include/sys/select.h:
+
+./include/bits/select.h:
+
+./include/sys/sysmacros.h:
+
+./include/alloca.h:
+
+./include/stdint.h:
+
+./include/string.h:
+
+./include/errno.h:
+
+./include/bits/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm-generic/errno-base.h:
+
+./include/bits/uClibc_errno.h:
+
+./include/tls.h:
+
+./include/assert.h:
+
+./include/ctype.h:
+
+./include/bits/uClibc_touplow.h:
+
+./include/pwd.h:
+
+./include/grp.h:
+
+./include/paths.h:
+
+./include/shadow.h:
+cmd_libc_pwd_grp_putpwent.os := rsdk-linux-gcc -c libc/pwd_grp/putpwent.c -o libc/pwd_grp/putpwent.os -include include/libc-symbols.h -Wall -Wstrict-prototypes -fno-strict-aliasing -fPIC -mabi=32 -fno-builtin -nostdinc -Iinclude -I. -Ilibc/sysdeps/linux/rlx -fno-asm -march=5281 -EB -msoft-float -DUCLIBC_INTERNAL -std=gnu99 -Os -funit-at-a-time -mno-split-addresses -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux/rlx -Ilibpthread/linuxthreads.old/sysdeps/rlx -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux -Ilibpthread/linuxthreads.old/sysdeps/pthread -Ilibpthread/linuxthreads.old -Ilibpthread -I/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/ -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6//include-fixed -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6/include -DNDEBUG "-mno-split-addresses" -MT libc/pwd_grp/putpwent.os -MD -MP -MF libc/pwd_grp/.putpwent.os.dep

@@ -1,0 +1,57 @@
+#!/bin/sh
+for i in $*; do
+        echo $i
+        eval $i
+done
+
+# Dynamic Link Files, External Reference.
+#APMIBINC=`pwd`/../goahead-2.1.1/LINUX/
+#APMIBLIB=`pwd`/../goahead-2.1.1/LINUX/apmib.so
+
+# Configured ?
+CONFIGURE=1
+
+HOST=`gcc -dumpmachine`
+
+# Configure
+if [ $CONFIGURE = 1 ]; then
+make distclean
+./configure \
+--host=$HOST \
+--target=mips-linux \
+--enable-mini-agent \
+--disable-applications \
+--disable-manuals \
+--disable-scripts \
+--disable-mibs \
+--disable-mib-loading \
+--disable-des \
+--disable-privacy \
+--disable-md5 \
+--disable-debugging \
+--disable-snmptrapd-subagent \
+--disable-mfd-rewrites \
+--disable-embedded-perl \
+--disable-perl-cc-checks \
+--disable-shared \
+--enable-static \
+--with-cc="$CROSS_COMPILE"gcc \
+--with-linkcc="$CROSS_COMPILE"gcc \
+--with-ar="$CROSS_COMPILE"ar \
+--with-endianness=big \
+--with-cflags="-s -O2 -DCONFIG_SNMP $EXTRA_CONFIG_CFLAGS -I$APMIBINC" \
+--with-libs="$APMIBLIB" \
+--without-opaque-special-types \
+--without-kmem-usage \
+--with-dummy-values \
+--with-persistent-directory="/etc/net-snmp" \
+--with-copy-persistent-files="no" \
+--with-default-snmp-version="2" \
+--with-sys-contact="AP" \
+--with-sys-location="Router" \
+--with-logfile="/var/log/snmpd.log" \
+--with-transports="UDP" \
+--with-out-transports="UDPIPv6 TCPIPv6 TCP Unix Callback AAL5PVC IPX" \
+--with-mib-modules="nctuSnmp ieee802dot11 mibII/interfaces mibII/at mibII/ip mibII/icmp mibII/tcp mibII/udp mibII/snmp_mib mibII/vacm_conf" \
+--with-out-mib-modules="snmpv3mibs ucd_snmp agent_mibs agentx notification target utilities disman/event disman/schedule host mibII/tcpTable mibII/route_write mibII/sysORTable mibII/vacm_vars"
+fi

@@ -1,0 +1,30 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2003. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>Routing Table</title>
+</head>
+
+<body>
+<blockquote>
+<h2><font color="#0000FF">Routing  Table </font></h2>
+
+
+<table border=0 width="500" cellspacing=0 cellpadding=0>
+  <tr><font size=2>
+ This table shows  the all routing entry .
+  </tr>
+  <tr><hr size=1 noshade align=top></tr>
+</table>
+<table border='1' width="500">
+<% kernelRouteList(); %>
+</table>
+
+<input type="hidden" value="/routetbl.htm" name="submit-url">
+  <p><input type="button" value="Refresh" name="refresh" onClick="javascript: window.location.reload()">&nbsp;&nbsp;
+  <input type="button" value=" Close " name="close" onClick="javascript: window.close();"></p>
+</blockquote>
+</body>
+
+</html>

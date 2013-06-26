@@ -1,0 +1,127 @@
+<html>
+<head>
+	<script type="text/javascript" src="mtmcode.js"></script>
+	<script type="text/javascript" src="util_gw.js"></script>
+
+	<script language=JavaScript>
+	<!--
+	
+	function loadSetting()
+	{
+		var wscMethod = window.opener.wscProvsionMethod*1;		
+		
+		document.formP2PWscSel.wlp2pwscsel[0].disabled = true;
+		document.formP2PWscSel.wlp2pwscsel[0].disabled = true;
+		document.formP2PWscSel.wlp2pwscsel[0].disabled = true;
+		if(wscMethod == 12 || wscMethod == 8)
+		{			
+			document.formP2PWscSel.wlp2pwscsel[0].disabled = false;			
+		}
+		else if(wscMethod == 132 || wscMethod == 128)
+		{			
+			document.formP2PWscSel.wlp2pwscsel[1].disabled = false;			
+		}
+		else if(wscMethod == 260 || wscMethod == 256)
+		{			
+			document.formP2PWscSel.wlp2pwscsel[2].disabled = false;			
+		}		
+		else if(wscMethod == 140 || wscMethod == 136)
+		{
+			document.formP2PWscSel.wlp2pwscsel[0].disabled = false;
+			document.formP2PWscSel.wlp2pwscsel[1].disabled = false;			
+		}
+		else if(wscMethod == 184 || wscMethod == 180)
+		{
+			document.formP2PWscSel.wlp2pwscsel[1].disabled = false;
+			document.formP2PWscSel.wlp2pwscsel[2].disabled = false;			
+		}
+		else if(wscMethod == 268 || wscMethod == 264)
+		{
+			document.formP2PWscSel.wlp2pwscsel[0].disabled = false;
+			document.formP2PWscSel.wlp2pwscsel[2].disabled = false;			
+		}
+		else if(wscMethod == 396 || wscMethod == 392)
+		{
+			document.formP2PWscSel.wlp2pwscsel[0].disabled = false;
+			document.formP2PWscSel.wlp2pwscsel[1].disabled = false;
+			document.formP2PWscSel.wlp2pwscsel[2].disabled = false;			
+		}
+		
+	}
+	
+	function confirmClick()
+	{
+		mf = document.formP2PWscSel;		
+		
+		if(get_by_id("wscProvsionMethod").value == 0)
+		{
+			alert("Please select WSC method.");
+			return false;
+		}
+		
+		get_by_id("action").value = "p2pWSCSelect";
+		
+		get_by_id("wscProvsionDevMac").value = window.opener.wscProvsionDevMac;
+		get_by_id("wscProvsionDevChannel").value = window.opener.wscProvsionDevChannel;
+		
+		
+
+		mf.submit();
+		
+		window.opener.openWlp2pwscconnect(get_by_id("wscProvsionMethod").value);
+  	window.close()
+
+	}
+	
+	function wlp2pwscClick(selValue)
+	{
+		get_by_id("wscProvsionMethod").value = selValue;
+	}
+	//-->
+	</script>
+</head>
+<body onload="loadSetting();">
+	<blockquote>
+	<form action=/boafrm/formWiFiDirect method=POST name="formP2PWscSel">	
+	<input type=hidden id="action" name="action" value="">
+	<input type=hidden id="wscProvsionMethod" name="wscProvsionMethod" value="0">
+	<input type=hidden id="wscProvsionDevMac" name="wscProvsionDevMac" value="0">
+	<input type=hidden id="wscProvsionDevChannel" name="wscProvsionDevChannel" value="0">
+	<table border="0" width=300 height=30>
+	<tr>
+		<td width ="20%" valign="top">		 		
+		<font size=2> <b> Select WSC config method </b> </font>
+		</td>		
+	</tr>
+	<tr>
+		<td valign="top">
+		<input type="radio" value="1" name="wlp2pwscsel" onClick="wlp2pwscClick(this.value)" ></input> 		
+		<font size=2> <b> 1.PIN display </b> </font>
+		</td>		
+	</tr>
+	<tr>
+		<td valign="top">
+		<input type="radio" value="2" name="wlp2pwscsel" onClick="wlp2pwscClick(this.value)" ></input> 		
+		<font size=2> <b> 2.PIN keypad </b> </font>
+		</td>		
+	</tr>
+	<tr>
+		<td valign="top">
+		<input type="radio" value="4" name="wlp2pwscsel" onClick="wlp2pwscClick(this.value)" ></input> 		
+		<font size=2> <b> 3.PBC </b> </font>
+		</td>		
+	</tr>
+	
+	<tr><td colspan="2" height="10"></tr>
+		
+	<tr>
+		<td valign="top">
+		<input type="button" value="  OK  " id="cancel" onClick='confirmClick();'>		
+		</td>		
+	</tr>
+	
+</table>
+</form>
+	</blockquote>
+</body>
+</html>

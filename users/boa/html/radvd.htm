@@ -1,0 +1,180 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<title>Configuring Router Advertisement</title>
+<SCRIPT LANGUAGE="JavaScript">
+function onclick_func()
+{
+	if(Radvdform.enable_radvd.checked == false)
+	{
+		Radvdform.interfacename.disabled=true;
+		Radvdform.MaxRtrAdvInterval.disabled=true;
+		Radvdform.MinRtrAdvInterval.disabled=true;
+		Radvdform.MinDelayBetweenRAs.disabled=true;
+		Radvdform.AdvManagedFlag.disabled=true;
+		Radvdform.AdvOtherConfigFlag.disabled=true;
+		Radvdform.AdvLinkMTU.disabled=true;
+		Radvdform.AdvReachableTime.disabled=true;
+		Radvdform.AdvRetransTimer.disabled=true;
+		Radvdform.AdvCurHopLimit.disabled=true;
+		Radvdform.AdvDefaultLifetime.disabled=true;
+		Radvdform.AdvDefaultPreference.disabled=true;
+		Radvdform.AdvSourceLLAddress.disabled=true;
+		Radvdform.UnicastOnly.disabled=true;
+		
+		Radvdform.radvdprefix0_1.disabled=true;
+		Radvdform.radvdprefix0_2.disabled=true;
+		Radvdform.radvdprefix0_3.disabled=true;
+		Radvdform.radvdprefix0_4.disabled=true;
+		Radvdform.radvdprefix0_5.disabled=true;
+		Radvdform.radvdprefix0_6.disabled=true;
+		Radvdform.radvdprefix0_7.disabled=true;
+		Radvdform.radvdprefix0_8.disabled=true;
+		Radvdform.radvdprefix0_len.disabled=true;
+		Radvdform.AdvOnLinkFlag_0.disabled=true;
+		Radvdform.AdvAutonomousFlag_0.disabled=true;
+		Radvdform.AdvValidLifetime_0.disabled=true;
+		Radvdform.AdvPreferredLifetime_0.disabled=true;
+		Radvdform.AdvRouterAddr_0.disabled=true;
+		Radvdform.if6to4_0.disabled=true;
+		
+		Radvdform.radvdprefix1_1.disabled=true;
+		Radvdform.radvdprefix1_2.disabled=true;
+		Radvdform.radvdprefix1_3.disabled=true;
+		Radvdform.radvdprefix1_4.disabled=true;
+		Radvdform.radvdprefix1_5.disabled=true;
+		Radvdform.radvdprefix1_6.disabled=true;
+		Radvdform.radvdprefix1_7.disabled=true;
+		Radvdform.radvdprefix1_8.disabled=true;
+		Radvdform.radvdprefix1_len.disabled=true;
+		Radvdform.AdvOnLinkFlag_1.disabled=true;
+		Radvdform.AdvAutonomousFlag_1.disabled=true;
+		Radvdform.AdvValidLifetime_1.disabled=true;
+		Radvdform.AdvPreferredLifetime_1.disabled=true;
+		Radvdform.AdvRouterAddr_1.disabled=true;
+		Radvdform.if6to4_1.disabled=true;
+	}
+	else
+	{
+		Radvdform.interfacename.disabled=false;
+		Radvdform.MaxRtrAdvInterval.disabled=false;
+		Radvdform.MinRtrAdvInterval.disabled=false;
+		Radvdform.MinDelayBetweenRAs.disabled=false;
+		Radvdform.AdvManagedFlag.disabled=false;
+		Radvdform.AdvOtherConfigFlag.disabled=false;
+		Radvdform.AdvLinkMTU.disabled=false;
+		Radvdform.AdvReachableTime.disabled=false;
+		Radvdform.AdvRetransTimer.disabled=false;
+		Radvdform.AdvCurHopLimit.disabled=false;
+		Radvdform.AdvDefaultLifetime.disabled=false;
+		Radvdform.AdvDefaultPreference.disabled=false;
+		Radvdform.AdvSourceLLAddress.disabled=false;
+		Radvdform.UnicastOnly.disabled=false;
+		
+		Radvdform.radvdprefix0_1.disabled=false;
+		Radvdform.radvdprefix0_2.disabled=false;
+		Radvdform.radvdprefix0_3.disabled=false;
+		Radvdform.radvdprefix0_4.disabled=false;
+		Radvdform.radvdprefix0_5.disabled=false;
+		Radvdform.radvdprefix0_6.disabled=false;
+		Radvdform.radvdprefix0_7.disabled=false;
+		Radvdform.radvdprefix0_8.disabled=false;
+		Radvdform.radvdprefix0_len.disabled=false;
+		Radvdform.AdvOnLinkFlag_0.disabled=false;
+		Radvdform.AdvAutonomousFlag_0.disabled=false;
+		Radvdform.AdvValidLifetime_0.disabled=false;
+		Radvdform.AdvPreferredLifetime_0.disabled=false;
+		Radvdform.AdvRouterAddr_0.disabled=false;
+		Radvdform.if6to4_0.disabled=false;
+		
+		Radvdform.radvdprefix1_1.disabled=false;
+		Radvdform.radvdprefix1_2.disabled=false;
+		Radvdform.radvdprefix1_3.disabled=false;
+		Radvdform.radvdprefix1_4.disabled=false;
+		Radvdform.radvdprefix1_5.disabled=false;
+		Radvdform.radvdprefix1_6.disabled=false;
+		Radvdform.radvdprefix1_7.disabled=false;
+		Radvdform.radvdprefix1_8.disabled=false;
+		Radvdform.radvdprefix1_len.disabled=false;
+		Radvdform.AdvOnLinkFlag_1.disabled=false;
+		Radvdform.AdvAutonomousFlag_1.disabled=false;
+		Radvdform.AdvValidLifetime_1.disabled=false;
+		Radvdform.AdvPreferredLifetime_1.disabled=false;
+		Radvdform.AdvRouterAddr_1.disabled=false;
+		Radvdform.if6to4_1.disabled=false;
+	
+	}
+}
+</SCRIPT>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+<form method="POST" action="/boafrm/formRadvd" name=Radvdform>
+<b>Configuring Router Advertisement</b>
+<BR>  <BR>
+<td bgColor=#aaddff>Enable</td><td bgColor=#ddeeff><input type=checkbox name=enable_radvd value =1 <% getIPv6Info("enable_radvd"); %> onclick="onclick_func()"></td>
+<table cellSpacing=1 cellPadding=2 border=0>
+<tr><td bgColor=#aaddff>radvdinterfacename</td><td bgColor=#ddeeff><input type=text name=interfacename size=15 maxlength=15 value="<% getIPv6Info("radvdinterfacename"); %>"></td></tr>
+<tr><td bgColor=#aaddff>MaxRtrAdvInterval</td><td bgColor=#ddeeff><input type=text name=MaxRtrAdvInterval size=15 maxlength=15 value="<% getIPv6Info("MaxRtrAdvInterval"); %>"></td></tr>
+<tr><td bgColor=#aaddff>MinRtrAdvInterval</td><td bgColor=#ddeeff><input type=text name=MinRtrAdvInterval size=15 maxlength=15 value="<% getIPv6Info("MinRtrAdvInterval"); %>"></td></tr>
+<tr><td bgColor=#aaddff>MinDelayBetweenRAs</td><td bgColor=#ddeeff><input type=text name=MinDelayBetweenRAs size=15 maxlength=15 value="<% getIPv6Info("MinDelayBetweenRAs"); %>"></td></tr>
+<tr><td bgColor=#aaddff>AdvManagedFlag</td><td bgColor=#ddeeff><input type=checkbox name=AdvManagedFlag value =1 <% getIPv6Info("AdvManagedFlag"); %>></td></tr>
+<tr><td bgColor=#aaddff>AdvOtherConfigFlag</td><td bgColor=#ddeeff><input type=checkbox name=AdvOtherConfigFlag value =1 <% getIPv6Info("AdvOtherConfigFlag"); %>></td></tr>
+<tr><td bgColor=#aaddff>AdvLinkMTU</td><td bgColor=#ddeeff><input type=text name=AdvLinkMTU size=15 maxlength=15 value="<% getIPv6Info("AdvLinkMTU"); %>"></td></tr>
+<tr><td bgColor=#aaddff>AdvReachableTime</td><td bgColor=#ddeeff><input type=text name=AdvReachableTime size=15 maxlength=15 value="<% getIPv6Info("AdvReachableTime"); %>"></td></tr>
+<tr><td bgColor=#aaddff>AdvRetransTimer</td><td bgColor=#ddeeff><input type=text name=AdvRetransTimer size=15 maxlength=15 value="<% getIPv6Info("AdvRetransTimer"); %>"></td></tr>
+<tr><td bgColor=#aaddff>AdvCurHopLimit</td><td bgColor=#ddeeff><input type=text name=AdvCurHopLimit size=15 maxlength=15 value="<% getIPv6Info("AdvCurHopLimit"); %>"></td></tr>
+<tr><td bgColor=#aaddff>AdvDefaultLifetime</td><td bgColor=#ddeeff><input type=text name=AdvDefaultLifetime size=15 maxlength=15 value="<% getIPv6Info("AdvDefaultLifetime"); %>"></td></tr>
+<tr><td bgColor=#aaddff>AdvDefaultPreference</td><td bgColor=#ddeeff><select name=AdvDefaultPreference><option <% getIPv6Info("AdvDefaultPreference_high"); %>>high<option <% getIPv6Info("AdvDefaultPreference_medium"); %>>medium<option <% getIPv6Info("AdvDefaultPreference_low"); %>>low</select></td></tr>
+<tr><td bgColor=#aaddff>AdvSourceLLAddress</td><td bgColor=#ddeeff><input type=checkbox name=AdvSourceLLAddress value=1 <% getIPv6Info("AdvSourceLLAddress"); %>></td></tr>
+<tr><td bgColor=#aaddff>UnicastOnly</td><td bgColor=#ddeeff><input type=checkbox name=UnicastOnly value=1 <% getIPv6Info("UnicastOnly"); %>></td></tr>
+</table>
+<b>prefix1</b><BR><BR>
+<table cellSpacing=1 cellPadding=2 border=0>
+<tr><td bgColor=#aaddff>Enabled</td><td bgColor=#ddeeff><input type=checkbox name=Enabled_0 value=1 <% getIPv6Info("Enabled_0"); %>></td></tr>
+<tr><td bgColor=#aaddff>prefix</td><td bgColor=#ddeeff>
+	<input type=text name=radvdprefix0_1 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix0_1"); %>">:
+	<input type=text name=radvdprefix0_2 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix0_2"); %>">:
+	<input type=text name=radvdprefix0_3 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix0_3"); %>">:
+	<input type=text name=radvdprefix0_4 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix0_4"); %>">:
+	<input type=text name=radvdprefix0_5 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix0_5"); %>">:
+	<input type=text name=radvdprefix0_6 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix0_6"); %>">:
+	<input type=text name=radvdprefix0_7 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix0_7"); %>">:
+	<input type=text name=radvdprefix0_8 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix0_8"); %>">/
+	<input type=text name=radvdprefix0_len size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix0_len"); %>"></td></tr>
+	
+	<tr><td bgColor=#aaddff>AdvOnLinkFlag</td><td bgColor=#ddeeff><input type=checkbox name=AdvOnLinkFlag_0 value=1 <% getIPv6Info("AdvOnLinkFlag_0"); %>></td></tr>
+	<tr><td bgColor=#aaddff>AdvAutonomousFlag</td><td bgColor=#ddeeff><input type=checkbox name=AdvAutonomousFlag_0 value=1 <% getIPv6Info("AdvAutonomousFlag_0"); %>></td></tr>
+	<tr><td bgColor=#aaddff>AdvValidLifetime</td><td bgColor=#ddeeff><input type=text name=AdvValidLifetime_0 size=15 maxlength=15 value="<% getIPv6Info("AdvValidLifetime_0"); %>"></td></tr>
+	<tr><td bgColor=#aaddff>AdvPreferredLifetime</td><td bgColor=#ddeeff><input type=text name=AdvPreferredLifetime_0 size=15 maxlength=15 value="<% getIPv6Info("AdvPreferredLifetime_0"); %>"></td></tr>
+	<tr><td bgColor=#aaddff>AdvRouterAddr</td><td bgColor=#ddeeff><input type=checkbox name=AdvRouterAddr_0 value=1 <% getIPv6Info("AdvRouterAddr_0"); %>></td></tr>
+	<tr><td bgColor=#aaddff>if6to4</td><td bgColor=#ddeeff><input type=text name=if6to4_0 size=15 maxlength=15 value="<% getIPv6Info("if6to4_0"); %>"></td></tr>
+</table>
+<b>prefix2</b><BR><BR>
+<table cellSpacing=1 cellPadding=2 border=0>
+<tr><td bgColor=#aaddff>Enabled</td><td bgColor=#ddeeff><input type=checkbox name=Enabled_1 value=1 <% getIPv6Info("Enabled_1"); %>></td></tr>
+<tr><td bgColor=#aaddff>prefix</td><td bgColor=#ddeeff>
+	<input type=text name=radvdprefix1_1 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix1_1"); %>">:
+	<input type=text name=radvdprefix1_2 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix1_2"); %>">:
+	<input type=text name=radvdprefix1_3 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix1_3"); %>">:
+	<input type=text name=radvdprefix1_4 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix1_4"); %>">:
+	<input type=text name=radvdprefix1_5 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix1_5"); %>">:
+	<input type=text name=radvdprefix1_6 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix1_6"); %>">:
+	<input type=text name=radvdprefix1_7 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix1_7"); %>">:
+	<input type=text name=radvdprefix1_8 size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix1_8"); %>">/
+	<input type=text name=radvdprefix1_len size=4 maxlength=4 enable value="<% getIPv6Info("radvdprefix1_len"); %>"></td></tr>
+	
+	<tr><td bgColor=#aaddff>AdvOnLinkFlag</td><td bgColor=#ddeeff><input type=checkbox name=AdvOnLinkFlag_1 value=1 <% getIPv6Info("AdvOnLinkFlag_1"); %>></td></tr>
+	<tr><td bgColor=#aaddff>AdvAutonomousFlag</td><td bgColor=#ddeeff><input type=checkbox name=AdvAutonomousFlag_1 value=1 <% getIPv6Info("AdvAutonomousFlag_1"); %>></td></tr>
+	<tr><td bgColor=#aaddff>AdvValidLifetime</td><td bgColor=#ddeeff><input type=text name=AdvValidLifetime_1 size=15 maxlength=15 value="<% getIPv6Info("AdvValidLifetime_1"); %>"></td></tr>
+	<tr><td bgColor=#aaddff>AdvPreferredLifetime</td><td bgColor=#ddeeff><input type=text name=AdvPreferredLifetime_1 size=15 maxlength=15 value="<% getIPv6Info("AdvPreferredLifetime_1"); %>"></td></tr>
+	<tr><td bgColor=#aaddff>AdvRouterAddr</td><td bgColor=#ddeeff><input type=checkbox name=AdvRouterAddr_1 value=1 <% getIPv6Info("AdvRouterAddr_1"); %>></td></tr>
+	<tr><td bgColor=#aaddff>if6to4</td><td bgColor=#ddeeff><input type=text name=if6to4_1 size=15 maxlength=15 value="<% getIPv6Info("if6to4_1"); %>"></td></tr>
+</table>
+<input type="hidden" value="/radvd.htm" name="submit-url">
+<tr><td colspan=2><input type=submit name="submit" value="Save"></td></tr>
+</form>
+</body>
+</html>

@@ -1,0 +1,61 @@
+#!/bin/sh
+
+DIR_WEB=$DIR_USERS/goahead-2.1.1/LINUX
+
+STRIPTOOL=mips-linux-strip
+SSTRIP=rsdk-linux-sstrip
+WEBSTMP=./webs-tmp
+mgbin=$DIR_WEB/mgbin
+cvcfg_ap=$DIR_WEB/cvcfg-ap
+cvcfg_gw=$DIR_WEB/cvcfg-gw
+cvcfg_vpn=$DIR_WEB/cvcfg-vpn
+flash_ap_setting=$DIR_WEB/config-ap-89xxc
+flash_gw_setting=$DIR_WEB/config-gw-89xxc
+flash_vpn_setting=$DIR_WEB/config-vpn-89xxc
+ap_config=$flash_ap_setting.dat
+gw_config=$flash_gw_setting.dat
+vpn_config=$flash_vpn_setting.dat
+
+if [ -f $DIR_IMAGE/root.bin ]; then
+root_bin=$DIR_IMAGE/root.bin
+else
+root_bin=
+fi
+
+if [ -f $DIR_WEB/webs-ap ]; then
+web_ap_size=`cp $DIR_WEB/webs-ap $WEBSTMP; $STRIPTOOL --strip-unneeded $WEBSTMP; $SSTRIP $WEBSTMP; stat -c%s $WEBSTMP; rm -f $WEBSTMP`
+fi
+if [ -f $DIR_WEB/webs-gw ]; then
+web_gw_size=`cp $DIR_WEB/webs-gw $WEBSTMP; $STRIPTOOL --strip-unneeded $WEBSTMP; $SSTRIP $WEBSTMP; stat -c%s $WEBSTMP; rm -f $WEBSTMP` 
+fi
+if [ -f $DIR_WEB/webs-vpn ]; then
+web_vpn_size=`cp $DIR_WEB/webs-vpn $WEBSTMP; $STRIPTOOL --strip-unneeded $WEBSTMP; $SSTRIP $WEBSTMP; stat -c%s $WEBSTMP; rm -f $WEBSTMP`
+fi
+web_size=`stat -c%s $DIR_ROMFS/bin/webs`
+
+if [ "$1" = "-nocfg" ]; then
+	cv_arg="-no_hw"
+	mg_arg="-c"
+	ap_config=
+	gw_config=
+	vpn_config=
+elif [ "$1" = "-web" ]; then
+	cv_arg="-no_hw"
+	mg_arg="-c"
+else
+	cv_arg="-r -no_hw"
+	mg_arg=""
+fi
+
+if [ "$web_ap_size" = "$web_size" ]; then
+	$cvcfg_ap $cv_arg -no_hw $flash_ap_setting.txt $flash_ap_setting.dat
+	$mgbin $mg_arg -o $DIR_IMAGE/rtl89xxc-ap.bin $ap_config $DIR_IMAGE/webpages-ap.bin $DIR_IMAGE/linux.bin $root_bin
+elif [ "$web_gw_size" = "$web_size" ]; then
+	$cvcfg_gw $cv_arg -no_hw $flash_gw_setting.txt $flash_gw_setting.dat
+	$mgbin $mg_arg -o $DIR_IMAGE/rtl89xxc-gw.bin $gw_config $DIR_IMAGE/webpages-gw.bin $DIR_IMAGE/linux.bin $root_bin
+elif [ "$web_vpn_size" = "$web_size" ]; then
+	$cvcfg_vpn $cv_arg -no_hw $flash_vpn_setting.txt $flash_vpn_setting.dat
+	$mgbin $mg_arg -o $DIR_IMAGE/rtl89xxc-vpn.bin $vpn_config $DIR_IMAGE/webpages-vpn.bin $DIR_IMAGE/linux.bin $root_bin
+else 
+	echo "$0 failed"
+fi

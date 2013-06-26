@@ -1,0 +1,19 @@
+
+comment "rtl8196e"
+choice
+prompt "Selected Board Configuration"
+default MODEL_RTL8196E_92D_GW
+
+config MODEL_RTL8196E_92D_GW
+        bool "96E+92D GW"
+
+config MODEL_RTL8196E_92C_GW
+        bool "96E+92C GW"
+
+config MODEL_RTL8196E_88E_GW
+        bool "96E+88E GW"
+
+config MODEL_RTL8196E_MP
+        bool "MP"
+
+endchoice

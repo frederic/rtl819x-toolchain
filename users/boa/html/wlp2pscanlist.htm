@@ -1,0 +1,68 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2003. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>Wireless Site Survey</title>
+<script type="text/javascript" src="util_gw.js"> </script>
+<script>
+var connectEnabled=0, autoconf=0;
+
+function p2pSelect(selId)
+{ 	
+	
+
+	pForm=parent.document;
+
+
+	if(pForm.getElementById("selDeviceName"))
+		pForm.getElementById("selDeviceName").value = get_by_id("selDeviceName_"+selId).value;
+
+
+				
+	if(pForm.getElementById("selChannel"))
+		pForm.getElementById("selChannel").value = get_by_id("selChannel_"+selId).value;
+
+
+		
+	if(pForm.getElementById("selMacAddr"))
+		pForm.getElementById("selMacAddr").value = get_by_id("selMacAddr_"+selId).value;
+		
+	if(pForm.getElementById("selRole"))
+		pForm.getElementById("selRole").value = get_by_id("selRole_"+selId).value;
+		
+	if(pForm.getElementById("selWSCMethod"))
+		pForm.getElementById("selWSCMethod").value = get_by_id("selWSCMethod_"+selId).value;	  	
+}
+
+function p2pscan(ifname)  
+{  
+	document.formWlP2PScan.ifname.value = "wlan"+ifname;
+	document.formWlP2PScan.submit();
+
+}
+</script>
+</head>
+<body>
+
+
+<form action=/boafrm/formWlP2PScan method=POST name="formWlP2PScan">
+	<input type="hidden" value="p2pScan" name="refresh"> 
+  <input type="hidden" value="/wlp2pscanlist.htm" name="submit-url">
+  <input type="hidden" value="" name="ifname">
+  <table border="1" width="500">  
+  	
+	
+  <% wlP2PScanTbl(); %>
+ 
+
+ 
+  </table>
+  <br>
+  
+ 
+</form>
+
+
+</body>
+</html>

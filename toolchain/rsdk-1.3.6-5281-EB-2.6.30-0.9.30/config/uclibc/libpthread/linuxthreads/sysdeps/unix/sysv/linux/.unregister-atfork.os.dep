@@ -1,0 +1,111 @@
+libpthread/linuxthreads/sysdeps/unix/sysv/linux/unregister-atfork.os \
+  libpthread/linuxthreads/sysdeps/unix/sysv/linux/unregister-atfork.os:  \
+ libpthread/linuxthreads/sysdeps/unix/sysv/linux/unregister-atfork.c \
+  ././include/libc-symbols.h ./include/bits/uClibc_arch_features.h \
+  ./include/errno.h ./include/features.h ./include/bits/uClibc_config.h \
+  ./include/sys/cdefs.h ./include/libc-internal.h \
+  ./include/bits/stackinfo.h ./include/bits/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/linux/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm-generic/errno-base.h \
+  ./include/bits/uClibc_errno.h ./include/tls.h ./include/stdlib.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h \
+  ./include/bits/waitflags.h ./include/bits/waitstatus.h \
+  ./include/endian.h ./include/bits/endian.h ./include/sys/types.h \
+  ./include/bits/types.h ./include/bits/wordsize.h \
+  ./include/bits/kernel_types.h ./include/bits/typesizes.h \
+  ./include/bits/pthreadtypes.h ./include/bits/sched.h ./include/time.h \
+  ./include/sys/select.h ./include/bits/select.h ./include/bits/sigset.h \
+  ./include/bits/time.h ./include/sys/sysmacros.h ./include/alloca.h \
+  libpthread/linuxthreads/sysdeps/unix/sysv/linux/fork.h \
+  ./libpthread/linuxthreads/sysdeps/pthread/list.h \
+  ./libpthread/linuxthreads/sysdeps/pthread/bits/libc-lock.h \
+  ./include/pthread.h ./include/sched.h ./include/bits/uClibc_clk_tck.h \
+  ./include/signal.h ./include/bits/initspin.h ./include/bits/sigthread.h
+
+././include/libc-symbols.h:
+
+./include/bits/uClibc_arch_features.h:
+
+./include/errno.h:
+
+./include/features.h:
+
+./include/bits/uClibc_config.h:
+
+./include/sys/cdefs.h:
+
+./include/libc-internal.h:
+
+./include/bits/stackinfo.h:
+
+./include/bits/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/linux/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/asm-generic/errno-base.h:
+
+./include/bits/uClibc_errno.h:
+
+./include/tls.h:
+
+./include/stdlib.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h:
+
+./include/bits/waitflags.h:
+
+./include/bits/waitstatus.h:
+
+./include/endian.h:
+
+./include/bits/endian.h:
+
+./include/sys/types.h:
+
+./include/bits/types.h:
+
+./include/bits/wordsize.h:
+
+./include/bits/kernel_types.h:
+
+./include/bits/typesizes.h:
+
+./include/bits/pthreadtypes.h:
+
+./include/bits/sched.h:
+
+./include/time.h:
+
+./include/sys/select.h:
+
+./include/bits/select.h:
+
+./include/bits/sigset.h:
+
+./include/bits/time.h:
+
+./include/sys/sysmacros.h:
+
+./include/alloca.h:
+
+libpthread/linuxthreads/sysdeps/unix/sysv/linux/fork.h:
+
+./libpthread/linuxthreads/sysdeps/pthread/list.h:
+
+./libpthread/linuxthreads/sysdeps/pthread/bits/libc-lock.h:
+
+./include/pthread.h:
+
+./include/sched.h:
+
+./include/bits/uClibc_clk_tck.h:
+
+./include/signal.h:
+
+./include/bits/initspin.h:
+
+./include/bits/sigthread.h:
+cmd_libpthread_linuxthreads_sysdeps_unix_sysv_linux_unregister-atfork.os := rsdk-linux-gcc -c libpthread/linuxthreads/sysdeps/unix/sysv/linux/unregister-atfork.c -o libpthread/linuxthreads/sysdeps/unix/sysv/linux/unregister-atfork.os -include include/libc-symbols.h -Wall -Wstrict-prototypes -fno-strict-aliasing -fPIC -mabi=32 -fno-builtin -nostdinc -Iinclude -I. -Ilibc/sysdeps/linux/rlx -fno-asm -march=5181 -EL -msoft-float -DUCLIBC_INTERNAL -std=gnu99 -Os -funit-at-a-time -mno-split-addresses -Ilibpthread/linuxthreads/sysdeps/unix/sysv/linux/rlx -Ilibpthread/linuxthreads/sysdeps/rlx -Ilibpthread/linuxthreads/sysdeps/unix/sysv/linux -Ilibpthread/linuxthreads/sysdeps/pthread -Ilibpthread/linuxthreads -Ilibpthread -I/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.23/include/ -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6//include-fixed -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6/include -DNDEBUG "-mno-split-addresses" -DNOT_IN_libc -DIS_IN_libpthread -MT libpthread/linuxthreads/sysdeps/unix/sysv/linux/unregister-atfork.os -MD -MP -MF libpthread/linuxthreads/sysdeps/unix/sysv/linux/.unregister-atfork.os.dep

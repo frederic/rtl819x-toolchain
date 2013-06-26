@@ -1,0 +1,31 @@
+#!/bin/sh
+
+SQUASHFS_PF_LIST=squashfs-pf-list.txt
+
+
+if [ -f squashfs-pf-list.txt ] 
+then
+	echo pocess $SQUASHFS_PF_LIST
+else
+	echo $SQUASHFS_PF_LIST does not exist
+	exit -1
+fi
+
+RAMFSDIR=$PWD/romfs
+
+a=0
+while read line
+do  a=$(($a+1));
+	name=`echo $line |cut -d" " -f1`
+	#name=`echo $lname |cut -d"/" -f3`
+	type=`echo $line |cut -d" " -f2 `
+	major=`echo $line |cut -d" " -f6 `
+	minor=`echo $line |cut -d" " -f7 `
+    echo $name $type $major $minor
+    #echo $a;
+	mknod -m666 $RAMFSDIR/$name $type $major $minor
+	chmod 777 $RAMFSDIR/$name
+done < $SQUASHFS_PF_LIST
+
+echo "Total dev count is: $a";
+

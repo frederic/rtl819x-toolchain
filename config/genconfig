@@ -1,0 +1,189 @@
+#! /bin/sh
+#############################################################################
+
+# Realtek Semiconductor Corp.
+#
+# Tony Wu (tonywu@realtek.com)
+# Aug. 12, 2008
+#
+
+#############################################################################
+
+echo_separator()
+{
+	echo "##############################################################"
+	echo
+}
+
+#############################################################################
+
+echo "mainmenu \"RLX Linux Configuration\""
+echo
+
+echo "comment  \"select components\""
+
+#
+# select target board
+#
+echo "choice"
+echo "  prompt \"Selected Target\""
+GOTDEFAULT="no"
+
+find boards -type d -maxdepth 1 -mindepth 1 -print | grep -v .svn | \
+       sed -e 's?^boards/??' -e 's?/[^/]*$??' -e 's?/? ?g' | \
+       (sort; echo "END END") | while read v p 
+
+do
+   [ "$v" = "internal" ] && continue
+   [ "$v" = "template" ] && continue
+   [ "$v" = END ] && break
+	CFG="BOARD_$v"
+	DEF="$v"
+	echo "config ${CFG}"
+	echo "	bool \"${DEF}\""
+done
+
+echo "endchoice"
+echo
+echo "config BOARDDIR"
+echo " string"
+echo
+
+echo_separator
+
+#############################################################################
+
+echo
+
+#
+# select kernel version 
+#
+
+KERNELS="`ls -dr linux-* 2>/dev/null`"
+echo "choice"
+echo "	prompt \"Selected Kernel\""
+GOTDEFAULT="no"
+
+for i in ${KERNELS}; do
+    VER=${i##linux-}
+	CFG="LINUX_${VER}"
+	DEF="linux-${VER}"
+	if  [ $GOTDEFAULT = "no" ]
+	then
+		echo "	default ${CFG}"
+		echo
+		GOTDEFAULT="yes"
+	fi
+	echo "config ${CFG}"
+	echo "	bool \"${DEF}\""
+	echo
+done
+
+echo "endchoice"
+echo
+
+echo "config LINUXDIR"
+echo "	string"
+echo
+
+#############################################################################
+
+#
+# select busybox version 
+#
+echo "choice"
+echo "  prompt \"Selected Busybox\""
+GOTDEFAULT="no"
+
+find users -type d -name 'busybox-*' -maxdepth 1 -mindepth 1 -print | \
+       sed -e 's?^users/??' -e 's?/[^/]*$??' -e 's?/? ?g' | \
+       (sort; echo "END END") | while read v p 
+
+do
+   [ "$v" = END ] && break
+	CFG="BZBOX_$v"
+	DEF="$v"
+	echo "config ${CFG}"
+	echo "	bool \"${DEF}\""
+done
+                                                                                                    
+echo "endchoice"
+echo
+echo "config BZBOXDIR"
+echo " string"
+echo
+
+#
+# select toolchain version 
+#
+echo "choice"
+echo "  prompt \"Selected toolchain\""
+GOTDEFAULT="no"
+
+find toolchain -type d -name 'rsdk-*' -maxdepth 1 -mindepth 1 -print | \
+       sed -e 's?^toolchain/??' -e 's?/[^/]*$??' -e 's?/? ?g' | \
+       (sort; echo "END END") | while read v p 
+
+do
+   [ "$v" = END ] && break
+	CFG="RSDK_$v"
+	DEF="$v"
+	echo "config ${CFG}"
+	echo "	bool \"${DEF}\""
+done
+                                                                                                    
+echo "endchoice"
+echo
+echo "config RSDKDIR"
+echo " string"
+echo
+
+find boards -type d -maxdepth 1 -mindepth 1 -print | grep -v .svn | \
+       sed -e 's?^boards/??' -e 's?/[^/]*$??' -e 's?/? ?g' | \
+       (sort; echo "END END") | while read v p 
+
+do
+   [ "$v" = "internal" ] && continue
+   [ "$v" = "template" ] && continue
+   [ "$v" = END ] && break
+	CFG="BOARD_$v"
+	DEF="$v"
+	if [ -f "boards/${DEF}/board-configuration.in" ]
+	then
+		echo "if ${CFG}"
+		echo "	source \"boards/${DEF}/board-configuration.in\""
+		echo "endif"
+	fi
+done
+
+echo_separator
+#############################################################################
+
+echo "comment  \"config components\""
+
+cat <<!EOF
+config MCONF_LINUX
+	bool "Config kernel"
+
+!EOF
+
+cat <<!EOF
+config MCONF_USERS
+	bool "Config users"
+!EOF
+
+cat <<!EOF
+config MCONF_BZBOX
+	bool "Config busybox"
+!EOF
+
+cat <<!EOF
+config MCONF_LOAD
+	bool "Load default settings"
+
+config MCONF_SAVE
+	bool "Save default settings"
+
+!EOF
+
+############################################################################

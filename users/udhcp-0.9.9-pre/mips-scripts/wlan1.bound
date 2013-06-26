@@ -1,0 +1,63 @@
+#!/bin/sh
+# udhcpc bound script
+
+RESOLV_CONF="/etc/udhcpc/resolv.conf"
+GETMIB="flash get"
+START_FIREWALL=firewall.sh
+
+[ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+[ -n "$subnet" ] && NETMASK="netmask $subnet"
+
+ifconfig $interface $ip $BROADCAST $NETMASK
+
+if [ "$router" ]
+then
+	echo "deleting routers"
+	while route del default dev $interface
+	do :
+	done
+
+	for i in $router
+	do
+		route add -net default gw $i dev $interface
+	done
+fi
+
+echo -n > $RESOLV_CONF
+[ -n "$domain" ] && echo domain $domain >> $RESOLV_CONF
+
+DNS="--cache=off"
+eval `$GETMIB DNS_MODE`
+if [ $DNS_MODE = '0' ]; then
+	for i in $dns
+	do
+		echo adding dns $i
+		echo nameserver $i >> $RESOLV_CONF
+		DNS="$DNS -s $i"
+	done
+else
+	eval `$GETMIB DNS1`
+	if [ "$DNS1" != '0.0.0.0' ]; then
+		DNS="$DNS -s $DNS1"
+	fi
+	eval `$GETMIB DNS2`
+	if [ "$DNS2" != '0.0.0.0' ]; then
+		DNS="$DNS -s $DNS2"
+	fi
+	eval `$GETMIB DNS3`
+	if [ "$DNS3" != '0.0.0.0' ]; then
+		DNS="$DNS -s $DNS3"
+	fi
+fi
+
+echo start DNS Relay Daemon
+dnrd $DNS
+
+# enable firewall
+echo 'Set Firewall...'
+$START_FIREWALL
+#upnp.sh
+if [ -f /bin/vpn.sh ]; then
+        echo 'Setup VPN'
+	vpn.sh all
+fi

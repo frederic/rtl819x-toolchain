@@ -1,0 +1,7 @@
+mkdir -p /usr/local/sbin /usr/local/man/man5 /usr/local/man/man8
+mkdir: cannot create directory `/usr/local/man/man5': Permission denied
+mkdir: cannot create directory `/usr/local/man/man8': Permission denied
+make: [install] Error 1 (ignored)
+_install -c -s -o bin -g bin dhcp6c dhcp6s dhcp6relay dhcp6ctl /usr/local/sbin
+make: _install: Command not found
+make: *** [install] Error 127

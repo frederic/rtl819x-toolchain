@@ -1,0 +1,54 @@
+#include <linux/kernel.h>   
+#include <linux/fs.h>       
+#include <linux/wrapper.h>  
+#include <asm/uaccess.h>
+#include <asm/unaligned.h>
+#include <linux/config.h>
+#include <linux/netdevice.h>		
+#include <linux/skbuff.h>		
+#include <linux/stddef.h>		
+#include <linux/netfilter.h>		
+
+#include "../include/type.h"
+
+#include "rtk_system.h"
+#include "rtk_system_netfilter.h"
+
+int do_rtk_system_set_ctl(struct sock *sk, int cmd, void *user, unsigned int len)
+{
+  TstVoipMgrSession myreg;
+
+  switch (cmd)
+  {
+	case RTK_TRAP_SET_REG:
+		printk("REGISTER\n");
+		copy_from_user(&myreg, (TstVoipMgrSession*)user, sizeof(TstVoipMgrSession));
+		rtk_trap_register(&myreg, 0, NULL);
+		break;
+	default:
+		break;  
+  }
+  return 0;
+}
+
+
+int do_rtk_system_get_ctl(struct sock *sk, int cmd, void *user, int *len)
+{
+
+  switch(cmd)
+  {
+	case RTK_TRAP_GET_DBG:
+		break;
+
+	default:
+		break;  
+  }
+  return 0;
+ }
+
+struct nf_sockopt_ops rtk_system_sockopts = {
+                { NULL, NULL }, PF_INET,
+                RTK_SYSTEM_BASE_CTL, RTK_SYSTEM_SET_MAX+1, do_rtk_system_set_ctl,
+                RTK_SYSTEM_BASE_CTL, RTK_SYSTEM_GET_MAX+1, do_rtk_system_get_ctl
+};
+

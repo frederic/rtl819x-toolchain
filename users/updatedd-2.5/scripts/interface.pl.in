@@ -1,0 +1,49 @@
+#!@PERL@ -w
+#
+# Copyright (C) 2004, 2005 Philipp Benner
+#
+# This file is part of UpdateDD - http://updatedd.philipp-benner.de.
+#
+# UpdateDD is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# any later version.
+#
+# UpdateDD is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with UpdateDD; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+use strict;
+
+my $ipv4_rex = qr/(?:\d{1,3}\.){3}\d{1,3}/imosx;
+
+sub print_usage($) {
+
+    my $file = shift;
+
+    print($file "Usage: interface.pl IFNAME\n");
+
+}
+
+if(@ARGV != 1) {
+    print("wrong usage\n");
+    print("See `interface.pl --help' for more information.\n");
+    exit(1);
+}
+if($ARGV[0] eq "--help") {
+    print_usage(\*STDOUT);
+    exit(0);
+}
+
+my $output = `ifconfig $ARGV[0]`;
+if($output =~ /inet \w+:($ipv4_rex)/) {
+    print("$1\n");
+} elsif($output =~ /inet ($ipv4_rex)/) {
+    print("$1\n");
+}
+

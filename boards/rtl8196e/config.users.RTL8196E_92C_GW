@@ -1,0 +1,110 @@
+#
+# Automatically generated make config: don't edit
+# RLX Linux builder
+# Thu Jan  5 15:50:11 2012
+#
+
+#
+# Applications
+#
+CONFIG_APP_AUTH=y
+# CONFIG_APP_AUTH_2NDSRV is not set
+CONFIG_APP_BRCTL=y
+CONFIG_APP_BUSYBOX=y
+# CONFIG_APP_LOGIN_CONSOLE is not set
+# CONFIG_APP_CTORRENT is not set
+# CONFIG_APP_DCTS is not set
+# CONFIG_APP_DHCPV6 is not set
+# CONFIG_APP_DISCOVER is not set
+CONFIG_APP_DNRD=y
+# CONFIG_APP_DNSMASQ is not set
+# CONFIG_APP_DOSFSCK is not set
+# CONFIG_APP_GDBSERVER is not set
+CONFIG_APP_BOA=y
+# CONFIG_APP_UWIFI is not set
+# CONFIG_APP_GPROXY is not set
+# CONFIG_APP_MULTIPPPOE is not set
+CONFIG_APP_IAPP=y
+CONFIG_APP_IGMPPROXY=y
+# CONFIG_IGMPPROXY_MULTIWAN is not set
+# CONFIG_IGMPV3_SUPPORT is not set
+CONFIG_APP_IPROUTE=y
+CONFIG_APP_IPTABLES=y
+# CONFIG_APP_L7FILTER_PAT is not set
+CONFIG_APP_IWCONTROL=y
+CONFIG_APP_L2TPD=y
+CONFIG_APP_LLTDD=y
+CONFIG_APP_MINI_UPNP=y
+CONFIG_APP_MINIIGD=y
+# CONFIG_APP_MKDOSFS is not set
+# CONFIG_APP_MP is not set
+# CONFIG_APP_NTFS3G is not set
+CONFIG_APP_NTPCLIENT=y
+# CONFIG_APP_OPENSSL is not set
+
+#
+# Choose openssl version.
+#
+# CONFIG_APP_ORAYDDNS is not set
+# CONFIG_APP_PATHSEL is not set
+CONFIG_APP_PPPD=y
+CONFIG_APP_PPTP=y
+# CONFIG_APP_ECMH is not set
+# CONFIG_APP_RADVD is not set
+CONFIG_APP_RELOAD=y
+CONFIG_APP_ROUTED=y
+CONFIG_APP_RTK_CMD=y
+# CONFIG_APP_SAMBA is not set
+CONFIG_APP_SCRIPT=y
+CONFIG_APP_SQUASHFS40=y
+# CONFIG_APP_SNMP is not set
+# CONFIG_APP_TR069 is not set
+CONFIG_APP_UDHCPD=y
+CONFIG_APP_UPDATEDD=y
+# CONFIG_APP_USBMOUNT is not set
+# CONFIG_APP_VSFTPD is not set
+CONFIG_APP_WIRELESSTOOLS=y
+CONFIG_APP_WSC=y
+# CONFIG_APP_HOSTAPD is not set
+# CONFIG_APP_RTK_VOIP is not set
+# CONFIG_APP_PMC_UTILS is not set
+# CONFIG_APP_HOSTAPD_SLAVE is not set
+# CONFIG_APP_RTK_INBAND_CTL is not set
+# CONFIG_APP_RTK_INBAND_HOST is not set
+# CONFIG_APP_NFBI is not set
+# CONFIG_APP_NFBI_HOST is not set
+# CONFIG_APP_IOH is not set
+# CONFIG_APP_NMBS is not set
+
+#
+# USB3G support
+#
+# CONFIG_APP_COMGT is not set
+# CONFIG_APP_CHAT is not set
+# CONFIG_APP_LIBUSB is not set
+# CONFIG_APP_USBMODESWITCH is not set
+# CONFIG_APP_MBPK_EJECT is not set
+# CONFIG_APP_USBMODESWITCH_DATA is not set
+# CONFIG_APP_USBUTILS is not set
+# CONFIG_APP_HUBCTRL is not set
+# CONFIG_APP_MNET is not set
+
+#
+# Libraries
+#
+# CONFIG_LIB_PNG is not set
+# CONFIG_LIB_Z is not set
+# CONFIG_APP_FLEX is not set
+
+#
+# Debug & Test
+#
+# CONFIG_APP_CLE_SHELL is not set
+# CONFIG_APP_UTILS is not set
+# CONFIG_APP_IPERF is not set
+# CONFIG_APP_DHRYSTONE is not set
+# CONFIG_APP_IOZONE is not set
+# CONFIG_APP_LTP is not set
+# CONFIG_APP_EXAMPLE is not set
+# CONFIG_APP_DLNA_DMS is not set
+# CONFIG_APP_MT_DAAPD is not set

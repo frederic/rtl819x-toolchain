@@ -1,0 +1,8 @@
+4c4
+< # Fri Oct  5 16:30:39 2012
+---
+> # Fri Jan  4 17:00:16 2013
+56c56
+< # CONFIG_APP_ROUTED is not set
+---
+> CONFIG_APP_ROUTED=y

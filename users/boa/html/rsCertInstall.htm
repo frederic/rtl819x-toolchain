@@ -1,0 +1,138 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2003. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>WAPI Certification Installation</title>
+<style>
+.on {display:on}
+.off {display:none}
+</style>
+<script type="text/javascript" src="util_gw.js"></script>
+<script>
+var MWJ_progBar = 0;
+var time=0;
+var delay_time=1000;
+var loop_num=0;
+
+function progress()
+{
+  if (loop_num == 3) {
+	alert("Update 802.1x user cert failed!");
+	return false;
+  }
+  if (time < 1) 
+	time = time + 0.033;
+  else {
+	time = 0;
+	loop_num++;
+  }
+  setTimeout('progress()',delay_time);  
+  myProgBar.setBar(time); 
+}
+
+function sendClicked(F, flag)
+{
+	if(flag != 1){	
+		if((document.upload8021xUserCert == F) && (document.upload8021xUserCert.radiusUserCert.value == "")){
+			F.radiusUserCert.focus();
+			alert("Please select a file include 802.1x user cert and private key!");
+			return false;
+		}
+		else if((document.upload8021xRootCert == F) && (document.upload8021xRootCert.radiusRootCert.value == "")){
+			F.radiusRootCert.focus();
+			alert("Please select a file include 802.1x root cert!");
+			return false;
+		}
+	}
+	
+	F.submit();
+	show_div(true, "progress_div");   
+	progress();
+}
+</script>
+
+</head>
+<BODY>
+<blockquote>
+<h2><font color="#0000FF">802.1x Certificates Installation</font></h2>
+
+<form method="post" action="/boafrm/formUpload8021xUserCert" enctype="multipart/form-data" name="upload8021xUserCert">
+<table border="0" cellspacing="4" width="500">
+ <tr><font size=2>
+ This page allows you to install 802.1x certificates used for wlan client mode of our AP. Note: after update 802.1x certificates, 
+ our AP must do apply changes to make 802.1x certificates active.
+ </tr>
+  <tr><hr size=1 noshade align=top></tr>
+
+  <tr>
+      <td width="30%"><font size=2><b>User Certificate: </b></td>
+      <td width="70%"><font size=2><input type="file" id="radius_user_cert" name="radiusUserCert" size="24" maxlength="64" value=""></td>
+  </tr>
+
+  </table> 
+    <p> <input onclick="sendClicked(this.form,0);" type=button value="Upload" name="radiusUserCertUpload">&nbsp;&nbsp;    
+	<input type="reset" value="Reset" name="reset">
+
+	<input type="hidden" value="/rsCertInstall.htm" name="submit-url">
+	<input type="hidden" value="user" name="uploadCertType">
+	<input type="hidden" value="0" name="delAllCerts">
+    </p>
+ </form>
+
+<form method="post" action="/boafrm/formUpload8021xUserCert" enctype="multipart/form-data" name="upload8021xRootCert">
+<table border="0" cellspacing="4" width="500">
+ <tr><font size=2>
+ </tr>
+  <tr><hr size=1 noshade align=top></tr>
+
+  <tr>
+      <td width="30%"><font size=2><b>Root Certificate: </b></td>
+      <td width="70%"><font size=2><input type="file" id="radius_root_cert" name="radiusRootCert" size="24" maxlength="64" value=""></td>
+  </tr>
+  </table>
+    <p> <input onclick="sendClicked(this.form,0);" type=button value="Upload" name="radiusRootCertUpload">&nbsp;&nbsp;
+        <input type="reset" value="Reset" name="reset">
+
+        <input type="hidden" value="/rsCertInstall.htm" name="submit-url">
+	<input type="hidden" value="root" name="uploadCertType">
+	<input type="hidden" value="0" name="delAllCerts">
+ 
+    </p>
+ </form>
+
+ <form method="post" action="/boafrm/formUpload8021xUserCert" enctype="multipart/form-data" name="del8021xAllCerts">
+<table border="0" cellspacing="4" width="500">
+ <tr><font size=2>
+ </tr>
+  <tr><hr size=1 noshade align=top></tr>
+
+  <tr>
+      <td width="30%"><font size=2><b>Delete All Certificates: </b></td>
+      <td width="70%"><font size=2><input onclick="sendClicked(this.form,1);" type=button value="Delete" name="del"></td>
+  </tr>
+  </table>
+    <p>
+
+       <input type="hidden" value="/rsCertInstall.htm" name="submit-url">
+	<input type="hidden" value="1" name="delAllCerts">
+ 
+    </p>
+ </form>
+ 
+ <script type="text/javascript" language="javascript1.2">
+		var myProgBar = new progressBar(
+			1,         //border thickness
+			'#000000', //border colour
+			'#ffffff', //background colour
+			'#043db2', //bar colour
+			300,       //width of bar (excluding border)
+			15,        //height of bar (excluding border)
+			1          //direction of progress: 1 = right, 2 = down, 3 = left, 4 = up
+		);
+</script>
+ 
+ 
+ </blockquote>
+</body>
+</html>

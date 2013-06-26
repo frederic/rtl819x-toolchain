@@ -1,0 +1,355 @@
+/**
+ * @mainpage VoIP Interface
+ *
+ * @brief The Interface for VoIP Application.
+ *
+ * @section versoin Version History
+ *
+ * @verbatim
+ * -----------------------------------------------------------------------------
+ * Ver    | Date       | Note
+ * -----------------------------------------------------------------------------
+ * 2.5.2  | 05/20/2011 | 2.5.2 SDK release
+ * -----------------------------------------------------------------------------
+ * @endverbatim
+ *
+ * @section VoIP Architecture
+ * @image html voip_architecture.jpg
+ */
+
+/**
+ * @defgroup VOIP_VLAN VLAN
+ * @brief The VLAN Interface.
+ */
+
+/**
+ * @defgroup VOIP_DSP DSP
+ * @brief The DSP Interface.
+ */
+
+/**
+ * @defgroup VOIP_NET NETWORK
+ * @brief The Network Interface.
+ */
+
+/**
+ * @defgroup VOIP_PHONE Phone
+ * @brief The Phone Interface.
+ */
+
+/**
+ * @defgroup VOIP_FXS FXS
+ * @brief The FXS Interface.\n
+ * When the platform is with virtual DAA, the FXS interface is used.
+ * @ingroup VOIP_PHONE
+ */
+
+/**
+ * @defgroup VOIP_FXO FXO
+ * @brief The FXO Interface.\n
+ * @ingroup VOIP_PHONE
+ */
+
+/**
+ * @defgroup VOIP_FXO_REAL_DAA FXO - Real DAA
+ * @brief The FXO Real DAA Interface.\n
+ * When the platform is with real DAA, this interface is used.
+ * @ingroup VOIP_FXO
+ */
+
+/**
+ * @defgroup VOIP_FXO_VIRTUAL_DAA FXO - Virtual DAA
+ * @brief The FXO Virtual DAA Interface.\n
+ * When the platform is with virtual DAA, this interface is used.
+ * @ingroup VOIP_FXO
+ */
+
+/**
+ * @defgroup VOIP_FXS_RING FXS - Ring
+ * @brief The Ring Setting Interface.
+ * @ingroup VOIP_FXS
+ */
+
+/**
+ * @defgroup VOIP_FXS_CALLERID FXS - Caller ID
+ * @brief The Caller ID Setting Interface.
+ * @ingroup VOIP_FXS
+ */
+
+/**
+ * @defgroup VOIP_FXO_CALLERID FXO - Caller ID
+ * @brief The Caller ID Setting Interface.
+ * @ingroup VOIP_FXO
+ */
+
+/**
+ * @defgroup VOIP_SESSION VoIP Session
+ * @brief The VoIP Session Interface.
+ *
+ * Realtek TAPI has three kinds of  network connections (RTP, RTCP and T.38). Those connections has four steps: <br>
+ * Open Connection: Establish a network connection. <br>
+ * Start Codec: Set the payload type what you want to select the codec.<br>
+ * Start Connection: Call a TAPI of start conection to start sending/receiving. <br>
+ * Close Connection/Stop Codec: Close the network connection and its codec to inactive the seesion. <br>
+ * @note Because the kernal space design considerations, each of these four steps can only be set <b>SEQUENTIALLY</b>.<br>
+ *       For Start Connection and Close Connection/Stop Codec TAPI, RTP and RTCP share the same function.
+ * Close Connection/Stop Codec: Close the network connection and its codec to inactive the seesion. <br> <br>
+ *           For example: Establish RTP session connection and then close it. </b> Each of these four steps <b>MUST</b> be set <b>SEQUENTIALLY</b>.<br>
+ *           <b>Establish RTP session connection:</b><br>
+ *           \htmlonly  <font color=#FF0000>
+ *           1. rtk_SetRtcpConfig() <br>2. rtk_SetRtpPayloadType() <br>3. rtk_SetRtpSessionState(sendreceive) <br>
+ *           </font> \endhtmlonly
+ *           The RTP session has been established at this time. <br><br>
+ *           <b>Close RTP connection:</b><br>  \htmlonly  <font color=#FF0000>4. rtk_SetRtpSessionState(inactive) <br></font> \endhtmlonly
+ *           The RTP session will be closed and its codec invalid. 
+ * @note  1. Because the kernal space design considerations, each of these four steps can only be set <b>SEQUENTIALLY</b>.<br>
+ *        2. Each step can not be reused during VoIP session setup.<br>
+ *        3. For Start Connection and Close Connection/Stop Codec TAPI, RTP and RTCP share the same function.
+ *  \htmlonly  <font color=#000000> <br> <br>
+ * <table border=1 width=90% style="border-collapse:collapse;" borderColor=black > 
+ * <td> </td> <td align=center><b>RTP</b></td> <td align=center><b>RTCP</b></td> <td align=center><b>T.38</b></td><tr>  
+ * <td align=left><b>Open Connection </b></td> <td align=left>rtk_SetRtpConfig(rtp_config_t*) </td>
+ * <td align=left>rtk_SetRtcpConfig(rtcp_config_t *) </td>  <td align=left>rtk_SetT38UdpConfig(t38udp_config_t*) </td><tr> 
+ * <td align=left><b>Start Codec</b> </td> <td align=left>rtk_SetRtpPayloadType(payloadtype_config_t*)</td> 
+ * <td align=left>N/A </td> <td align=left>rtk_SetT38PayloadType(t38_payloadtype_config_t *)</td><tr>
+ * <td align=left><b>Start Connection</b></td> 
+ * <td colspan=2 align=center>rtk_SetRtpSessionState( chid, sid, state )<br>state = rtp_session_sendrecv</td> <td align=left>N/A </td><tr>
+ * <td align=left><b>Close Connection <br>Stop Codec</b></td> 
+ * <td colspan=2 align=center>rtk_SetRtpSessionState( chid, sid, state )<br>state = rtp_session_inactive </td> <td align=left>rtk_SetSessionInactive( chid, sid ) </td> <tr>   
+ * </table> </font> \endhtmlonly 
+ */
+
+/**
+ * @defgroup VOIP_SESSION_TONE VoIP Session - Tone
+ * @brief The Tone Setting Interface.
+ * @ingroup VOIP_SESSION
+ */
+
+/**
+ * @defgroup VOIP_SESSION_RTP VoIP Session - RTP
+ * @brief The RTP Setting Interface. <p>
+ * @ingroup VOIP_SESSION
+ * \htmlonly 
+ * <H2>RTP</H2>
+ * The RTP configuration includes RTP and RTCP. For RTP, the developer can set 
+ * the payload type as g.911, g.722, g.723, g.726, g.729, AMR, GSM and iLBC etc. <p>
+ * There are 5 states for session state. They are rtp_session_undefined, 
+ * rtp_session_inactive, rtp_session_sendonly, rtp_session_recvonly and 
+ * rtp_session_sendrecv. <p>
+ * Both RTP sessions are transmitting when session state 
+ * is set to be rtp_session_sendrecv. In hold case, the holding peer will set 
+ * rtp_session_sendonly which means to stop receiving the voice data through RTP 
+ * while the held peer will set rtp_session_recvonly which means to stop sending 
+ * the voice data through RTP. In this case, only the held peer can hear the 
+ * voice data form holding peer. The music on hold can be achieved by this way. 
+ * The rtp_session_inactive can be used for both peers stop sending and receiving
+ * any voice data. <p>
+ *
+ * <H2>RTP payload type</H2>
+ * payload type values in the range 96-127 may be defined dynamically through a 
+ * conference control protocol. The payload type range marked 'reserved' has 
+ * been set aside so that RTCP and RTP packets can be reliably distinguished.<br>
+ * <br>Payload types (PT) for standard audio and video encodings
+ * <pre><tt>
+ *     PT         encoding      audio/video    clock rate    
+ *                name          (A/V)          (Hz)          
+ *     ____________________________________________________
+ *     0          PCMU          A               8000         
+ *     1          1016          A               8000        
+ *     2          G721          A               8000       
+ *     3          GSM           A               8000       
+ *     4          unassigned    A               8000      
+ *     5          DVI4          A               8000     
+ *     6          DVI4          A              16000   
+ *     7          LPC           A               8000   
+ *     8          PCMA          A               8000  
+ *     9          G722          A               8000 
+ *     10         L16           A              44100
+ *     11         L16           A              44100
+ *     12         unassigned    A
+ *     13         unassigned    A
+ *     14         MPA           A              90000 
+ *     15         G728          A               8000 
+ *     16--23     unassigned    A
+ *     24         unassigned    V
+ *     25         CelB          V              90000
+ *     26         JPEG          V              90000
+ *     27         unassigned    V
+ *     28         nv            V              90000
+ *     29         unassigned    V
+ *     30         unassigned    V
+ *     31         H261          V              90000
+ *     32         MPV           V              90000
+ *     33         MP2T          AV             90000
+ *     34--71     unassigned    -
+ *     72--76     reserved      N/A            N/A    
+ *     77--95     unassigned    -
+ *     96--127    dynamic       -
+ * </tt></pre>
+
+ * <H2>Jitter buffer</H2>
+ * Jitter buffer parameters is a part of this struture. There are nJitterDelay, 
+ * nMaxDelay and nJitterFactor. <p>
+ *
+ * Jitter buffers is used to counter jitter introduced by queuing in packet 
+ * switched networks so that a continuous playout of audio (or video) 
+ * transmitted over the network can be ensured. The maximum jitter that can 
+ * be countered by a jitter buffer is equal to the buffering delay introduced 
+ * before starting the play-out of the mediastream. <p>
+ *
+ * Jitter buffer is space for storing the arriving packets temporarily. In order 
+ * to make the voice to be sounded more smoothly, a jitter buffer is needed to 
+ * minimize the delay variations. 
+ *
+ * The minimum delay can be set at the range of 40ms to 100ms. The recommended 
+ * value is 40ms. The maximum delay can be set at the range starts from 130ms 
+ * to 300ms and the recommended value is 130ms. 
+ *
+ * The optimization factor is the value for adjusting the quality of the voice. 
+ * The higher value of optimization means the better quality but more delay. 
+ * Valild value are 0 to 13. The medium value 7 is recommended. 
+ * Value 0 and 13 are fix delay(fifo). value 0 is for low buffering application. 
+ * value 13 is for FAX or modem only. <p>
+ * \endhtmlonly
+ * @image html JitterBuffer.jpg
+ */
+
+/**
+ * @defgroup VOIP_SESSION_DTMF VoIP Session - DTMF
+ * @brief The DTMF Setting Interface.
+ * @ingroup VOIP_SESSION
+ */
+
+/**
+ * @defgroup VOIP_SESSION_FAX VoIP Session - FAX 
+ * @brief The FAX Setting Interface.
+ * @ingroup VOIP_SESSION
+ */
+
+/**
+ * @defgroup VOIP_SESSION_T38 VoIP Session - T.38
+ * @brief The T.38 Interface.
+ * @ingroup VOIP_SESSION
+ */
+
+/**
+ * @defgroup VOIP_IVR IVR
+ * @brief The IVR Interface.
+ */
+
+/**
+ * @defgroup VOIP_DECT DECT
+ * @brief The DECT Interface.
+ */
+
+/**
+ * @defgroup VOIP_OBSOLETE Obsolete APIs
+ * @brief The Obsolete APIs.
+ */
+
+
+/**
+ * @example ring.c
+ * Example for FXS Ring 1 second in channel 0
+ * @sa rtk_SetRingFXS, rtk_Set_SLIC_Ring_Cadence
+ */
+
+/**
+ * @example rtp.c
+ * Example for send RTP
+ * @sa rtk_InitDSP, rtk_SetRtpConfig, rtk_SetRtcpConfig, rtk_SetRtpPayloadType, 
+ * rtk_SetRtpSessionState, rtk_Hold_Rtp, rtk_Get_Rtp_Statistics
+ * rtk_SetTranSessionID
+ */
+
+/**
+ * @example phone.c
+ * Example for basic phone operation.
+ * @sa rtk_InitDSP, rtk_GetFxsEvent, rtk_GetFxoEvent, rtk_SetPlayTone, rtk_Set_Voice_Gain, rtk_Set_Flash_Hook_Time
+ */
+
+/*
+ * @example daa.c
+ * Example for FXO operation.
+ * @sa rtk_DAA_off_hook, rtk_DAA_on_hook, rtk_DAA_ring, rtk_Set_DAA_Tx_Gain, rtk_Set_DAA_Rx_Gain 
+ */
+
+/**
+ * @example caller_id.c
+ * Example for caller id operation.
+ * @sa rtk_Gen_Dtmf_CID, rtk_Gen_FSK_CID, rtk_Set_FSK_Area, rtk_SetRingFXS
+ */
+
+/**
+ * @example fxs.c
+ * Example for FXS operation.
+ * @sa rtk_InitDSP, rtk_SetDTMFMODE, rtk_SetRtpSessionState, rtk_IvrStartPlaying, rtk_SetRtpConfig, rtk_SetRtpPayloadType, rtk_SetTranSessionID, rtk_Offhook_Action, rtk_Onhook_Action 
+*/
+
+/**
+ * @example custom_tone.c
+ * Example for customize tone operation.
+ * @sa rtk_Set_Voice_Gain, rtk_Set_Flash_Hook_Time, rtk_Set_flush_fifo, rtk_SetPlayTone, rtk_Onhook_Action, rtk_Offhook_Action, rtk_Set_Tone_Country, rtk_Set_Custom_Tone
+*/
+
+/**
+ * @example tone_usa.c
+ * Example for tone configuration
+ * @sa rtk_Set_Custom_Tone
+ */
+
+/**
+ * @example vmwi.c
+ * Example for VMWI
+ * @sa rtk_Gen_FSK_VMWI
+ */
+
+/**
+ * @example conference.c
+ * Example for conference
+ * @sa rtk_InitDSP, rtk_SetRtpConfig, rtk_SetRtpPayloadType, rtk_SetRtpSessionState, rtk_Hold_Rtp,
+ * rtk_SetTranSessionID, rtk_SetConference
+ */
+
+/**
+ * @example fxo.c
+ * Example for FXO operation
+ * @sa rtk_Get_VoIP_Feature, rtk_InitDSP, rtk_Set_echoTail, rtk_Set_Voice_Gain, 
+ * rtk_GetFxsEvent, rtk_GetFxoEvent, rtk_Offhook_Action, rtk_Onhook_Action, rtk_Set_flush_fifo,
+ * rtk_Set_Flash_Hook_Time, rtk_SetRingFXS, rtk_Set_SLIC_Ring_Cadence, rtk_Set_CID_DTMF_MODE,
+ * rtk_DAA_off_hook, rtk_DAA_on_hook, 
+ * rtk_FXO_offhook, rtk_FXO_onhook, rtk_FXO_RingOn, rtk_FXO_Busy, 
+ * rtk_Get_DAA_CallerID, rtk_Set_CID_Det_Mode,
+ * rtk_SetTranSessionID, rtk_SetPlayTone, 
+ * rtk_SetRtpConfig, rtk_SetRtpPayloadType, rtk_SetRtpSessionState, 
+ * rtk_SetDTMFMODE,
+ * rtk_IvrStartPlaying, rtk_IvrStopPlaying
+ */
+
+/**
+ * @example gain_test.c
+ * Example for AGC gain operation
+ * @sa rtk_Set_Voice_Gain, rtk_Set_SPK_AGC, rtk_Set_SPK_AGC_LVL, rtk_Set_SPK_AGC_GUP,
+ * rtk_Set_SPK_AGC_GDOWN, rtk_Set_MIC_AGC, rtk_Set_MIC_AGC_LVL, rtk_Set_MIC_AGC_GUP,
+ * rtk_Set_MIC_AGC_GDOWN
+ */
+
+/**
+ * @example dtmf_det.c
+ * Example for DTMF detection threshold setting
+ * @sa rtk_set_dtmf_det_threshold
+ */
+
+/**
+ * @example dis_tone.c
+ * Example for dis-connect tone detection parameters setting
+ * @sa rtk_Set_Dis_Tone_Para
+ */
+ 
+/*
+ * @page ISSUE Known Issue
+ */
+
+/*
+ * @page TODO Todo List
+ */

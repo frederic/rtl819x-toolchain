@@ -1,0 +1,3 @@
+config BOARD_CONFIG_MODEL
+string
+default 'RTL8198_SPI_SQUASHFS'

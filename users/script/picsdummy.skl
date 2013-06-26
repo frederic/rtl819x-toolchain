@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+	<specVersion>
+		<major>1</major>
+		<minor>0</minor>
+	</specVersion>
+	<URLBase>http://!ADDR!:!PORT!</URLBase>
+	<device>
+		<deviceType>urn:schemas-upnp-org:device:InternetGatewayDevice:1</deviceType>
+		<friendlyName>Internet Gateway Device</friendlyName>
+		<manufacturer>Realtek Semiconductor</manufacturer>
+		<manufacturerURL>http://www.realtek.com.tw</manufacturerURL>
+		<modelDescription>UPnP Gateway Device</modelDescription>
+		<modelName>IGD Version 0.92</modelName>
+		<modelNumber>RTL8186</modelNumber>
+		<UDN>uuid:12342409-1234-1234-5678-ee1234cc5678</UDN>
+		<iconList>
+			<icon>
+				<mimetype>image/gif</mimetype>
+				<width>118</width>
+				<height>119</height>
+				<depth>8</depth>
+				<url>/ligd.gif</url>
+			</icon>
+		</iconList>
+		<serviceList>
+			<service>
+				<serviceType>urn:schemas-microsoft-com:service:OSInfo:1</serviceType>
+				<serviceId>urn:microsoft-com:serviceId:OSInfo1</serviceId>
+				<controlURL>/upnp/control/OSInfo1</controlURL>
+				<eventSubURL>/upnp/event/OSInfo1</eventSubURL>
+				<SCPDURL>/picsinfoSCPD.xml</SCPDURL>
+			</service>
+		</serviceList>
+		<deviceList>
+			<device>
+				<deviceType>urn:schemas-upnp-org:device:WANDevice:1</deviceType>
+				<friendlyName>WANDevice</friendlyName>
+				<manufacturer>Realtek Semiconductor</manufacturer>
+				<manufacturerURL>http://www.realtek.com.tw</manufacturerURL>
+				<modelDescription>WAN Device on RTL8186 IGD</modelDescription>
+				<modelName>RTL8186 IGD</modelName>
+				<modelNumber>0.92</modelNumber>
+				<modelURL>http://www.realtek.com.tw</modelURL>
+				<serialNumber>0.92</serialNumber>
+				<UDN>uuid:12342409-1234-1234-5678-ee1234cc5678</UDN>
+				<UPC>RTL8186 IGD</UPC>
+				<serviceList>
+					<service>
+						<serviceType>urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1</serviceType>
+						<serviceId>urn:upnp-org:serviceId:WANCommonIFC1</serviceId>
+						<controlURL>/upnp/control/WANCommonIFC1</controlURL>
+						<eventSubURL>/upnp/control/WANCommonIFC1</eventSubURL>
+						<SCPDURL>/picsicfgSCPD.xml</SCPDURL>
+					</service>
+				</serviceList>
+				<deviceList>
+					<device>
+						<deviceType>urn:schemas-upnp-org:device:WANConnectionDevice:1</deviceType>
+						<friendlyName>WANConnectionDevice</friendlyName>
+						<manufacturer>Realtek Semiconductor</manufacturer>
+						<manufacturerURL>http://www.realtek.com.tw</manufacturerURL>
+						<modelDescription>WanConnectionDevice on RTL8186 IGD</modelDescription>
+						<modelName>RTL8186 IGD</modelName>
+						<modelNumber>0.92</modelNumber>
+						<modelURL>http://www.realtek.com.tw</modelURL>
+						<serialNumber>0.92</serialNumber>
+						<UDN>uuid:12342409-1234-1234-5678-ee1234cc5678</UDN>
+						<UPC>RTL8186 IGD</UPC>
+						<serviceList>
+							<service>
+								<serviceType>urn:schemas-upnp-org:service:WANIPConnection:1</serviceType>
+								<serviceId>urn:upnp-org:serviceId:WANIPConn1</serviceId>
+								<controlURL>/upnp/control/WANIPConn1</controlURL>
+								<eventSubURL>/upnp/control/WANIPConn1</eventSubURL>
+								<SCPDURL>/picsconnSCPD.xml</SCPDURL>
+							</service>
+						</serviceList>
+					</device>
+				</deviceList>
+			</device>
+		</deviceList>
+	<presentationURL>http://!ADDR!/</presentationURL>
+	</device>
+</root>

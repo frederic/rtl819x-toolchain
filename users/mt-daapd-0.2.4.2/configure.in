@@ -1,0 +1,234 @@
+dnl $Id: configure.in 1716 2008-04-19 19:31:29Z rpedde $
+dnl
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(config.h.in)
+
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(mt-daapd,0.2.4.2)
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_YACC
+AM_PROG_LEX
+
+AC_CANONICAL_HOST
+
+AM_CONDITIONAL(COND_REND_OSX,false)
+rend_posix=true
+
+STATIC_LIBS=no
+CPPFLAGS="${CPPFLAGS} -g"
+
+dnl fix freebsd's broken (?) libpthread
+AC_CHECK_LIB(c_r,pthread_creat,LDFLAGS="${LDFLAGS} -lc_r", [
+  AC_CHECK_LIB(pthread,pthread_create,LDFLAGS="${LDFLAGS} -lpthread") ])
+
+AC_ARG_ENABLE(debug,[  --enable-debug          Enable debugging features],
+		       CPPFLAGS="${CPPFLAGS} -Wall")
+AC_ARG_ENABLE(debug-memory,[  --enable-debug-memory   Enable mem leak debugging],
+			      CPPFLAGS="${CPPFLAGS} -DDEBUG_MEMORY")
+AC_ARG_ENABLE(mdns,[  --enable-mdns           Enable mDNS support],
+		      [ case "${enableval}" in
+		      yes) ;;
+		      no) rend_posix=false; rend_howl=false; rend_avahi=false; CPPFLAGS="${CPPFLAGS}";;
+		      *) AC_MSG_ERROR(bad value ${enableval} for --disable-mdns);;
+		      esac ])
+
+AC_ARG_ENABLE(efence,[  --enable-efence         Enable electric fence],
+			LDFLAGS="${LDFLAGS} -lefence")
+AC_ARG_ENABLE(nslu2,[  --enable-nslu2          Build for NSLU2/uNSLUng], 
+		       CFLAGS="${CFLAGS} -DNSLU2")
+
+AC_ARG_ENABLE(howl,[  --enable-howl       Use howl 0.9.2 or later],
+		      [ case "${enableval}" in
+                        yes) rend_howl=true; rend_posix=false; rend_avahi=false; LDFLAGS="${LDFLAGS} -lhowl";
+			CPPFLAGS="${CPPFLAGS} -DWITH_HOWL";;
+		        no)  rend_howl=false;;
+		        *)   AC_MSG_ERROR(bad value ${enableval} for --enable-howl);;
+		      esac ])
+
+AC_ARG_ENABLE(avahi,[  --enable-avahi          Use avahi 0.6 or later],
+		      [ case "${enableval}" in
+                        yes) PKG_CHECK_MODULES(AVAHI, [ avahi-client >= 0.6 ]);
+			rend_avahi=true; rend_howl=false; rend_posix=false; LDFLAGS="${LDFLAGS} $AVAHI_LIBS";
+			CPPFLAGS="${CPPFLAGS} $AVAHI_CFLAGS -DWITH_AVAHI";;
+		        no)  rend_avahi=false;;
+		        *)   AC_MSG_ERROR(bad value ${enableval} for --enable-avahi);;
+		      esac ])
+
+AC_ARG_ENABLE(oggvorbis,[  --enable-oggvorbis      Enable Ogg/Vorbis support],
+                           use_oggvorbis=true;
+#                           LDFLAGS="${LDFLAGS} -logg -lvorbis";
+                           CPPFLAGS="${CPPFLAGS} -DOGGVORBIS")
+
+AM_CONDITIONAL(COND_REND_HOWL, test x$rend_howl = xtrue)
+AM_CONDITIONAL(COND_REND_AVAHI, test x$rend_avahi = xtrue)
+AM_CONDITIONAL(COND_REND_POSIX, test x$rend_posix = xtrue)
+AM_CONDITIONAL(COND_OGGVORBIS, test x$use_oggvorbis = xtrue)
+
+AM_CONDITIONAL(COND_NEED_STRCASESTR,false)
+AM_CONDITIONAL(COND_NEED_STRSEP,false)
+
+dnl Darwin's stupid cpp preprocessor....
+echo Host type is $host
+CPPFLAGS="$CPPFLAGS -DHOST='\"$host\"'"
+
+dnl
+dnl The apple mDNS stuff wants these compile flags.
+dnl
+
+case $host in
+*solaris*)
+	CPPFLAGS="$CPPFLAGS -DNOT_HAVE_SA_LEN -D_XPG4_2"
+	CPPFLAGS="$CPPFLAGS -D__EXTENSIONS__ -DHAVE_BROKEN_RECVIF_NAME"
+	CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
+	LDFLAGS="$LDFLAGS -lnsl -lsocket";;	
+*freebsd*)
+	CPPFLAGS="$CPPFLAGS -DFREEBSD";;
+*linux*)
+	CPPFLAGS="$CPPFLAGS -DNOT_HAVE_SA_LEN";;
+*openbsd*)
+	CPPFLAGS="$CPPFLAGS -DHAVE_BROKEN_RECVDSTADDR";;
+*darwin*)
+	CPPFLAGS="$CPPFLAGS -no-cpp-precomp -DMAC"
+	LDFLAGS="$LDFLAGS -framework CoreFoundation"	
+
+	AM_CONDITIONAL(COND_REND_OSX,true)
+	AM_CONDITIONAL(COND_REND_HOWL,false)
+	AM_CONDITIONAL(COND_REND_POSIX,false);;
+esac
+
+dnl Checks for libraries.
+AC_ARG_WITH(static-libs,
+	[--with-static-libs[[=DIR]]            use static libs in DIR],[
+	if test "$withval" != "no" -a "$withval" != "yes"; then
+	 Z_DIR=$withval
+	 STATIC_LIBS="$withval"
+	fi
+])
+
+AC_ARG_WITH(gdbm-includes,
+	[--with-gdbm-includes[[=DIR]]          use gdbm include files in DIR],[
+	if test "$withval" != "no" -a "$withval" != "yes"; then
+	 Z_DIR=$withval
+	 CPPFLAGS="${CPPFLAGS} -I$withval"
+	fi
+])
+
+AC_ARG_WITH(howl-includes,
+	[--with-howl-includes[[=DIR]]          use howl include files in DIR],[
+	if test "$withval" != "no" -a "$withval" != "yes"; then
+	 Z_DIR=$withval
+         CPPFLAGS="${CPPFLAGS} -I$withval"
+	fi
+])
+
+AC_ARG_WITH(gdbm-libs,
+	[--with-gdbm-libs[[=DIR]]          use gdbm lib files in DIR],[
+	if test "$withval" != "no" -a "$withval" != "yes"; then
+	 Z_DIR=$withval;
+	 LDFLAGS="${LDFLAGS} -L$withval"
+	fi
+])
+
+AC_ARG_WITH(howl-libs,
+	[--with-howl-libs[[=DIR]]          use howl lib files in DIR],[
+	if test "$withval" != "no" -a "$withval" != "yes"; then
+	 Z_DIR=$withval
+         LDFLAGS="${LDFLAGS} -L$withval"
+	fi
+])
+
+AC_ARG_WITH(id3tag,
+	[--with-id3tag[[=DIR]]           use id3tag in DIR],[
+	if test "$withval" != "no" -a "$withval" != "yes"; then
+	  Z_DIR=$withval
+	  CPPFLAGS="${CPPFLAGS} -I$withval/include"
+	  LDFLAGS="${LDFLAGS} -L$withval/lib"
+	fi
+])
+
+
+AC_CHECK_HEADERS(gdbm.h,, [
+ AC_MSG_ERROR([gdbm.h not found... try --with-gdbm-includes=dir])])
+AC_CHECK_LIB(gdbm,gdbm_open,echo "Have gdbm", echo "Must have gdbm";exit)
+
+if test "$STATIC_LIBS" != "no"; then
+  LDFLAGS="${LDFLAGS} ${STATIC_LIBS}/libgdbm.a"
+  echo "Adding static libgdbm"
+else
+  LDFLAGS="${LDFLAGS} -lgdbm"
+  echo "Adding dynamic libgdbm"
+fi
+
+AC_CHECK_HEADERS(id3tag.h,, [
+ AC_MSG_ERROR([id3tag.h not found... try --with-id3tag=dir])])
+
+oldcflags=$CFLAGS
+
+CFLAGS="$CFLAGS -lz"
+AC_CHECK_LIB(id3tag,id3_file_open,echo "Have id3tag",echo "Must have libid3tag";exit)
+
+if test "$STATIC_LIBS" != "no"; then
+  LDFLAGS="${LDFLAGS} ${STATIC_LIBS}/libid3tag.a -lz"
+  echo "Adding static libid3tag"
+else
+  LDFLAGS="${LDFLAGS} -lid3tag -lz"
+  echo "Adding dynamic libid3tag"
+fi
+CFLAGS=$oldcflags
+
+if test x$use_oggvorbis = xtrue; then
+  AC_CHECK_HEADERS(ogg/ogg.h,, [
+   AC_MSG_ERROR([ogg/ogg.h not found... Must have libogg installed for Ogg/Vorbis support])])
+  AC_CHECK_LIB(ogg,ogg_sync_init,echo "Have ogg",echo "Must have libogg for Ogg/Vorbis support";exit)
+
+  if test x"$STATIC_LIBS" != x"no"; then
+    LDFLAGS="${LDFLAGS} ${STATIC_LIBS}/libogg.a"
+    echo "Adding static libogg"
+  else
+    LDFLAGS="${LDFLAGS} -logg"
+    echo "Adding dynamic libogg"
+  fi
+
+  AC_CHECK_HEADERS(vorbis/codec.h,, [
+   AC_MSG_ERROR([vorbis/codec.h not found... Must have libvorbis installed for Ogg/Vorbis support])])
+  AC_CHECK_LIB(vorbis,vorbis_info_init,echo "Have vorbis",echo "Must have libvorbis for Ogg/Vorbis support";exit)
+
+  if test x"$STATIC_LIBS" != x"no"; then
+    LDFLAGS="${LDFLAGS} ${STATIC_LIBS}/libvorbis.a"
+    echo "Adding static libvorbis"
+  else
+    LDFLAGS="${LDFLAGS} -lvorbis"
+    echo "Adding dynamic libvorbis"
+  fi
+fi
+
+
+AC_REPLACE_FUNCS(strcasestr)
+AC_REPLACE_FUNCS(strsep)
+AC_CHECK_FUNCS(atoll)
+
+dnl Checks for header files.
+AC_HEADER_STDC
+AC_HEADER_SYS_WAIT
+AC_CHECK_HEADERS(fcntl.h sys/ioctl.h sys/time.h syslog.h unistd.h \
+	sys/filio.h termio.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_TIME
+
+dnl Checks for library functions.
+AC_PROG_GCC_TRADITIONAL
+AC_FUNC_SETPGRP
+AC_TYPE_SIGNAL
+AC_CHECK_FUNCS(select socket strdup strerror)
+
+dnl check to see if we need -lsocket (solaris)
+
+V_NETLIBS=""
+AC_CHECK_LIB(socket,socket,V_NETLIBS="-lsocket $V_NETLIBS",,)
+
+AC_SUBST(V_NETLIBS)
+
+AC_OUTPUT(src/Makefile admin-root/Makefile contrib/Makefile debian/Makefile Makefile)

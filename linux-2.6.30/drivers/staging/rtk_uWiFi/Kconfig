@@ -1,0 +1,14 @@
+config USB_UWIFI_HOST
+	tristate "RTK USB uWiFi host driver"
+	default N
+	---help---
+	 This enables the RTK uWiFi device driver which will run on the
+	 host machine.
+
+
+
+config RTL_USB_UWIFI_HOST_SPEEDUP
+	bool 
+	depends on USB_UWIFI_HOST
+	default y if USB_UWIFI_HOST
+	

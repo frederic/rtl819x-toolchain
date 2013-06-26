@@ -1,0 +1,156 @@
+#!@PERL@ -w
+#
+# Copyright (C) 2004, 2005 Philipp Benner
+#
+# This file is part of UpdateDD - http://updatedd.philipp-benner.de.
+#
+# UpdateDD is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# any later version.
+#
+# UpdateDD is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with UpdateDD; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+use strict;
+use IO::Socket;
+
+my $ipv4_rex = qr/(?:\d{1,3}\.){3}\d{1,3}/imosx;
+
+my @services = ( {	name	=> "dyndns",
+			url	=> "checkip.dyndns.org",
+			port	=> 80,
+			request	=> "GET / HTTP/1.1\r\n".
+			           "Host: checkip.dyndns.org\r\n\r\n"
+			},
+		 {	name	=> "eurodyndns",
+			url	=> "checkip.eurodyndns.org",
+			port	=> 80,
+			request	=> "GET / HTTP/1.1\r\n".
+			           "Host: checkip.eurodyndns.org\r\n\r\n"
+			},
+
+		 {	name	=> "regfish",
+			url	=> "www.regfish.com",
+			port	=> 80,
+			request	=> "GET /show_myip.php HTTP/1.1\r\n".
+			           "Host: www.regfish.com\r\n\r\n"
+			},
+
+		 {	name	=> "hn",
+			url	=> "myip.hn.org",
+			port	=> 80,
+			request	=> "GET /ip.cgi HTTP/1.1\r\n".
+			           "Host: myip.hn.org\r\n\r\n"
+			},
+
+		 {	name	=> "noip",
+			url	=> "www.no-ip.com",
+			port	=> 80,
+			request	=> "GET /ip.php HTTP/1.1\r\n".
+			           "Host: www.no-ip.com\r\n\r\n"
+			},
+
+		 {	name	=> "changeip",
+			url	=> "www.changeip.com",
+			port	=> 80,
+			request	=> "GET /ip.asp HTTP/1.1\r\n".
+			           "Host: www.changeip.com\r\n\r\n"
+			},
+
+		 {	name	=> "tzo",
+			url	=> "xregistry2.tzo.com",
+			port	=> 21340,
+			request	=> undef	},
+
+		 {	name	=> "dnspark",
+			url	=> "ipdetect.dnspark.com",
+			port	=> 80,
+			request	=> "GET / HTTP/1.1\r\n".
+			           "Host: ipdetect.dnspark.com\r\n\r\n"
+			},
+		 );
+
+sub print_usage($) {
+
+    my $file = shift;
+
+    print($file "\nUsage: ".$0." SERVICE\n\n");
+    print($file "Services:\n");
+    foreach my $service (@services) {
+	print("$service->{name}\n");
+    }
+    print("\n");
+
+}
+
+sub my_getopt() {
+
+    if(@ARGV != 1) {
+	print("wrong usage\n");
+	print("Try `ipserv.pl --help' for more information.\n");
+	exit(1);
+    }
+
+    if($ARGV[0] eq "--help") {
+	print_usage(\*STDOUT);
+	exit(0);
+    }
+
+    my $target;
+    foreach my $service (@services) {
+	if($service->{name} eq $ARGV[0]) {
+	    $target = $service;
+	}
+    }
+
+    if(!defined($target)) {
+	die "$ARGV[0] no such service!";
+    }
+
+    return $target;
+
+}
+
+sub main() {
+
+    my $target = my_getopt();
+    my $retries = 10;
+    my $socket;
+
+    do {
+	$socket = IO::Socket::INET->new(PeerAddr => $target->{url},
+					PeerPort => $target->{port},
+					Proto    => "tcp",
+					Type     => SOCK_STREAM)
+	    or $retries--;
+
+    } while(!defined($socket) && $retries != 0);
+
+    if($retries == 0) {
+	die "could not connect to $target->{url}: $!";
+    }
+
+    if(defined($target->{request})) {
+	print($socket $target->{request});
+    }
+
+    while(<$socket>) {
+	if(/($ipv4_rex)/) {
+	    print("$1\n");
+	    last;
+	}
+    }
+
+    close($socket);
+
+}
+
+main();
+

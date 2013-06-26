@@ -1,0 +1,73 @@
+# -- updatedd: Makefile.in --
+#
+# Copyright (C) 2002, 2003, 2004, 2005 Philipp Benner
+#
+# This file is part of UpdateDD - http://updatedd.philipp-benner.de.
+#
+# UpdateDD is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# any later version.
+#
+# UpdateDD is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with UpdateDD; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+SHELL		= /bin/sh -e
+VPATH		= $(srcdir)
+
+bin		= updatedd
+
+prefix		= @prefix@
+exec_prefix	= @exec_prefix@
+bindir		= @bindir@
+libdir		= @libdir@
+mandir		= @mandir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@
+builddir	= @builddir@
+top_builddir	= @top_builddir@
+
+INSTALL		= @INSTALL@
+CC		= @CC@
+CFLAGS		= -I$(top_builddir) -I$(top_srcdir)/include @CFLAGS@ -DLIBPATH=\"$(libdir)/updatedd\"
+LIBS		= @LIBS@
+LIBERROR	= $(top_builddir)/libexception_handle/libexception_handle.a
+
+OBJECTS		= updatedd.o
+
+UNAME:=$(shell uname -s)
+
+ifeq (Darwin,$(UNAME))
+  CFLAGS+=-D__DARWIN__
+endif
+
+all: $(OBJECTS)
+	$(CC) $(LIBS) $< $(LIBERROR) -o $(bin)
+
+install:
+	$(INSTALL) -d $(DESTDIR)$(bindir)
+	$(INSTALL) -m 755 $(bin) $(DESTDIR)$(bindir)
+
+	$(INSTALL) -d $(DESTDIR)$(mandir)/man1
+	$(INSTALL) -m 644 $(srcdir)/updatedd.1 $(DESTDIR)$(mandir)/man1
+
+uninstall:
+	$(RM) $(bindir)$(bin)
+	$(RM) $(mandir)/man1/updatedd.1
+
+clean:
+	$(RM) $(OBJECTS)
+	$(RM) $(bin)
+
+distclean: clean
+	$(RM) Makefile
+
+updatedd.o: updatedd.h
+
+.PHONY: all install uninstall clean distclean

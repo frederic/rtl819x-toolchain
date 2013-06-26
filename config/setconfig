@@ -1,0 +1,468 @@
+#!/bin/sh
+#############################################################################
+#
+#	This script gets called in two ways,  the first is to set the
+#	default config up.  The second "final" pass is to save any settings
+#	back to the boards directory for permanent inclusion.
+#
+#	Copyright (C) 2001       Lineo    <davidm@snapgear.com>
+#	Copyright (C) 2001-2002  SnapGear <davidm@snapgear.com>
+#
+#############################################################################
+#
+# Some basic starting points
+#
+
+CONFIG=.config
+if [ -f ./.oldconfig ]
+then
+	. ./.oldconfig
+fi
+
+PASS="$1"
+LINUX=""
+BOARD=""
+BZBOX=""
+MODEL=""
+ROUTER=""
+AP=""
+LINUX_SUFFIX=""
+USERS_SUFFIX=""
+BZBOX_SUFFIX=""
+ROUTER_SUFFIX=""
+AP_SUFFIX=""
+
+LINUXDIR=""
+BOARDDIR=""
+DEFATDIR="boards/template"
+USERSDIR="users"
+BZBOXDIR="users/busybox"
+
+#############################################################################
+#
+# this code closely matches that in genconfig,  it has to !
+#
+get_model()
+{
+        MODEL="`grep '^CONFIG_MODEL_.*=y' ${CONFIG}`"
+        if [ -z "${MODEL}" ]; then
+                return 1
+        fi
+        MODEL=${MODEL##CONFIG_MODEL_}
+        MODEL=${MODEL%%=y}
+        return 0
+}
+
+get_rsdk()
+{
+	RSDK="`grep '^CONFIG_RSDK_.*=y' ${CONFIG}`"
+	if [ -z "${RSDK}" ]; then
+		return 1
+	fi
+	RSDK=${RSDK##CONFIG_RSDK_}
+	RSDK=${RSDK%%=y}
+	return 0
+}
+
+get_bzbox()
+{
+	BZBOX="`grep '^CONFIG_BZBOX_.*=y' ${CONFIG}`"
+	if [ -z "${BZBOX}" ]; then
+		return 1
+	fi
+	BZBOX=${BZBOX##CONFIG_BZBOX_}
+	BZBOX=${BZBOX%%=y}
+	return 0
+}
+
+get_board()
+{
+	BOARD="`grep '^CONFIG_BOARD_.*=y' ${CONFIG}`"
+	if [ -z "${BOARD}" ]; then
+		return 1
+	fi
+	BOARD=${BOARD##CONFIG_BOARD_}
+	BOARD=${BOARD%%=y}
+	return 0
+}
+
+get_linux()
+{
+	LINUX="`grep '^CONFIG_LINUX_.*=y' ${CONFIG}`"
+	if [ -z "${LINUX}" ]; then
+		return 1
+	fi
+	LINUX=${LINUX##CONFIG_LINUX_}
+	LINUX=${LINUX%%=y}
+	return 0
+}
+
+get_router()
+{
+	ROUTER="`grep '^CONFIG_ROUTER_.*=y' ${CONFIG}`"
+	if [ -z "${ROUTER}" ]; then
+		return 1
+	fi
+
+	ROUTER=${ROUTER##CONFIG_ROUTER_}
+	ROUTER=${ROUTER%%=y}
+
+	return 0
+}
+
+get_ap()
+{
+	AP="`grep '^CONFIG_AP_.*=y' ${CONFIG}`"
+	if [ -z "${AP}" ]; then
+		return 1
+ 	fi
+	AP=${AP##CONFIG_AP_}
+	AP=${AP%%=y}
+	return 0
+}
+
+var_isset() # because of make evironment inheritance,  we must look in the file
+{
+	if grep "$1=y" $CONFIG > /dev/null
+	then
+		return 0
+	fi
+	return 1
+}
+
+#
+# remove line containing $1 append line $2 to file in $3
+#
+replace_line()
+{
+	TMPR="/tmp/setconfig.$$"
+	if [ -f "$3" ]
+	then
+		cat "$3" | grep -v "$1" > "$TMPR"
+	else
+		touch "$TMPR"
+	fi
+	echo "$2" >> "$TMPR"
+	cp "$TMPR" "$3"
+	rm -f "$TMPR"
+}
+
+fix_conf_files()
+{
+	#
+	# add some bits for convienence, must be done after each stage
+	#
+
+	replace_line CONFIG_LINUXDIR= "CONFIG_LINUXDIR=$LINUXDIR" .config
+	replace_line CONFIG_BOARDDIR= "CONFIG_BOARDDIR=$BOARDDIR" .config
+	replace_line CONFIG_BZBOXDIR= "CONFIG_BZBOXDIR=$BZBOXDIR" .config
+	replace_line CONFIG_RSDKDIR= "CONFIG_RSDKDIR=$RSDKDIR" .config
+	replace_line CONFIG_MODEL= "CONFIG_MODEL=$MODEL" .config
+	replace_line CONFIG_ROUTER= "CONFIG_ROUTER=$ROUTER" .config
+
+	replace_line OLD_LINUXDIR= "OLD_LINUXDIR=\"$LINUXDIR\"" ./.oldconfig
+	replace_line OLD_BOARDDIR= "OLD_BOARDDIR=\"$BOARDDIR\"" ./.oldconfig
+	replace_line OLD_BZBOXDIR= "OLD_BZBOXDIR=\"$BZBOXDIR\"" ./.oldconfig
+	replace_line OLD_RSDKDIR= "OLD_RSDKDIR=\"$RSDKDIR\"" ./.oldconfig
+	replace_line OLD_MODEL= "OLD_MODEL=\"$MODEL\"" ./.oldconfig
+	replace_line OLD_ROUTER= "OLD_ROUTER=\"$ROUTER\"" ./.oldconfig
+}
+
+#############################################################################
+#
+# board version
+#
+
+# get_board defines BOARD for us
+if get_board; then
+	BOARDDIR="boards/${BOARD}"
+else
+	echo "ERROR: unknown board configuration." >&2
+	exit 1
+fi
+
+if [ ! -d ${BOARDDIR} ]; then
+	echo "ERROR: missing board directory ${BOARDDIR}." >&2
+	exit 1
+fi
+
+#############################################################################
+#
+# kernel version
+#
+
+# get_linux defines KERNEL for us
+if get_linux; then
+	LINUXDIR="linux-${LINUX}"
+else
+	echo "ERROR: unknown kernel configuration." >&2
+	exit 1
+fi
+
+if [ ! -d ${LINUXDIR} ]; then
+	echo "ERROR: missing kernel directory ${LINUXDIR}." >&2
+	exit 1
+fi
+
+#############################################################################
+#
+# busybox version
+#
+
+# get_bzbox defines BZBOX for us
+if get_bzbox; then
+	BZBOXDIR="users/${BZBOX}"
+else
+	echo "ERROR: unknown bzbox configuration." >&2
+	exit 1
+fi
+
+if [ ! -d ${BZBOXDIR} ]; then
+	echo "ERROR: missing bzbox directory ${BZBOXDIR}." >&2
+	exit 1
+fi
+
+#############################################################################
+#
+# toolchain version
+#
+
+# get_rsdk defines RSDK for us
+if get_rsdk; then
+	RSDKDIR="toolchain/${RSDK}"
+else
+	echo "ERROR: unknown RSDK configuration." >&2
+	exit 1
+fi
+
+if [ ! -d ${RSDKDIR} ]; then
+	echo "ERROR: missing RSDK directory ${RSDKDIR}." >&2
+	exit 1
+fi
+
+#############################################################################
+#
+# image model (board configuration)
+#
+
+#get model define model for us
+if get_model; then
+	LINUX_SUFFIX=".${MODEL}"
+	USERS_SUFFIX=".${MODEL}"
+	BZBOX_SUFFIX=".${MODEL}"
+fi
+
+if get_router; then
+	ROUTER_SUFFIX=".${ROUTER}"
+fi
+
+if get_ap; then
+	ROUTER_SUFFIX=".${AP}"
+fi
+
+MODELUSERCONFIG="boards/${BOARD}/config.users${USERS_SUFFIX}"
+if [ -n "${ROUTER_SUFFIX}" ]; then
+	MODELLINUXCONFIG="boards/${BOARD}/config.linux-${LINUX}${LINUX_SUFFIX}${ROUTER_SUFFIX}"
+	echo ${MODELLINUXCONFIG}
+fi
+#MODELLINUXCONFIG="boards/${BOARD}/config.linux-${LINUX}${LINUX_SUFFIX}${ROUTER_SUFFIX}"
+MODELBUSYBOXCONFIG="boards/${BOARD}/config.${BZBOX}${BZBOX_SUFFIX}"
+
+if ! var_isset CONFIG_MCONF_SAVE; then
+
+if [ ! -f ${MODELUSERCONFIG} ]; then
+	echo "${MODELUSERCONFIG} not exist. Use boards/${BOARD}/config.users." >&2
+	USERS_SUFFIX=""
+fi
+
+if [ ! -f ${MODELLINUXCONFIG} ]; then
+	echo "${MODELLINUXCONFIG} not exist. Use boards/${BOARD}/config.linux-${LINUX}." >&2
+	LINUX_SUFFIX=""
+fi
+
+if [ ! -f ${MODELBUSYBOXCONFIG} ]; then
+	echo "${MODELBUSYBOXCONFIG} not exist. Use boards/${BOARD}/config.${BZBOX}." >&2
+	BZBOX_SUFFIX=""
+fi
+
+fi
+
+if [ ! -d $BOARDDIR/etc ] || [ -L $BOARDDIR/etc ]; then
+	rm -f $BOARDDIR/etc
+	if [ -d $BOARDDIR/etc.${MODEL} ]; then
+		ln -s etc.${MODEL} $BOARDDIR/etc
+	else
+		echo "$BOARDDIR/etc.${MODEL} not exist. Use $BOARDDIR/etc.default." >&2
+		ln -s etc.default target/etc
+	fi
+fi
+
+# Add board configuration info
+echo config BOARD_CONFIG_MODEL 	>  $BOARDDIR/board_config_model.in
+echo string 					>> $BOARDDIR/board_config_model.in
+echo default "'$MODEL'" 		>> $BOARDDIR/board_config_model.in
+
+#############################################################################
+#
+# Now install the configs,  careful not dump on them unless they asked us to
+#
+
+export PATH=`pwd`/$RSDKDIR/bin:$PATH
+CLEAN="0"
+
+if [ "$PASS" != "final" ]; then
+
+    rm -f target
+    rm -f tmpfs
+    rm -f romfs
+    rm -f image
+    rm -f users/busybox
+    ln -s $BOARDDIR target
+    mkdir -p target/tmpfs
+    mkdir -p target/romfs
+    mkdir -p target/image
+    ln -s target/tmpfs tmpfs
+    ln -s target/romfs romfs
+    ln -s target/image image
+    ln -s $BZBOX users/busybox
+
+	#
+	# if the user touches any important settings then force a clean
+	# otherwise bad things can happen in the tree
+	#
+	if [ "$OLD_BOARDDIR$OLD_LINUXDIR$OLD_BZBOXDIR$OLD_RSDKDIR$OLD_MODEL" != \
+         "$BOARDDIR$LINUXDIR$BZBOXDIR$RSDKDIR$MODEL" ]; then
+        CLEAN="1"
+		rm -f $LINUXDIR/.config
+		rm -f $USERSDIR/.config
+		rm -f $BZBOXDIR/.config
+	fi
+
+    # once before the oldconfig stuff is run
+	fix_conf_files
+
+	if [ ! -f $LINUXDIR/.config ] || var_isset CONFIG_MCONF_LOAD; then
+		if [  -f "$BOARDDIR/config.$LINUXDIR${LINUX_SUFFIX}${ROUTER_SUFFIX}" ]; then
+			cp "$BOARDDIR/config.$LINUXDIR${LINUX_SUFFIX}${ROUTER_SUFFIX}" $LINUXDIR/.config
+		else
+			echo; echo; echo; echo
+			echo "******************************* NOTICE ************************************"
+			echo "$BOARDDIR/config.$LINUXDIR${LINUX_SUFFIX}${ROUTER_SUFFIX} not found for $BOARD." 
+			echo "******************************* NOTICE ************************************"
+			read dummy
+			cp "$DEFATDIR/config.$LINUXDIR" $LINUXDIR/.config
+		fi
+		make -C $LINUXDIR oldconfig
+	fi
+
+	if [ ! -f $USERSDIR/.config ] || var_isset CONFIG_MCONF_LOAD; then
+		if [ -f "$BOARDDIR/config.users${USERS_SUFFIX}" ]
+		then
+			cp "$BOARDDIR/config.users${USERS_SUFFIX}" $USERSDIR/.config
+		else
+			echo; echo; echo; echo
+			echo "******************************* NOTICE ************************************"
+			echo "$BOARDDIR/config.users${USERS_SUFFIX} not found for $BOARD." 
+			echo "******************************* NOTICE ************************************"
+			read dummy
+			cp "$DEFATDIR/config.users" $USERSDIR/.config
+
+			#
+			# force config of user apps
+			#
+			replace_line CONFIG_MCONF_USERS= \
+					"CONFIG_MCONF_USERS=y" .config
+		fi
+		make -C $USERSDIR oldconfig
+	fi
+
+	if [ ! -f $BZBOXDIR/.config ] || var_isset CONFIG_MCONF_LOAD; then
+		if [ -f "$BOARDDIR/config.$BZBOX${BZBOX_SUFFIX}" ]
+		then
+			cp "$BOARDDIR/config.$BZBOX${BZBOX_SUFFIX}" $BZBOXDIR/.config
+		else
+			echo; echo; echo; echo
+			echo "******************************* NOTICE ************************************"
+			echo "$BOARDDIR/config.$BZBOX${BZBOX_SUFFIX} not found for $BOARD." 
+			echo "******************************* NOTICE ************************************"
+			read dummy
+
+			cp "$DEFATDIR/config.$BZBOX" $BZBOXDIR/.config
+			#
+			# force config of user apps
+			#
+			replace_line CONFIG_MCONF_BZBOX= \
+					"CONFIG_MCONF_BZBOX=y" .config
+		fi
+		make -C $BZBOXDIR oldconfig
+	fi
+
+	# and once after to clean up
+	fix_conf_files
+
+	if [ "$CLEAN" = "1" ]; then
+        echo; echo
+		echo "**** cleaning tree for old settings ****"
+		echo; echo
+		make clean
+	fi
+
+	rm -f $BOARDDIR/Kconfig.ictest
+	if grep "^CONFIG_ICT_SUPPORT=y" .config > /dev/null; then
+		ICT_FOLDER="`grep '^CONFIG_ICT_FOLDER=' .config`"
+		ICT_FOLDER=${ICT_FOLDER##CONFIG_ICT_FOLDER=\"}
+		ICT_FOLDER=${ICT_FOLDER%%\"}
+		ln -s $ICT_FOLDER/bsp/Kconfig $BOARDDIR/Kconfig.ictest
+		ICT_SCRIPT="`grep '^CONFIG_ICT_SCRIPT=' .config`"
+		ICT_SCRIPT=${ICT_SCRIPT##CONFIG_ICT_SCRIPT=\"}
+		ICT_SCRIPT=${ICT_SCRIPT%%\"}
+		if [ "$ICT_SCRIPT" != "" ]; then
+                	$ICT_FOLDER/$ICT_SCRIPT
+        	fi
+	else
+		touch $BOARDDIR/Kconfig.ictest
+	fi
+fi
+
+#############################################################################
+#
+# The override config option is always turned off when we are done so that
+# someone doesn't get all upset that they lost their config files.
+#
+# Always add the BOARD dir for the build to work
+#
+
+if [ "$PASS" = "final" ]; then
+
+	fix_conf_files
+
+	#
+	# check for other config options
+	#
+
+	if var_isset CONFIG_MCONF_LOAD; then
+		sed 's/^\(CONFIG_MCONF_LOAD\)=y/# \1 is not set/' < .config > .config.tmp
+		cp .config.tmp .config
+		rm -f .config.tmp
+	fi
+
+	if var_isset CONFIG_MCONF_SAVE; then
+		cp $LINUXDIR/.config "$BOARDDIR/config.$LINUXDIR${LINUX_SUFFIX}${ROUTER_SUFFIX}"
+		cp $USERSDIR/.config "$BOARDDIR/config.users${USERS_SUFFIX}"
+		cp $BZBOXDIR/.config "$BOARDDIR/config.$BZBOX${BZBOX_SUFFIX}"
+
+		sed 's/^\(CONFIG_MCONF_SAVE\)=y/# \1 is not set/' < .config > .config.tmp
+		cp .config.tmp .config
+		rm -f .config.tmp
+	fi
+
+	grep -v CONFIG_MCONF_USERS= < .config | \
+        grep -v CONFIG_MCONF_BZBOX= | \
+		grep -v CONFIG_MCONF_LINUX= > .config.tmp
+
+	cp .config.tmp .config
+	rm -f .config.tmp
+fi
+
+#############################################################################
+exit 0

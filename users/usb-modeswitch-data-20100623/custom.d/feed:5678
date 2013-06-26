@@ -1,0 +1,13 @@
+########################################################
+# newer modems
+
+DefaultVendor= 0xfeed
+DefaultProduct=0x5678
+
+TargetVendor=  0xfeed
+TargetProduct= 0x1234
+
+CustomMode="mobilepeak"
+CheckSuccess=20
+
+InquireDevice=0

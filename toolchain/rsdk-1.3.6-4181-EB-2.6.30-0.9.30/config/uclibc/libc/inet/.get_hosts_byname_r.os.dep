@@ -1,0 +1,268 @@
+libc/inet/get_hosts_byname_r.os libc/inet/get_hosts_byname_r.os:  \
+ libc/inet/get_hosts_byname_r.c ././include/libc-symbols.h \
+  ./include/bits/uClibc_arch_features.h libc/inet/resolv.c \
+  ./include/features.h ./include/bits/uClibc_config.h \
+  ./include/sys/cdefs.h ./include/libc-internal.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h \
+  ./include/bits/stackinfo.h ./include/string.h ./include/stdio.h \
+  ./include/bits/types.h ./include/bits/wordsize.h \
+  ./include/bits/kernel_types.h ./include/bits/typesizes.h \
+  ./include/bits/pthreadtypes.h ./include/bits/sched.h \
+  ./include/bits/uClibc_stdio.h ./include/wchar.h ./include/bits/wchar.h \
+  ./include/bits/uClibc_mutex.h ./include/pthread.h ./include/sched.h \
+  ./include/time.h ./include/bits/time.h ./include/bits/uClibc_clk_tck.h \
+  ./include/signal.h ./include/bits/sigset.h ./include/bits/initspin.h \
+  ./include/bits/sigthread.h ./include/bits/uClibc_pthread.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stdarg.h \
+  ./include/bits/stdio_lim.h ./include/bits/signum.h \
+  ./include/bits/siginfo.h ./include/bits/sigaction.h \
+  ./include/bits/sigcontext.h ./include/sgidefs.h \
+  ./include/bits/sigstack.h ./include/ucontext.h ./include/sys/ucontext.h \
+  ./include/errno.h ./include/bits/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm-generic/errno-base.h \
+  ./include/bits/uClibc_errno.h ./include/tls.h ./include/sys/poll.h \
+  ./include/bits/poll.h ./include/sys/socket.h ./include/sys/uio.h \
+  ./include/sys/types.h ./include/endian.h ./include/bits/endian.h \
+  ./include/sys/select.h ./include/bits/select.h \
+  ./include/sys/sysmacros.h ./include/bits/uio.h ./include/bits/socket.h \
+  ./include/limits.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/limits.h \
+  ./include/bits/posix1_lim.h ./include/bits/local_lim.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/limits.h \
+  ./include/bits/uClibc_local_lim.h ./include/bits/posix2_lim.h \
+  ./include/bits/xopen_lim.h ./include/bits/sockaddr.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/socket.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/sockios.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/ioctl.h \
+  ./include/sys/time.h ./include/netinet/in.h ./include/stdint.h \
+  ./include/bits/in.h ./include/bits/byteswap.h ./include/arpa/inet.h \
+  ./include/stdlib.h ./include/bits/waitflags.h \
+  ./include/bits/waitstatus.h ./include/alloca.h ./include/unistd.h \
+  ./include/bits/posix_opt.h ./include/bits/environments.h \
+  ./include/bits/confname.h ./include/bits/getopt.h ./include/resolv.h \
+  ./include/sys/param.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/param.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/param.h \
+  ./include/arpa/nameser.h ./include/sys/bitypes.h \
+  ./include/arpa/nameser_compat.h ./include/netdb.h ./include/rpc/netdb.h \
+  ./include/bits/netdb.h ./include/ctype.h \
+  ./include/bits/uClibc_touplow.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stdbool.h \
+  ./include/sys/utsname.h ./include/bits/utsname.h ./include/sys/un.h \
+  ./include/sys/syscall.h ./include/bits/sysnum.h \
+  ./include/bits/syscalls.h
+
+././include/libc-symbols.h:
+
+./include/bits/uClibc_arch_features.h:
+
+libc/inet/resolv.c:
+
+./include/features.h:
+
+./include/bits/uClibc_config.h:
+
+./include/sys/cdefs.h:
+
+./include/libc-internal.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h:
+
+./include/bits/stackinfo.h:
+
+./include/string.h:
+
+./include/stdio.h:
+
+./include/bits/types.h:
+
+./include/bits/wordsize.h:
+
+./include/bits/kernel_types.h:
+
+./include/bits/typesizes.h:
+
+./include/bits/pthreadtypes.h:
+
+./include/bits/sched.h:
+
+./include/bits/uClibc_stdio.h:
+
+./include/wchar.h:
+
+./include/bits/wchar.h:
+
+./include/bits/uClibc_mutex.h:
+
+./include/pthread.h:
+
+./include/sched.h:
+
+./include/time.h:
+
+./include/bits/time.h:
+
+./include/bits/uClibc_clk_tck.h:
+
+./include/signal.h:
+
+./include/bits/sigset.h:
+
+./include/bits/initspin.h:
+
+./include/bits/sigthread.h:
+
+./include/bits/uClibc_pthread.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stdarg.h:
+
+./include/bits/stdio_lim.h:
+
+./include/bits/signum.h:
+
+./include/bits/siginfo.h:
+
+./include/bits/sigaction.h:
+
+./include/bits/sigcontext.h:
+
+./include/sgidefs.h:
+
+./include/bits/sigstack.h:
+
+./include/ucontext.h:
+
+./include/sys/ucontext.h:
+
+./include/errno.h:
+
+./include/bits/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm-generic/errno-base.h:
+
+./include/bits/uClibc_errno.h:
+
+./include/tls.h:
+
+./include/sys/poll.h:
+
+./include/bits/poll.h:
+
+./include/sys/socket.h:
+
+./include/sys/uio.h:
+
+./include/sys/types.h:
+
+./include/endian.h:
+
+./include/bits/endian.h:
+
+./include/sys/select.h:
+
+./include/bits/select.h:
+
+./include/sys/sysmacros.h:
+
+./include/bits/uio.h:
+
+./include/bits/socket.h:
+
+./include/limits.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/limits.h:
+
+./include/bits/posix1_lim.h:
+
+./include/bits/local_lim.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/limits.h:
+
+./include/bits/uClibc_local_lim.h:
+
+./include/bits/posix2_lim.h:
+
+./include/bits/xopen_lim.h:
+
+./include/bits/sockaddr.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/socket.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/sockios.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/ioctl.h:
+
+./include/sys/time.h:
+
+./include/netinet/in.h:
+
+./include/stdint.h:
+
+./include/bits/in.h:
+
+./include/bits/byteswap.h:
+
+./include/arpa/inet.h:
+
+./include/stdlib.h:
+
+./include/bits/waitflags.h:
+
+./include/bits/waitstatus.h:
+
+./include/alloca.h:
+
+./include/unistd.h:
+
+./include/bits/posix_opt.h:
+
+./include/bits/environments.h:
+
+./include/bits/confname.h:
+
+./include/bits/getopt.h:
+
+./include/resolv.h:
+
+./include/sys/param.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/param.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/param.h:
+
+./include/arpa/nameser.h:
+
+./include/sys/bitypes.h:
+
+./include/arpa/nameser_compat.h:
+
+./include/netdb.h:
+
+./include/rpc/netdb.h:
+
+./include/bits/netdb.h:
+
+./include/ctype.h:
+
+./include/bits/uClibc_touplow.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stdbool.h:
+
+./include/sys/utsname.h:
+
+./include/bits/utsname.h:
+
+./include/sys/un.h:
+
+./include/sys/syscall.h:
+
+./include/bits/sysnum.h:
+
+./include/bits/syscalls.h:
+cmd_libc_inet_get_hosts_byname_r.os := rsdk-linux-gcc -c libc/inet/get_hosts_byname_r.c -o libc/inet/get_hosts_byname_r.os -include include/libc-symbols.h -Wall -Wstrict-prototypes -fno-strict-aliasing -fPIC -mabi=32 -fno-builtin -nostdinc -Iinclude -I. -Ilibc/sysdeps/linux/rlx -fno-asm -march=4181 -EB -msoft-float -DUCLIBC_INTERNAL -std=gnu99 -Os -funit-at-a-time -mno-split-addresses -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux/rlx -Ilibpthread/linuxthreads.old/sysdeps/rlx -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux -Ilibpthread/linuxthreads.old/sysdeps/pthread -Ilibpthread/linuxthreads.old -Ilibpthread -I/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/ -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6//include-fixed -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6/include -DNDEBUG "-mno-split-addresses" -MT libc/inet/get_hosts_byname_r.os -MD -MP -MF libc/inet/.get_hosts_byname_r.os.dep

@@ -1,0 +1,13 @@
+prefix=/svn/VoIP2/trunk/VoIP-jungle-2.4/rlxlinux-v2.2/users/zlib-1.2.5/install
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+sharedlibdir=${libdir}
+includedir=${prefix}/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.5
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

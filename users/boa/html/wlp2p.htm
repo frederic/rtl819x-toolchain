@@ -1,0 +1,555 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2011. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>Wifi Direct</title>
+<script type="text/javascript" src="util_gw.js"> </script>
+<script>
+
+function init()
+{
+	form = document.formWiFiDirect;
+	/* init intent value */
+	for (i=0; i<=15; i++) 
+	{
+		get_by_id("intentValue_select").options[i] = new Option(i, i, false, false);
+	}
+	
+	/* init listen channel */
+	for (i=0, chan=1; chan<=11; i++, chan++) 
+	{
+		/* allow 1 6 11 */
+		if (chan != 1 && chan != 6 && chan != 11) 
+		{
+			i--;
+			continue;
+		}
+		get_by_id("listenChannel_select").options[i] = new Option(chan, chan, false, false);
+	}
+	
+	/* init operation channel */
+	var regDomain =  <% getIndex("regDomain"); %>;
+	
+	idx = 0;
+
+	/* add 2g channel */
+			if (regDomain==1 || regDomain==2) {
+				start = 1;
+				end = 11;
+			}
+			if (regDomain==3) {
+				start = 1;
+				end = 13;
+			}
+			if (regDomain==4) {
+				start = 10;
+				end = 11;
+			}
+			if (regDomain==5) {
+				start = 10;
+				end = 13;
+			}
+			if (regDomain==6) {
+				start = 1;
+				end = 14;
+			}
+			
+			for (chan=start; chan<=end; idx++, chan++) 
+			{
+		get_by_id("operationChannel_select").options[idx] = new Option(chan, chan, false, false);
+				
+			}
+
+	/* add 5g channel */
+			if (regDomain==6) // MKK
+			{	
+				for (chan=34; chan<=64; idx++, chan+=2)
+				{
+					
+					/* hide channel 52-64 for dsf */
+					if (chan>=52 && chan<=64) {
+						idx--;
+						continue;
+					}
+			get_by_id("operationChannel_select").options[idx] = new Option(chan, chan, false, false);
+				}
+			}
+			else
+			{
+				inc_scale = 4;
+				chan_str = 36;
+				chan_end = 64;
+				
+				for (chan=chan_str; chan<=chan_end; idx++, chan+=inc_scale) 
+				{			
+					/* hide channel 52-64 for dsf */
+					if (chan>=52 && chan<=64) {
+						idx--;
+						continue;
+					}
+					
+			get_by_id("operationChannel_select").options[idx] = new Option(chan, chan, false, false);
+				}
+				
+				if ((regDomain == 1) || (regDomain == 2)) 
+				{
+					inc_scale = 4;
+					chan_str = 149;
+					chan_end = 165;
+					
+					for (chan=chan_str; chan<=chan_end; idx++, chan+=inc_scale) 
+					{			
+				get_by_id("operationChannel_select").options[idx] = new Option(chan, chan, false, false);
+					}
+					
+				}
+				
+				if (regDomain == 10) 
+				{
+					for (chan=183; chan<=190; idx++, chan+=1) 
+					{
+				get_by_id("operationChannel_select").options[idx] = new Option(chan, chan, false, false);
+					}
+				
+					for (chan=192; chan<=196; idx++, chan+=2) 
+					{
+				get_by_id("operationChannel_select").options[idx] = new Option(chan, chan, false, false);
+					}
+				
+					for (chan=207; chan<=212; idx++, chan+=1) 
+					{
+				get_by_id("operationChannel_select").options[idx] = new Option(chan, chan, false, false);
+					}
+					
+					for (chan=214; chan<=216; idx++, chan+=2) 
+					{
+				get_by_id("operationChannel_select").options[idx] = new Option(chan, chan, false, false);
+					}
+				}
+		
+			}
+			
+	
+		}
+	
+function loadSetting()
+{
+	mf = document.formWiFiDirect;
+	
+	if(get_by_id("wlanMode").value != 8) //8:p2p
+	{
+		get_by_id("p2p_status").innerHTML = "Status: P2P Disabled";	
+		get_by_id("forcego").disabled = true;
+		get_by_id("intentValue_select").disabled = true;
+		get_by_id("listenChannel_select").disabled = true;
+		get_by_id("operationChannel_select").disabled = true;
+		get_by_id("dev_name").disabled = true;
+		
+		get_by_id("save").disabled = true;
+		get_by_id("reset").disabled = true;
+		
+		get_by_id("p2p_scan").disabled = true;
+		get_by_id("p2p_connect").disabled = true;
+		get_by_id("backToDevice").disabled = true;
+
+
+	}
+	else
+	{
+		p2p_type_onclick('<% getInfo("p2p_type"); %>'*1);
+		intentValue_select_change('<% getInfo("p2p_intent"); %>'*1);
+		listenChannel_select_change('<% getInfo("p2p_listen_channel"); %>'*1);
+		operationChannel_select_change('<% getInfo("p2p_op_channel"); %>'*1);
+		
+		get_by_id("dev_name").value=("<% getInfo("device_name"); %>");
+		
+		setTimeout("__update_state()", __update_p2p_type_period);
+		
+		if(document.formWiFiDirect.elements["p2p_type"].value == 1)
+			get_by_id("backToDevice").disabled = true;
+	}
+}
+
+function p2p_type_onclick(val)
+{
+	form = document.formWiFiDirect;
+		
+
+	if(val==false || val == 0)
+	{	
+		form.elements["p2p_type"].value = 0;
+		get_by_id("forcego").checked = false;		
+	}
+	else
+	{		
+		form.elements["p2p_type"].value = 1;
+		get_by_id("forcego").checked = true;
+	}		
+	
+}
+
+function intentValue_select_change(val)
+{
+	form = document.formWiFiDirect;
+	
+	form.elements["p2p_intent"].value = val;
+	for (idx=0; idx<=15; idx++) 
+	{
+		if(get_by_id("intentValue_select").options[idx].value == val)
+		{
+			get_by_id("intentValue_select").selectedIndex = idx;
+			break;
+		}	
+	}
+}
+	
+function listenChannel_select_change(val)
+{
+	form = document.formWiFiDirect;
+	
+	form.elements["p2p_listen_channel"].value = val;
+	for (idx=0; idx<=11; idx++) 
+	{
+		if(get_by_id("listenChannel_select").options[idx].value == val)
+		{
+			get_by_id("listenChannel_select").selectedIndex = idx;
+			break;
+		}	
+}
+}
+
+function operationChannel_select_change(val)
+{
+	form = document.formWiFiDirect;
+	
+	form.elements["p2p_op_channel"].value = val;
+	for (idx=0; idx<=216; idx++) 
+	{
+		if(get_by_id("operationChannel_select").options[idx].value == val)
+		{
+			get_by_id("operationChannel_select").selectedIndex = idx;
+			break;
+		}	
+	}
+}
+
+function saveChanges()
+{		
+	mf = document.formWiFiDirect;
+	
+	if(get_by_id("dev_name").value == "")
+	{
+		alert("Device Name can't be empty!!");
+		get_by_id("dev_name").focus();
+		return false;		
+	}
+	mf.submit();
+
+}
+
+function resetForm()
+{
+	loadSetting();
+}
+
+var __AjaxReq = null;
+var __update_p2p_type_period=2000;
+
+function __createRequest()
+{
+	var request = null;
+	try { request = new XMLHttpRequest(); }
+	catch (trymicrosoft)
+	{
+		try { request = new ActiveXObject("Msxml2.XMLHTTP"); }
+		catch (othermicrosoft)
+		{
+			try { request = new ActiveXObject("Microsoft.XMLHTTP"); }
+			catch (failed)
+			{
+				request = null;
+			}
+		}
+	}
+	if (request == null) alert("Error creating request object !");
+	return request;
+}
+
+function __send_request(url)
+{
+	if (__AjaxReq == null) __AjaxReq = __createRequest();
+	__AjaxReq.open("GET", url, true);
+	__AjaxReq.onreadystatechange = __update_page;
+	__AjaxReq.send(null);
+}
+
+function generate_random_str()
+{
+	var d = new Date();
+	var str=d.getFullYear()+"."+(d.getMonth()+1)+"."+d.getDate()+"."+d.getHours()+"."+d.getMinutes()+"."+d.getSeconds();
+	return str;
+}
+
+function __update_state()
+{
+	__send_request("/wlp2pstate.htm?t="+generate_random_str());
+}
+
+function __update_page()
+{
+	var conn_msg="";
+	if (__AjaxReq != null && __AjaxReq.readyState == 4)
+	{
+//alert("responseText="+__AjaxReq.responseText);
+		if (__AjaxReq.responseText.substring(0,3)=="var")
+		{
+			eval(__AjaxReq.responseText);
+			switch (__result[0])
+			{
+				case "OK":
+					var p2p_state = new Array();	
+					p2p_state = __result[1].split("|"); /* p2p_status | p2p_event | p2p_wsc_method | p2p_role */
+
+					if(p2p_state[0] == "0")
+						get_by_id("p2p_status").innerHTML = "Status: Idle";
+					else if(p2p_state[0] == "1")
+						get_by_id("p2p_status").innerHTML = "Status: Listen";	
+					else if(p2p_state[0] == "2")
+						get_by_id("p2p_status").innerHTML = "Status: scan";	
+					else if(p2p_state[0] == "3")
+						get_by_id("p2p_status").innerHTML = "Status: Search";
+					else if(p2p_state[0] == "4")
+						get_by_id("p2p_status").innerHTML = "Status: Formationing";
+					else if(p2p_state[0] == "5")
+						get_by_id("p2p_status").innerHTML = "Status: connected";	
+					else if(p2p_state[0] == "6")
+						get_by_id("p2p_status").innerHTML = "Status: ap";	
+					else	
+						get_by_id("p2p_status").innerHTML = "Status: ";						
+						
+					if(p2p_state[1] == "1")
+					{
+						var selWscMethod = 0;
+						if(p2p_state[2] == "8")
+							selWscMethod = 1;
+						else if(p2p_state[2] == "256")
+							selWscMethod = 2;
+						else if(p2p_state[2] == "128")
+							selWscMethod = 4;							
+						
+//alert("Get P2P event. WSC method ="+p2p_state[2]);
+						openWlp2pwscconnect(selWscMethod);
+					}
+//enum p2p_role_more{ 
+//	P2P_DEVICE=1, 
+//	P2P_PRE_CLIENT=2,
+//	P2P_CLIENT=3,
+//	P2P_PRE_GO=4,	 // after GO nego , we are GO and proceed WSC exchange
+//	P2P_TMP_GO=5	 // after GO nego , we are GO and proceed WSC exchange is done
+//};				
+					if(p2p_state[3] == "1" )
+						get_by_id("p2p_role").innerHTML = "Role: Device";
+					else if(p2p_state[3] == "2" || p2p_state[3] == "3")
+						get_by_id("p2p_role").innerHTML = "Role: client";
+					else if(p2p_state[3] == "4" || p2p_state[3] == "5")
+						get_by_id("p2p_role").innerHTML = "Role: GO";
+					
+					
+					
+					break;
+
+				default :
+				
+					break;
+			}
+			setTimeout("__update_state()", __update_p2p_type_period);
+			delete __result;
+		}
+	}
+}
+</script>
+</head>
+
+<body onload="init(); loadSetting();">
+<blockquote>
+<h2><font color="#0000FF">Wifi Direct</font></h2>
+
+<form action=/boafrm/formWiFiDirect method=POST name="formWiFiDirect">	
+<input type="hidden" value="/wlp2p.htm" name="submit-url">
+<input type=hidden id="wlanMode" value="<% getIndex("wlanMode");%>"*1>
+<table border=0 width="550" cellspacing=4>
+
+
+<tr><font size=2>
+ Wi-Fi Direct, is a certification program from the Wi-Fi Alliance based on a set of software protocols (the Wi-Fi Peer-to-Peer specification) that allow Wi-Fi devices to talk to each other without the need for wireless access points (hot spots). The Wi-Fi Direct certification program is developed and administered by the Wi-Fi Alliance, the industry group that develops the standards suite underlying the Wi-Fi CERTIFIED certification program and owns the "Wi-Fi" trademark.
+</tr>
+<tr><hr size=1 noshade align=top></tr>
+
+<tr> 	
+	<td><font size=2><b><SPAN id=p2p_role>Role: Device</SPAN></b></td>
+</tr>
+
+<tr> 	
+	<td><font size=2><b><SPAN id=p2p_status>Status: Listen</SPAN></b></td>
+</tr>
+
+<input type=hidden name='p2p_type' value='<% getInfo("p2p_type"); %>'*1>
+<tr>
+  <td width="100%" colspan=2><font size=2><b>
+ 		<input type="checkbox" id="forcego" onclick="p2p_type_onclick(this.checked);">&nbsp;&nbsp;Force group owner</b>
+  </td>
+</tr>
+
+<input type=hidden name='p2p_intent' value='<% getInfo("p2p_intent"); %>'*1>
+<tr>
+	<td><font size=2><b>Intent value:</b></td>
+  <td><font size=2>
+  	<select size="1" id="intentValue_select"	onChange="intentValue_select_change(this.value)">
+		</select>
+  </td>
+</tr>
+
+<input type=hidden name='p2p_listen_channel' value='<% getInfo("p2p_listen_channel"); %>'*1>
+<tr>
+	<td><font size=2><b>Listen channel:</b></td>
+  <td><font size=2>
+  	<select size="1" id="listenChannel_select"	onChange="listenChannel_select_change(this.value)">
+		</select>
+  </td>
+</tr>
+
+<input type=hidden name='p2p_op_channel' value='<% getInfo("p2p_op_channel"); %>'*1>
+<tr>
+	<td><font size=2><b>Operation channel:</b></td>
+  <td><font size=2>
+  	<select size="1" id="operationChannel_select"	onChange="operationChannel_select_change(this.value)">
+		</select>
+  </td>
+</tr>
+  
+<tr>
+  <td><font size=2><b>Device Name:</b></td>
+  <td><font size=2><input type="text" id="dev_name" name="dev_name" size="31" maxlength="30" value="">
+	</td>
+</tr>		
+  
+<tr>
+  <td><font size=2><b>Self-PIN Number:</b></td>
+  <td><font size=2><% getInfo("wscLoocalPin");%></td>
+</tr>	
+  	  
+</table>
+
+<br>
+   	  
+<table border=0 width=500>
+	<tr>
+  	<input type="button" value="Apply Changes" id="save" onClick="return saveChanges()">&nbsp;&nbsp;
+    <input type="button" value="Reset" id="reset" onclick="resetForm();">
+	</tr>
+</table>   	  
+</form>
+
+<script>
+	
+var getFFVersion=navigator.userAgent.substring(navigator.userAgent.indexOf("Firefox")).split("/")[1]
+//extra height in px to add to iframe in FireFox 1.0+ browsers
+var FFextraHeight=getFFVersion>=0.1? 16 : 0 
+function dyniframesize(iframename) {
+  var pTar = null;
+  if (document.getElementById){
+    pTar = document.getElementById(iframename);
+  }
+  else{
+    eval('pTar = ' + iframename + ';');
+  }
+  if (pTar && !window.opera){
+    //begin resizing iframe
+    pTar.style.display="block"
+    
+    if (pTar.contentDocument && pTar.contentDocument.body.offsetHeight){
+      //ns6 syntax
+      pTar.height = pTar.contentDocument.body.offsetHeight+FFextraHeight; 
+    }
+    else if (pTar.Document && pTar.Document.body.scrollHeight){
+      //ie5+ syntax
+      pTar.height = pTar.Document.body.scrollHeight;
+    }
+  }
+}
+
+var wscProvsionMethod = 0;
+var wscProvsionDevMac = "";
+var wscProvsionDevChannel = 0;
+function p2pConnect()
+{
+	mf = document.formWiFiDirectConnect;		
+	
+	if(mf.elements["selDeviceName"].value == "")
+	{
+		alert("Please select one device first.");
+		return false;		
+	}
+	
+	//alert("selDeviceName="+mf.elements["selDeviceName"].value);
+	//alert("selChannel="+mf.elements["selChannel"].value);
+	//alert("selMacAddr="+mf.elements["selMacAddr"].value);
+	//alert("selRole="+mf.elements["selRole"].value);
+	//alert("selWSCMethod="+mf.elements["selWSCMethod"].value);
+	
+	wscProvsionMethod = mf.elements["selWSCMethod"].value;
+	wscProvsionDevMac = mf.elements["selMacAddr"].value;
+	wscProvsionDevChannel = mf.elements["selChannel"].value;
+	
+	window.open('wlp2pwscsel.htm', 'wlp2pwscselWindows', 'height=250, width=450, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+
+}
+	
+function openWlp2pwscconnect(selWscMethod)
+{	
+	wscProvsionMethod = selWscMethod;
+	window.open('wlp2pwscconnect.htm', 'wlp2pwscconnectWindows', 'height=250, width=450, top=0, left=0, toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+}
+
+function p2pBackToDevice()
+{
+	mf = document.formWiFiDirectConnect;
+	
+	get_by_id("action").value = "p2pBackToDevice";
+	
+	mf.submit();
+	
+}
+
+function scanClick()
+{
+	get_by_id("p2p_status").innerHTML = "Status: Scanning";	
+}
+</script>
+
+<form action=/boafrm/formWiFiDirect method=POST name="formWiFiDirectConnect">	
+
+<input type=hidden name="action" value="">
+<input type="hidden" value="/wlp2p.htm" name="submit-url">	
+<input type=hidden id="selDeviceName" name="selDeviceName" value="">
+<input type=hidden id="selChannel" name="selChannel" value="">
+<input type=hidden id="selMacAddr" name="selMacAddr" value="">
+<input type=hidden id="selRole" name="selRole" value="">
+<input type=hidden id="selWSCMethod" name="selWSCMethod" value="">
+
+
+
+<iframe id="p2pScanList" name="p2pScanList" onload="javascript:{dyniframesize('p2pScanList');}" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" src="wlp2pscanlist.htm" width=800 height=0></iframe> 
+
+ <br><input type="button" id="p2p_scan" value="Scan" onClick="scanClick();p2pScanList.window.p2pscan(<% getIndex("wlan_idx"); %>);">&nbsp;&nbsp;
+     <input type="button" id="p2p_connect" value="Connect" onClick="p2pConnect()">&nbsp;&nbsp;&nbsp;
+     <input type="button" id="backToDevice" value="Back to device mode" onClick="p2pBackToDevice()">
+</form>
+
+</td></tr></table>
+
+</blockquote>
+</body>
+</html>
+

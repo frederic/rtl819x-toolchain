@@ -1,0 +1,140 @@
+		NETBIOS FOR UNIX PROJECT
+		========================
+
+This is an announcement of a project to produce a free implementation
+of netbios for unix. The project has been underway for about a week,
+but builds on a implementation that was released almost two years ago.
+
+The project aims to produce a set of netbios modules for unix. In
+particular a file/print server, a unix client and a netbios
+nameserver. These modules will operate with the many commercial
+netbios client implementations that exist.
+
+You should only really join this project if you are interested in
+contributing or at least giving the developers some feedback on what
+does/doesn't work for you. This isn't a "final" release.
+
+If you are interested in this project then join the project mailing
+list. To do this send some mail to netbios-request@arvidsjaur.anu.edu.au. 
+This is currently serviced by a human (me) but will be automated shortly.
+
+To send mail to everyone on the list mail to netbios@arvidsjaur.anu.edu.au. 
+
+The current release of the software is available via anonymous ftp on
+nimbus.anu.edu.au in the directory pub/tridge/server/. The current
+version is 1.5.15 and is described below.
+
+
+CURRENT STATUS
+==============
+
+Currently I am working on version 1.5 of the software. It now includes
+both a client and server for unix, and has been confirmed to work with
+the Lanmanager for DOS client (that's what I'm using). If you don't know about
+Lanmanager for DOS then you can ftp the whole package from
+ftp.microsoft.com in Advsys/MSclient. Please read the licensing
+information in the directory before downloading.
+
+It has also been reported to work with Windows NT, Windows for
+Workgroups and Novells Lanworkplace for DOS. I would also expect it to
+work with Pathworks for TCP/IP, as that was what the very first
+version was written to talk to.
+
+The server currently implements (at least partially) all the smb calls
+except the "message" calls. I haven't implemented the message calls as
+I don't really know what to do with them. Maybe someone will offer to
+to work on a "messaging server"?
+
+Using the lanmanager for DOS software you can mount drives and
+printers, copy files, print files and generally do what you expect to
+be able to do on a file/print server.
+
+If you are using my old version (first put out nearly two years ago)
+then it's probably worth grabbing the new one. The first one was
+written without a spec and had LOTS of bugs. The new one supports a
+lot more calls (for example printing, locking etc) and it should be
+much more reliable.
+
+The nameserver is still fairly simple, but is sufficient to keep the
+various clients happy. It can recognise all the possible nameservice
+packets in rfc1002, but only responds to the essential ones.
+
+Both the client and server support changing the port number, and the
+server can run as a daemon or from inetd. There are also some other
+command line switches for debugging and other things.
+
+The client is still pretty simple. It implements a `ftp' style
+interface and currently supports the following commands:
+
+get,put,cd,dir,mkdir,rmdir and del.
+
+It certainly needs some more work on it. 
+
+PROTOCOLS
+=========
+
+Currently the software is known to work with TCP/IP, following rfc1001
+and rfc1002. One person has got it working with decnet using a
+pathworks for dos client. Other protocols may be possible.
+
+OS SUPPORT
+==========
+
+I am developing under Linux and Sunos, but it should work with at
+least the following as well:
+
+Sequent, Ultrix, AIX, BSDI and Solaris.
+
+TRYING IT OUT
+=============
+
+If you want to try it out with your current netbios client and don't
+want to have to compile it then try connecting using your favourite
+netbios software to \\arvidsjaur.anu.edu.au\public. This is probably
+the worlds first "anonymous smb" site :-)
+
+You should be able to mount this service as a drive and copy the
+source files using nornal copy commands. This service does not require
+a password.
+
+Some clients won't allow connections to other subnets, so they won't
+be able to connect to arvidsjaur. I know lanmanager for DOS will allow
+connections of this type if you define the name "arvidsjaur" in both
+\lanman.dos\etc\hosts and \lanman.dos\etc\lmhosts. You also have to
+add a router in the protocol.ini file so the network can see the rest
+of the world. To test if you have done this right you can try to ping
+arvidsjaur with the command "ping arvidsjaur". If you son't get a
+response then you've got something setup wrong on the DOS machine.
+
+
+TO DO
+=====
+
+Some of the things I plan to do, but would love some help with from a
+few volunteers:
+
+1) write man pages
+2) VFS client implementation
+3) messaging and datagram services
+4) fix bugs :-)
+5) completely free DOS client
+6) Xenix extensions
+7) anything else??
+
+If you want to help with any of these things then mail
+netbios@arvidsjaur.anu.edu.au or me and let us know!
+
+
+Help make this project a success!
+
+
+Andrew Tridgell
+December 1993
+
+
+-- 
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Andrew Tridgell (Tridge on ICS) CSLab, Research School of Physical Sciences
+Andrew.Tridgell@anu.edu.au      Australian National University (x3064)
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+

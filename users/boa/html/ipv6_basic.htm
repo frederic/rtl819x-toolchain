@@ -1,0 +1,74 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2003. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>IPv6 basic setting</title>
+<script>
+function submit_ok()
+{
+	return true;
+}
+</script>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+
+<form method="POST" action="/boafrm/formIPv6Addr" name=lanform>
+
+
+<b>IPv6 Addr setting</b>
+
+<p>
+<table cellSpacing=1 cellPadding=2 border=0>
+	<tr>
+	<td bgColor=#aaddff>No.</td>
+	<td bgColor=#aaddff>IPv6 Address</td>
+	<td bgColor=#aaddff>Pre_Len</td>
+	</tr>
+	
+	<tr>
+		<td bgColor=#ddeeff>br0</td>
+		<td bgColor=#ddeeff>
+			<input type=text name=addr_1_1 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_1_1"); %>>:
+			<input type=text name=addr_1_2 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_1_2"); %>>:
+			<input type=text name=addr_1_3 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_1_3"); %>>:
+			<input type=text name=addr_1_4 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_1_4"); %>>:
+			<input type=text name=addr_1_5 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_1_5"); %>>:
+			<input type=text name=addr_1_6 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_1_6"); %>>:
+			<input type=text name=addr_1_7 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_1_7"); %>>:
+			<input type=text name=addr_1_8 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_1_8"); %>>
+		</td>
+		<td bgColor=#ddeeff>
+			/<input type=text name=prefix_len_1 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("prefix_len_1"); %>>
+		</td>
+	</tr>
+	
+	<tr>
+		<td bgColor=#ddeeff>eth1</td>
+		<td bgColor=#ddeeff>
+			<input type=text name=addr_2_1 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_2_1"); %>>:
+			<input type=text name=addr_2_2 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_2_2"); %>>:
+			<input type=text name=addr_2_3 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_2_3"); %>>:
+			<input type=text name=addr_2_4 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_2_4"); %>>:
+			<input type=text name=addr_2_5 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_2_5"); %>>:
+			<input type=text name=addr_2_6 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_2_6"); %>>:
+			<input type=text name=addr_2_7 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_2_7"); %>>:
+			<input type=text name=addr_2_8 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("addrIPv6_2_8"); %>>
+		</td>
+		<td bgColor=#ddeeff>
+			/<input type=text name=prefix_len_2 size=4 maxlength=4 enable value=<% getIPv6BasicInfo("prefix_len_2"); %>>
+		</td>
+	</tr>	
+
+    <tr>
+    	<td colspan=3 align=center>
+	    	<input type="hidden" value="/ipv6_basic.htm" name="submit-url">
+	    	<input type="submit" value="Save" name="submit" onClick="return submit_ok()">
+ 		&nbsp;&nbsp;&nbsp;&nbsp;    	
+    		<input type="reset" value="Reset">	
+    	</td>
+    </tr>   
+
+</body>
+</html>

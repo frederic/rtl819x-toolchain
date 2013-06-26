@@ -1,0 +1,316 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2003. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>Wireless Advanced Setting</title>
+<script type="text/javascript" src="util_gw.js"> </script>
+<% language=javascript %>
+
+<SCRIPT>
+	
+var band2G5GSupport=<% getIndex("Band2G5GSupport"); %> ;
+//### add by sen_liu 2011.3.30 TX Beamforming added to mib in 92D 
+//judge if current interface is 92d.On condition that when 92C+92D,92C 2.4G and 92D 5G
+var interface92d=<% getIndex("wlan_interface_92D");%> ;
+//### end
+	
+function validateNum(str)
+{
+  for (var i=0; i<str.length; i++) {
+   	if ( !(str.charAt(i) >='0' && str.charAt(i) <= '9')) {
+		alert("Invalid value. It should be in decimal number (0-9).");
+		return false;
+  	}
+  }
+  return true;
+}
+
+function saveChanges()
+{
+  if ( validateNum(document.advanceSetup.fragThreshold.value) == 0 ) {
+  	document.advanceSetup.fragThreshold.focus();
+	return false;
+  }
+  num = parseInt(document.advanceSetup.fragThreshold.value);
+  if (document.advanceSetup.fragThreshold.value == "" || num < 256 || num > 2346) {
+  	alert('Invalid value of Fragment Threshold. Input value should be between 256-2346 in decimal.');
+  	document.advanceSetup.fragThreshold.focus();
+	return false;
+  }
+
+  if ( validateNum(document.advanceSetup.rtsThreshold.value) == 0 ) {
+  	document.advanceSetup.rtsThreshold.focus();
+	return false;
+  }
+  num = parseInt(document.advanceSetup.rtsThreshold.value);
+  if (document.advanceSetup.rtsThreshold.value=="" || num > 2347) {
+  	alert('Invalid value of RTS Threshold. Input value should be between 0-2347 in decimal.');
+  	document.advanceSetup.rtsThreshold.focus();
+	return false;
+  }
+
+  if ( validateNum(document.advanceSetup.beaconInterval.value) == 0 ) {
+  	document.advanceSetup.beaconInterval.focus();
+	return false;
+  }
+  num = parseInt(document.advanceSetup.beaconInterval.value);
+  if (document.advanceSetup.beaconInterval.value=="" || num < 20 || num > 1024) {
+  	alert('Invalid value of Beacon Interval. Input value should be between 20-1024 in decimal.');
+  	document.advanceSetup.beaconInterval.focus();
+	return false;
+
+  }
+  return true;
+}
+
+/*
+function checkTurboState()
+{
+	var txRate= <% getIndex("rateAdaptiveEnabled"); %>;
+
+	if (txRate == 1) 
+		enableRadioGroup(document.advanceSetup.turbo);
+	else		
+		disableRadioGroup(document.advanceSetup.turbo);
+}
+*/
+
+function wlan_adv_switch()
+{
+	var wlanband = <% getIndex("band"); %>;  
+	if (wlanband < 9)
+		wlanband = "0";
+	else
+		wlanband = "";
+
+	var checkid_aggregation;
+ 	var checkid_shortgi;
+ 	var wlan_xTxR="<% getInfo("wlan_xTxR"); %>";
+ 	
+ 	checkid_aggregation=document.getElementById("Aggregation");
+ 	checkid_shortgi=document.getElementById("ShortGi");
+ 	//if(wlanband == "0"){
+ 	//	checkid_aggregation.style.display = "none";
+ 	//	checkid_shortgi.style.display = "none";
+ 	//}else{
+ 	//	checkid_aggregation.style.display = "";
+ 	//	checkid_shortgi.style.display = "";
+ 	//}
+ 	//var agg_value = <% getIndex("aggregation"); %>;
+ 	//document.advanceSetup.elements["aggregation"].selectedIndex=agg_value;
+	
+ 	if(wlan_xTxR == "1*1")
+ 	{
+ 		document.advanceSetup.tx_stbc[0].checked= false;
+ 		document.advanceSetup.tx_stbc[1].checked= true;
+ 		document.advanceSetup.tx_stbc[0].disabled =true;
+		document.advanceSetup.tx_stbc[1].disabled =true;
+ 	}
+ 	else if(wlan_xTxR == "0*0")
+ 	{
+ 		document.getElementById("stbctransmit").style.display = "none";
+ 		document.getElementById("coexist").style.display = "none"; 		
+ 	}
+ 	
+	if(band2G5GSupport == 2) //2:5g
+ 	{
+ 		document.getElementById("preambleType").style.display = "none"; 		
+ 		document.getElementById("coexist").style.display = "none"; 		
+ 	}
+ 	else
+ 	{
+ 		document.getElementById("preambleType").style.display = ""; 		
+ 		document.getElementById("coexist").style.display = ""; 		
+ 	}
+	//### add by sen_liu 2011.3.29 TX Beamforming added to mib in 92D 
+	if(interface92d == 1)
+	{				
+ 		document.getElementById("tx_beamforming").style.display = ""; 
+	}
+	else
+	{
+		document.getElementById("tx_beamforming").style.display = "none";
+	}
+	//### end
+
+	if (<% getIndex("preamble"); %> == 0)
+		document.advanceSetup.elements["preamble"][0].checked = true;
+	else
+		document.advanceSetup.elements["preamble"][1].checked = true;
+
+	if (<% getIndex("iappDisabled"); %> == 0)
+		document.advanceSetup.elements["iapp"][0].checked = true;
+	else
+		document.advanceSetup.elements["iapp"][1].checked = true;
+
+	if (<% getIndex("protectionDisabled"); %> == 0)
+		document.advanceSetup.elements["11g_protection"][0].checked = true;
+	else
+		document.advanceSetup.elements["11g_protection"][1].checked = true;
+
+	if (<% getIndex("aggregation"); %> != 0)
+		document.advanceSetup.elements["aggregation"][0].checked = true;
+	else
+		document.advanceSetup.elements["aggregation"][1].checked = true;
+
+	if (<% getIndex("shortGIEnabled"); %> == 1)
+		document.advanceSetup.elements["shortGI0"][0].checked = true;
+	else
+		document.advanceSetup.elements["shortGI0"][1].checked = true;
+
+	if (<% getIndex("block_relay"); %> == 1)
+		document.advanceSetup.elements["block_relay"][0].checked = true;
+	else
+		document.advanceSetup.elements["block_relay"][1].checked = true;
+
+	if (<% getIndex("tx_stbc"); %> == 1)
+		document.advanceSetup.elements["tx_stbc"][0].checked = true;
+	else
+		document.advanceSetup.elements["tx_stbc"][1].checked = true;
+
+	if (<% getIndex("coexist"); %> == 1)
+		document.advanceSetup.elements["coexist_"][0].checked = true;
+	else
+		document.advanceSetup.elements["coexist_"][1].checked = true;
+
+	if (<% getIndex("tx_beamforming"); %> == 1)
+		document.advanceSetup.elements["beamforming_"][0].checked = true;
+	else
+		document.advanceSetup.elements["beamforming_"][1].checked = true;
+
+	document.advanceSetup.elements["RFPower"][<% getIndex("RFPower"); %>].checked = true;
+}
+
+function onClick_func(enable)
+{
+	if(enable)
+		enableRadioGroup(document.advanceSetup.sideBand0);
+	else
+		disableRadioGroup(document.advanceSetup.sideBand0);
+	
+}
+
+function resetForm()
+{
+	location=location; 
+}
+</SCRIPT>
+<blockquote>
+<body onload="wlan_adv_switch()">
+<h2><font color="#0000FF">
+<script type="text/javascript">
+var wlan_num =  <% getIndex("wlan_num"); %>;
+if (wlan_num > 1) {
+	var wlan_idx_ = <% getIndex("wlan_idx"); %> + 1;
+	document.write("Wireless Advanced Settings -wlan" + wlan_idx_ + "</p>");
+}
+else
+	document.write("Wireless Advanced Settings</p>");
+</script>
+</font></h2>
+
+<form action=/boafrm/formAdvanceSetup method=POST name="advanceSetup">
+<table border=0 width="500" cellspacing=4 cellpadding=0>
+  <tr><font size=2>
+ These settings are only for more technically advanced users who have a sufficient
+ knowledge about wireless LAN. These settings should not be changed unless you know
+ what effect the changes will have on your Access Point.
+  </tr>
+  <tr><hr size=1 noshade align=top></tr>
+  
+    <tr>
+      <td width="30%"><font size=2><b>Fragment Threshold:</b></td>
+      <td width="70%"><font size=2><input type="text" name="fragThreshold" size="10" maxlength="4" value=<% getInfo("fragThreshold"); %>>(256-2346)</td>
+    </tr>
+    <tr>
+      <td width="30%"><font size=2><b>RTS Threshold:</b></td>
+      <td width="70%"><font size=2><input type="text" name="rtsThreshold" size="10" maxlength="4" value=<% getInfo("rtsThreshold"); %>>(0-2347)</td>
+    </tr>
+    <tr>
+      <td width="30%"><font size=2><b>Beacon Interval:</b></td>
+      <td width="70%"><font size=2><input type="text" name="beaconInterval" size="10" maxlength="4" value=<% getInfo("beaconInterval"); %>> (20-1024 ms)</td>
+    </tr>
+
+
+    <tr id="preambleType" style="display:">
+      <td width="30%"><font size=2><b>Preamble Type:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="preamble" value="long">Long Preamble&nbsp;&nbsp;
+      <input type="radio" name="preamble" value="short">Short Preamble</td>
+    </tr>
+    
+    <tr>
+      <td width="30%"><font size=2><b>IAPP:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="iapp" value="yes">Enabled&nbsp;&nbsp;
+      <input type="radio" name="iapp" value="no">Disabled</td>
+    </tr>
+    <tr>
+      <td width="30%"><font size=2><b>Protection:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="11g_protection" value="yes">Enabled&nbsp;&nbsp;
+      <input type="radio" name="11g_protection" value="no">Disabled</td>
+    </tr> 
+
+    
+   <tr id="Aggregation" style="display:">
+      <td width="30%"><font size=2><b>Aggregation:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="aggregation" value="enable">Enabled&nbsp;&nbsp;
+      <input type="radio" name="aggregation" value="disable">Disabled</td>
+   </tr>
+
+    <tr id="ShortGi" style="display:">
+      <td width="30%"><font size=2><b>Short GI:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="shortGI0" value="on">Enabled&nbsp;&nbsp;
+      <input type="radio" name="shortGI0" value="off">Disabled</td>
+    </tr> 
+    <tr id="blockrelay" style="display:">
+      <td width="30%"><font size=2><b>WLAN Partition:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="block_relay" value="enable">Enabled&nbsp;&nbsp;
+      <input type="radio" name="block_relay" value="disable">Disabled</td>
+    </tr> 
+
+     <tr id="stbctransmit" style="display:">
+      <td width="30%"><font size=2><b>STBC:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="tx_stbc" value="enable">Enabled&nbsp;&nbsp;
+      <input type="radio" name="tx_stbc" value="disable">Disabled</td>
+    </tr> 
+     <tr id="coexist" style="display:">
+      <td width="30%"><font size=2><b>20/40MHz Coexist:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="coexist_" value="enable">Enabled&nbsp;&nbsp;
+      <input type="radio" name="coexist_" value="disable">Disabled</td>
+    </tr> 
+    <tr id="tx_beamforming" style="display:">
+      <td width="30%"><font size=2><b>TX Beamforming:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="beamforming_" value="enable">Enabled&nbsp;&nbsp;
+      <input type="radio" name="beamforming_" value="disable">Disabled</td>
+    </tr> 
+    <tr>
+      <td width="30%"><font size=2><b>RF Output Power:</b></td>
+      <td width="70%"><font size=2>
+      <input type="radio" name="RFPower" value="0">100%&nbsp;&nbsp;
+      <input type="radio" name="RFPower" value="1">70%&nbsp;&nbsp;
+      <input type="radio" name="RFPower" value="2">50%&nbsp;&nbsp;
+	  <input type="radio" name="RFPower" value="3">35%&nbsp;&nbsp;
+	  <input type="radio" name="RFPower" value="4">15%</td>
+    </tr>      
+
+  </table>
+  <p>
+  <input type="submit" value="Apply Changes" name="save" onClick="return saveChanges()">&nbsp;&nbsp;
+  <input type="reset" value="  Reset  " name="reset" onClick="resetForm();">&nbsp;&nbsp;&nbsp;
+  <input type="hidden" value="/wladvanced.htm" name="submit-url">
+  </p>
+</form>
+</blockquote>
+</body>
+
+</html>
+

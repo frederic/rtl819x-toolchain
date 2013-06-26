@@ -1,0 +1,747 @@
+#!/bin/sh
+#
+# uShare configure script - (c) 2007 Benjamin Zores
+#
+#  (fully inspirated from ffmpeg configure script, thanks to Fabrice Bellard)
+#
+
+# make sure we are running under a compatible shell
+unset foo
+(: ${foo%%bar}) 2>/dev/null && ! (: ${foo?}) 2>/dev/null
+if test "$?" != 0; then
+    if test "x$USHARE_CONFIGURE_EXEC" = x; then
+        USHARE_CONFIGURE_EXEC=1
+        export USHARE_CONFIGURE_EXEC
+        exec bash "$0" "$@"
+        exec ksh "$0" "$@"
+        exec /usr/xpg4/bin/sh "$0" "$@"
+    fi
+    echo "No compatible shell script interpreter found."
+    exit 1
+fi
+
+show_help(){
+  echo "Usage: configure [options]"
+  echo "Options: [defaults in brackets after descriptions]"
+  echo
+  echo "Standard options:"
+  echo "  --help                      print this message"
+  echo "  --log[=FILE|yes|no]         log tests and output to FILE [config.log]"
+  echo "  --prefix=PREFIX             install in PREFIX [$PREFIX]"
+  echo "  --bindir=DIR                install binaries in DIR [PREFIX/bin]"
+  echo "  --sysconfdir=DIR            configuration files DIR [PREFIX/etc]"
+  echo "  --localedir=DIR             use locales from DIR [PREFIX/share/locale]"
+  echo ""
+  echo "Extended options:"
+  echo "  --enable-dlna               enable DLNA support through libldna"
+  echo "  --disable-dlna              disable DLNA support"
+  echo "  --disable-nls               do not use Native Language Support"
+  echo ""
+  echo "Search paths:"
+  echo "  --with-libupnp-dir=DIR      check for libupnp installed in DIR"
+  echo "  --with-libdlna-dir=DIR      check for libdlna installed in DIR"
+  echo ""
+  echo "Advanced options (experts only):"
+  echo "  --enable-debug              enable debugging symbols"
+  echo "  --disable-debug             disable debugging symbols"
+  echo "  --disable-strip             disable stripping of executables at installation"
+  echo "  --disable-optimize          disable compiler optimization"
+  echo "  --cross-prefix=PREFIX       use PREFIX for compilation tools [$cross_prefix]"
+  echo "  --cross-compile             assume a cross-compiler is used"
+  exit 1
+}
+
+log(){
+    echo "$@" >>$logfile
+}
+
+log_file(){
+    log BEGIN $1
+    cat -n $1 >>$logfile
+    log END $1
+}
+
+echolog(){
+    log "$@"
+    echo "$@"
+}
+
+clean(){
+    rm -f $TMPC $TMPO $TMPE $TMPS
+}
+
+die(){
+    echolog "$@"
+    if enabled logging; then
+      echo "See file \"$logfile\" produced by configure for more details."
+    else
+      echo "Rerun configure with logging enabled (do not use --log=no) for more details."
+    fi
+    clean
+    exit 1
+}
+
+enabled(){
+    eval test "x\$$1" = "xyes"
+}
+
+flags_saved(){
+    (: ${SAVE_CFLAGS?}) 2>/dev/null
+}
+
+save_flags(){
+    flags_saved && return
+    SAVE_CFLAGS="$CFLAGS"
+    SAVE_LDFLAGS="$LDFLAGS"
+    SAVE_extralibs="$extralibs"
+}
+
+restore_flags(){
+    CFLAGS="$SAVE_CFLAGS"
+    LDFLAGS="$SAVE_LDFLAGS"
+    extralibs="$SAVE_extralibs"
+    unset SAVE_CFLAGS
+    unset SAVE_LDFLAGS
+    unset SAVE_extralibs
+}
+
+temp_cflags(){
+    temp_append CFLAGS "$@"
+}
+
+temp_ldflags(){
+    temp_append LDFLAGS "$@"
+}
+
+temp_extralibs(){
+    temp_append extralibs "$@"
+}
+
+temp_append(){
+    local var
+    var=$1
+    shift
+    save_flags
+    append_var "$var" "$@"
+}
+
+append_var(){
+    local var f
+    var=$1
+    shift
+    for f in $@; do
+      if eval echo \$$var | grep -qv -e "$f"; then
+        eval "$var=\"\$$var $f\""
+      fi
+    done
+}
+
+append(){
+    local var
+    var=$1
+    shift
+    flags_saved && append_var "SAVE_$var" "$@"
+    append_var "$var" "$@"
+}
+
+add_cflags(){
+    append CFLAGS "$@"
+}
+
+add_ldflags(){
+    append LDFLAGS "$@"
+}
+
+add_extralibs(){
+    append extralibs "$@"
+}
+
+add_clog(){
+    echo "#define $1 $2" >> $CONFIG_H
+}
+
+add_clog_str(){
+    echo "#define $1 \"$2\"" >> $CONFIG_H
+}
+
+check_cmd(){
+    log "$@"
+    "$@" >>$logfile 2>&1
+}
+
+check_cc(){
+    log check_cc "$@"
+    cat >$TMPC
+    log_file $TMPC
+    check_cmd $cc $CFLAGS "$@" -c -o $TMPO $TMPC
+}
+
+check_cpp(){
+    log check_cpp "$@"
+    cat >$TMPC
+    log_file $TMPC
+    check_cmd $cc $CFLAGS "$@" -E -o $TMPO $TMPC
+}
+
+check_ld(){
+    log check_ld "$@"
+    check_cc || return
+    check_cmd $cc $LDFLAGS "$@" -o $TMPE $TMPO $extralibs
+}
+
+check_exec(){
+    check_ld "$@" && { enabled cross_compile || $TMPE >>$logfile 2>&1; }
+}
+
+check_cflags(){
+    log check_cflags "$@"
+    check_cc "$@" <<EOF && add_cflags "$@"
+int x;
+EOF
+}
+
+check_ldflags(){
+    log check_ldflags "$@"
+    check_ld "$@" <<EOF && add_ldflags "$@"
+int main(){
+    return 0;
+}
+EOF
+}
+
+check_header(){
+    local header
+    log check_header "$@"
+    header=$1
+    shift
+    check_cpp "$@" <<EOF
+#include <$header>
+int x;
+EOF
+}
+
+check_func(){
+    local func
+    log check_func "$@"
+    func=$1
+    shift
+    check_ld "$@" <<EOF
+extern int $func();
+int main(){
+    $func();
+    return 0;
+}
+EOF
+}
+
+check_lib(){
+    local header func err
+    log check_lib "$@"
+    header="$1"
+    func="$2"
+    shift 2
+    temp_extralibs "$@"
+    check_header $header && check_func $func && add_extralibs "$@"
+    #check_header $header
+    #echo $?
+    #check_func $func
+    #echo $?
+    #add_extralibs "$@"
+    #echo "lib OK!"
+    #echo $?
+    err=$?
+    restore_flags
+    return $err
+}
+
+check_lib_version() {
+    check_cmd pkg-config "$1" --atleast-version="$2"
+    err=$?
+    return $err
+}
+
+append_config(){
+    echo "$@" >> $CONFIGFILE
+}
+
+expand_var(){
+    v="$1"
+    while true; do
+      eval t="$v"
+      test "$t" = "$v" && break
+      v="$t"
+    done
+    echo "$v"
+}
+
+# set temporary file name
+if test ! -z "$TMPDIR" ; then
+    TMPDIR1="${TMPDIR}"
+elif test ! -z "$TEMPDIR" ; then
+    TMPDIR1="${TEMPDIR}"
+else
+    TMPDIR1="/tmp"
+fi
+
+TMPC="${TMPDIR1}/ushare-${RANDOM}-$$-${RANDOM}.c"
+TMPO="${TMPDIR1}/ushare-${RANDOM}-$$-${RANDOM}.o"
+TMPE="${TMPDIR1}/ushare-${RANDOM}-$$-${RANDOM}"
+TMPS="${TMPDIR1}/ushare-${RANDOM}-$$-${RANDOM}.S"
+
+CONFIGFILE="config.mak"
+CONFIG_H="config.h"
+
+#################################################
+#   set default parameters
+#################################################
+logging="yes"
+logfile="config.log"
+PREFIX="/usr/local"
+bindir='${PREFIX}/bin'
+sysconfdir='${PREFIX}/etc'
+localedir='${PREFIX}/share/locale'
+dlna="no"
+nls="yes"
+cc="gcc"
+make="make"
+strip="strip"
+cpu=`uname -m`
+optimize="yes"
+debug="no"
+dostrip="yes"
+extralibs=""
+installstrip="-s"
+cross_compile="no"
+INSTALL="/usr/bin/install -c"
+VERSION="1.1a"
+system_name=`uname -s 2>&1`
+
+#################################################
+#   set cpu variable and specific cpu flags
+#################################################
+case "$cpu" in
+  i386|i486|i586|i686|i86pc|BePC)
+    cpu="x86"
+  ;;
+  x86_64|amd64)
+    cpu="x86"
+    canon_arch="`$cc -dumpmachine | sed -e 's,\([^-]*\)-.*,\1,'`"
+    if [ x"$canon_arch" = x"x86_64" -o x"$canon_arch" = x"amd64" ]; then
+      if [ -z "`echo $CFLAGS | grep -- -m32`"  ]; then
+        cpu="x86_64"
+      fi
+    fi
+  ;;
+# armv4l is a subset of armv5tel
+  arm|armv4l|armv5tel)
+    cpu="armv4l"
+  ;;
+  alpha)
+    cpu="alpha"
+  ;;
+  "Power Macintosh"|ppc|ppc64|powerpc)
+    cpu="powerpc"
+  ;;
+  mips|mipsel|IP*)
+    cpu="mips"
+  ;;
+  sun4u|sparc64)
+    cpu="sparc64"
+  ;;
+  sparc)
+    cpu="sparc"
+  ;;
+  sh4)
+    cpu="sh4"
+  ;;
+  parisc|parisc64)
+    cpu="parisc"
+  ;;
+  s390|s390x)
+    cpu="s390"
+  ;;
+  m68k)
+    cpu="m68k"
+  ;;
+  ia64)
+    cpu="ia64"
+  ;;
+  bfin)
+    cpu="bfin"
+  ;;
+  *)
+    cpu="unknown"
+  ;;
+esac
+
+# OS test booleans functions
+issystem() {
+  test "`echo $system_name | tr A-Z a-z`" = "`echo $1 | tr A-Z a-z`"
+}
+
+linux()   { issystem "Linux" || issystem "uClinux" ; return "$?" ; }
+sunos()   { issystem "SunOS"   ; return "$?" ; }
+hpux()    { issystem "HP-UX"   ; return "$?" ; }
+irix()    { issystem "IRIX"    ; return "$?" ; }
+aix()     { issystem "AIX"     ; return "$?" ; }
+cygwin()  { issystem "CYGWIN"  ; return "$?" ; }
+freebsd() { issystem "FreeBSD" || issystem "GNU/kFreeBSD"; return "$?" ; }
+netbsd()  { issystem "NetBSD"  ; return "$?" ; }
+bsdos()   { issystem "BSD/OS"  ; return "$?" ; }
+openbsd() { issystem "OpenBSD" ; return "$?" ; }
+bsd()     { freebsd || netbsd || bsdos || openbsd ; return "$?" ; }
+qnx()     { issystem "QNX"     ; return "$?" ; }
+darwin()  { issystem "Darwin"  ; return "$?" ; }
+gnu()     { issystem "GNU"     ; return "$?" ; }
+mingw32() { issystem "MINGW32" ; return "$?" ; }
+morphos() { issystem "MorphOS" ; return "$?" ; }
+amigaos() { issystem "AmigaOS" ; return "$?" ; }
+win32()   { cygwin || mingw32  ; return "$?" ; }
+beos()    { issystem "BEOS"    ; return "$?" ; }
+
+#################################################
+#   check options
+#################################################
+for opt do
+  optval="${opt#*=}"
+  case "$opt" in
+  --log)
+  ;;
+  --log=*) logging="$optval"
+  ;;
+  --prefix=*) PREFIX="$optval"; force_prefix=yes
+  ;;
+  --bindir=*) bindir="$optval";
+  ;;
+  --sysconfdir=*) sysconfdir="$optval";
+  ;;
+  --localedir=*) localedir="$optval";
+  ;;
+  --with-libupnp-dir=*) libupnpdir="$optval";
+  ;;
+  --with-libdlna-dir=*) libdlnadir="$optval";
+  ;;
+  --disable-nls) nls="no"
+  ;;
+  --enable-dlna) dlna="yes"
+  ;;
+  --disable-dlna) dlna="no"
+  ;;
+  --enable-debug) debug="yes"
+  ;;
+  --disable-debug) debug="no"
+  ;;
+  --disable-strip) dostrip="no"
+  ;;
+  --disable-optimize) optimize="no"
+  ;;
+  --cross-prefix=*) cross_prefix="$optval"
+  ;;
+  --cross-compile) cross_compile="yes"
+  ;;
+  --help) show_help
+  ;;
+  *)
+  echo "Unknown option \"$opt\"."
+  echo "See $0 --help for available options."
+  exit 1
+  ;;
+  esac
+done
+
+if [ -n "$cross_prefix" ]; then
+  cross_compile="yes"
+  cc="${cross_prefix}${cc}"
+  strip="${cross_prefix}${strip}"
+else
+  [ -n "$CC" ] && cc="$CC"
+  [ -n "$STRIP" ] && strip="$STRIP"
+fi
+[ -n "$MAKE" ] && make="$MAKE"
+
+#################################################
+#   create logging file
+#################################################
+if test "$logging" != no; then
+  enabled logging || logfile="$logging"
+  echo "# $0 $@" >$logfile
+  set >>$logfile
+else
+  logfile=/dev/null
+fi
+
+#################################################
+#   compiler sanity check
+#################################################
+echolog "Checking for compiler available..."
+check_exec <<EOF
+int main(){
+    return 0;
+}
+EOF
+if test "$?" != 0; then
+  echo "$cc is unable to create an executable file."
+  if test -z "$cross_prefix" -a "$cross_compile" = no; then
+    echo "If $cc is a cross-compiler, use the --cross-compile option."
+  fi
+  die "C compiler test failed."
+fi
+
+#################################################
+#   check for target specific flags
+#################################################
+# check for SIMD availability
+
+# AltiVec flags: The FSF version of GCC differs from the Apple version
+if test $cpu = "powerpc"; then
+  if test $altivec = "yes"; then
+    if test -n "`$cc -v 2>&1 | grep version | grep Apple`"; then
+      add_cflags "-faltivec"
+    else
+      add_cflags "-maltivec -mabi=altivec"
+    fi
+  fi
+fi
+
+check_header altivec.h && _altivec_h=yes || _altivec_h=no
+
+# check if our compiler supports Motorola AltiVec C API
+if enabled altivec; then
+  if enabled _altivec_h; then
+    inc_altivec_h="#include <altivec.h>"
+  else
+    inc_altivec_h=
+  fi
+  check_cc <<EOF || altivec=no
+$inc_altivec_h
+int main(void) {
+    vector signed int v1, v2, v3;
+    v1 = vec_add(v2,v3);
+    return 0;
+}
+EOF
+fi
+
+# mmi only available on mips
+if [ "$mmi" = "default" ]; then
+  if [ "$cpu" = "mips" ]; then
+    mmi="yes"
+  else
+    mmi="no"
+  fi
+fi
+
+# check if our compiler supports mmi
+enabled mmi && check_cc <<EOF || mmi="no"
+int main(void) {
+    __asm__ ("lq \$2, 0(\$2)");
+    return 0;
+}
+EOF
+
+# test gcc version to see if vector builtins can be used
+# currently only used on i386 for MMX builtins
+check_cc -msse <<EOF && builtin_vector=yes || builtin_vector=no
+#include <xmmintrin.h>
+int main(void) {
+#if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 2)
+return 0;
+#else
+#error no vector builtins
+#endif
+}
+EOF
+
+# test for mm3dnow.h
+test "$cpu" = "x86_64" && march=k8 || march=athlon
+check_cc -march=$march <<EOF && mm3dnow=yes || mm3dnow=no
+#include <mm3dnow.h>
+int main(void) {
+__m64 b1;
+b1 = _m_pswapd(b1);
+_m_femms();
+return 0;
+}
+EOF
+
+# ---
+# big/little-endian test
+if test "$cross_compile" = "no"; then
+  check_ld <<EOF || die "endian test failed" && $TMPE && bigendian="yes"
+#include <inttypes.h>
+int main(int argc, char ** argv){
+        volatile uint32_t i=0x01234567;
+        return (*((uint8_t*)(&i))) == 0x67;
+}
+EOF
+else
+# programs cannot be launched if cross compiling, so make a static guess
+  if test "$cpu" = "powerpc" -o "$cpu" = "mips" ; then
+    bigendian="yes"
+  fi
+fi
+
+# add some useful compiler flags if supported
+add_cflags -I..
+check_cflags -W
+check_cflags -Wall
+check_cflags -D_LARGEFILE_SOURCE
+check_cflags -D_FILE_OFFSET_BITS=64
+check_cflags -D_REENTRANT
+linux && add_cflags -D_GNU_SOURCE
+
+#################################################
+#   check for debug symbols
+#################################################
+if enabled debug; then
+  add_cflags -g3
+  add_cflags -DHAVE_DEBUG
+  dostrip=no
+fi
+
+if enabled optimize; then
+  if test -n "`$cc -v 2>&1 | grep xlc`"; then
+    add_cflags  "-O5"
+    add_ldflags "-O5"
+  else
+    add_cflags "-O3"
+  fi
+fi
+
+#################################################
+#   check for locales (optional)
+#################################################
+echolog "Checking for locales ..."
+check_header locale.h && add_cflags -DHAVE_LOCALE_H
+check_lib locale.h setlocale "" && add_cflags -DHAVE_SETLOCALE
+
+#################################################
+#   check for ifaddr (optional)
+#################################################
+echolog "Checking for ifaddrs ..."
+check_lib ifaddrs.h getifaddrs "" && add_cflags -DHAVE_IFADDRS_H
+
+#################################################
+#   check for langinfo (optional)
+#################################################
+echolog "Checking for langinfo ..."
+check_header langinfo.h && add_cflags -DHAVE_LANGINFO_H
+check_lib langinfo.h nl_langinfo "" && add_cflags -DHAVE_LANGINFO_CODESET
+
+#################################################
+#   check for iconv (optional)
+#################################################
+echolog "Checking for iconv ..."
+check_lib iconv.h iconv "" && add_cflags -DHAVE_ICONV
+
+#################################################
+#   check for libupnp and friends (mandatory)
+#################################################
+if [ -n "$libupnpdir" ]; then
+  check_cflags -I$libupnpdir
+  check_ldflags -L$libupnpdir
+fi
+
+echolog "Checking for libixml ..."
+check_lib upnp/ixml.h ixmlRelaxParser -lixml || die "Error, can't find libixml !"
+
+echolog "Checking for libthreadutil ..."
+check_lib upnp/ThreadPool.h ThreadPoolAdd "-lthreadutil -lpthread" || die "Error, can't find libthreadutil !"
+add_extralibs -lpthread
+
+libupnp_min_version="1.4.2"
+echolog "Checking for libupnp >= $libupnp_min_version ..."
+check_lib upnp/upnp.h UpnpSetMaxContentLength -lupnp || die "Error, can't find libupnp !"
+check_lib_version libupnp $libupnp_min_version || die "Error, libupnp < $libupnp_min_version !"
+add_cflags `pkg-config libupnp --cflags`
+add_extralibs `pkg-config libupnp --libs`
+
+#################################################
+#   check for libdlna (mandatory if enabled)
+#################################################
+if test "$dlna" = "yes"; then
+  libdlna_min_version="0.2.1"
+  echolog "Checking for libdlna >= $libdlna_min_version ..."
+  if [ -n "$libdlnadir" ]; then
+    check_cflags -I$libdlnadir
+    check_ldflags -L$libdlnadir
+  fi
+  check_lib dlna.h dlna_register_all_media_profiles -ldlna -lavformat -lavcodec -lavutil || die "Error, can't find libdlna (install it or use --disable-dlna) !"
+  ##check_lib_version libdlna $libdlna_min_version || die "Error, libdlna < $libdlna_min_version !"
+  add_cflags -DHAVE_DLNA
+  add_cflags `pkg-config libdlna --cflags`
+  add_extralibs `pkg-config libdlna --libs`
+fi
+
+#################################################
+#   logging result
+#################################################
+echolog ""
+echolog "uShare: configure is OK"
+echolog "  version            $VERSION"
+echolog "  using libupnp      `pkg-config libupnp --modversion`"
+test $dlna = yes && echolog "  using libdlna      `pkg-config libdlna --modversion`"
+echolog "configuration:"
+echolog "  install prefix     $PREFIX"
+echolog "  configuration dir  $sysconfdir"
+echolog "  locales dir        $localedir"
+echolog "  NLS support        $nls"
+echolog "  DLNA support       $dlna"
+echolog "  C compiler         $cc"
+echolog "  STRIP              $strip"
+echolog "  make               $make"
+echolog "  CPU                $cpu ($tune)"
+echolog "  debug symbols      $debug"
+echolog "  strip symbols      $dostrip"
+echolog "  optimize           $optimize"
+echolog ""
+echolog "  CFLAGS             $CFLAGS"
+echolog "  LDFLAGS            $LDFLAGS"
+echolog "  extralibs          $extralibs"
+echolog ""
+
+#################################################
+#   save configs attributes
+#################################################
+echolog "Creating $CONFIGFILE ..."
+
+echo "# Automatically generated by configure - do not modify!" > $CONFIGFILE
+
+append_config "VERSION=$VERSION"
+
+append_config "PREFIX=$PREFIX"
+append_config "prefix=\$(DESTDIR)\$(PREFIX)"
+append_config "bindir=\$(DESTDIR)$bindir"
+append_config "sysconfdir=\$(DESTDIR)$sysconfdir"
+append_config "localedir=\$(DESTDIR)$localedir"
+
+append_config "MAKE=$make"
+append_config "CC=$cc"
+append_config "LN=ln"
+if enabled dostrip; then
+  append_config "STRIP=$strip"
+  append_config "INSTALLSTRIP=$installstrip"
+else
+  append_config "STRIP=echo ignoring strip"
+  append_config "INSTALLSTRIP="
+fi
+append_config "EXTRALIBS=$extralibs"
+
+append_config "OPTFLAGS=$CFLAGS"
+append_config "LDFLAGS=$LDFLAGS"
+append_config "INSTALL=$INSTALL"
+
+append_config "DEBUG=$debug"
+
+
+echolog "Creating $CONFIG_H ..."
+echo "/* Automatically generated by configure - do not modify! */" > $CONFIG_H
+add_clog_str VERSION "$VERSION"
+add_clog_str PACKAGE "ushare"
+add_clog_str PACKAGE_NAME "uShare"
+add_clog_str SYSCONFDIR `expand_var "${sysconfdir}"`
+add_clog_str LOCALEDIR `expand_var "${localedir}"`
+test $nls = yes && add_clog CONFIG_NLS 1
+
+clean
+exit 0

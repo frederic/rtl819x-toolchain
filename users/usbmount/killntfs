@@ -1,0 +1,17 @@
+#!/bin/sh
+#kill sleep that ntp.sh created###############
+TMPFILENTP=/tmp/tmpfilentp
+line=0
+ps | grep "$1" > $TMPFILENTP
+line=`cat $TMPFILENTP | wc -l`
+num=1
+while [ $num -le $line ];
+do
+ pat0=` head -n $num $TMPFILENTP | tail -n 1`
+ pat1=`echo $pat0 | cut -f1 -dS`  
+ pat2=`echo $pat1 | cut -f1 -d " "`  
+ kill -9 $pat2 2> /dev/null
+ num=`expr $num + 1`
+done
+rm -f /tmp/tmpfilentp 2> /dev/null
+###########################################

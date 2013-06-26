@@ -1,0 +1,73 @@
+#!/bin/sh
+ifconfig lo 127.0.0.1
+
+CINIT=1
+hostname rlx-linux
+
+mount -t proc proc /proc
+mount -t ramfs ramfs /var
+
+mkdir /var/tmp
+mkdir /var/web
+mkdir /var/log
+mkdir /var/run
+mkdir /var/lock
+mkdir /var/system
+mkdir /var/dnrd
+mkdir /var/lib
+mkdir /var/lib/misc
+
+#smbd
+mkdir /var/config
+mkdir /var/private
+mkdir /var/tmp/usb
+
+#extact web pages
+cd /web
+flash extr /web
+cd /
+ 
+mkdir -p /var/udhcpc
+cp /bin/init.sh /var/udhcpc/eth0.deconfig
+echo " " > /var/udhcpc/eth0.deconfig
+cp /bin/init.sh /var/udhcpc/eth1.deconfig
+echo " " > /var/udhcpc/eth1.deconfig
+cp /bin/init.sh /var/udhcpc/br0.deconfig
+echo " " > /var/udhcpc/br0.deconfig
+cp /bin/init.sh /var/udhcpc/wlan0.deconfig
+echo " " > /var/udhcpc/wlan0.deconfig
+
+if [ "$CINIT" = 1 ]; then
+startup.sh
+fi
+
+# for wapi certs related
+mkdir /var/myca
+# wapi cert(must done before init.sh)
+cp -rf /usr/local/ssl/* /var/myca/ 2>/dev/null
+# loadWapiFiles >/dev/null 2>&1
+ 
+# for wireless client mode 802.1x
+mkdir /var/1x
+cp -rf /usr/1x/* /var/1x/ 2>/dev/null
+ 
+# Start system script
+init.sh ap all
+ 
+# start web server
+webs&
+
+#USE_SAMBA=1
+if [ "$USE_SAMBA" = 1 ]; then 
+	#samba
+	echo "start samba"
+	cp /etc/smb.conf /var/config/smb.conf
+	echo " " > /var/group
+	cp /etc/group /var/group
+	#usb and samba
+	echo /usr/hotplug > /proc/sys/kernel/hotplug
+	mkdir -p /tmp/usb/
+	/bin/smbd -D 
+	DEVPATH=/sys/block/sda ACTION=add usbmount block
+	DEVPATH=/sys/block/sda/sda1 ACTION=add usbmount block
+fi

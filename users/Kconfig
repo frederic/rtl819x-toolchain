@@ -1,0 +1,555 @@
+#############################################################################
+
+#
+#	Kconfig - user applications and library configuration
+#
+
+#############################################################################
+
+comment "Applications"
+
+config APP_AUTH
+	bool "auth"
+	help
+	  A daemon used for Wireless EAP.
+
+config APP_AUTH_2NDSRV
+	bool "	2nd auth srv"
+	depends on APP_AUTH
+	help
+	  Config auth daemon to support dual radius server
+
+config APP_BRCTL
+	bool "brctl"
+	help
+	  Brctl is used to set up, maintain, and inspect the ethernet bridge 
+	  configuration in the linux kernel.
+
+
+config APP_BUSYBOX
+	bool "busybox"
+	help
+	  BusyBox combines tiny versions of many common UNIX utilities into
+	  a single small executable.  It provides minimalist replacements
+	  for most of the utilities you usually find in fileutils, shellutils,
+	  findutils, textutils, grep, gzip, tar, etc.  Simply select those
+	  utilities and options you want.
+
+config APP_LOGIN_CONSOLE
+	bool "login on console"
+	help
+	  user must login on console if the feature enabled.
+
+config APP_CTORRENT
+	bool "Enhanced Ctorrent"
+	help
+	  Enhanced Ctorrent is a light-weight BT Client on UNIX like OS.
+
+config APP_DCTS
+	bool "dcts"
+	help
+	  dcts is a controller server for Enhanced Ctorrent
+
+config APP_DHCPV6
+	bool "dhcpv6"
+	help
+	  Dhcp daemon for Ipv6.
+
+config APP_DISCOVER
+	bool  "discover"
+	help
+	  Auto Discovery Server
+
+config APP_DNRD
+	bool "dnrd"
+	help 
+	  dns relay for ipv4
+
+config APP_DNSMASQ
+	bool "dnsmasq"
+	default n
+	help
+	  dns proxy for IPv4 and IPv6
+
+config APP_DOSFSCK
+        bool "dosfsck"
+        help
+          A tool to check dos file system.
+
+config APP_GDBSERVER
+        bool "gdbserver"
+        help
+          The gdbserver-6.8 for debug application
+
+config APP_GOAHEAD
+	bool "goahead"
+	depends on !APP_BOA
+	help
+	  A simple HTTPD Daemon. It provides web interface of the Wireless Gateway
+
+config APP_BOA
+	bool "boa"
+	help
+	  A simple HTTPD Daemon. It provides web interface of the Wireless Gateway
+config APP_UWIFI
+	bool "uWiFi"
+	help
+	  A uWiFi package for customer
+config APP_GPROXY
+	bool "gproxy"
+	help
+	  The gproxy daemon
+	  
+config APP_MULTIPPPOE
+	bool "Multi PPPoE Support"
+	help
+	  Multi PPPoE Support
+
+config APP_IAPP
+	bool "iapp"
+	help
+          The IAPP application
+
+config APP_IGMPPROXY
+	bool "igmp proxy"
+	help
+	  The igmp proxy daemon
+
+config IGMPPROXY_MULTIWAN
+	depends on APP_IGMPPROXY
+        bool "support igmp proxy multiwan"
+
+config IGMPV3_SUPPORT
+	depends on APP_IGMPPROXY
+	bool "support igmpv3 proxy"
+	   			 
+config APP_IPROUTE
+	bool "iproute2"
+	help
+	  The iproute2 daemon
+
+config APP_IPTABLES
+	bool "iptables"
+	help
+	  The iptables daemon
+
+config APP_L7FILTER_PAT
+	bool "l7filter_pat"
+	depends APP_IPTABLES
+	help
+	  The l7filter pattern
+
+config APP_IWCONTROL
+	bool "iwcontrol"
+	help
+	  The iwcontrol utility.
+
+config APP_L2TPD
+	bool "l2tpd"
+	help
+	  A l2tpd daemon.
+
+config APP_LLTDD
+	bool "lltdd"
+	help
+	  The Link Layer Topology Discovery (LLTD) daemon.
+
+config APP_MINI_UPNP
+	bool "mini_upnp"
+	help
+	  A Mini-UPNP Daemon and library for miniigd and wsc.
+
+config APP_MINIIGD
+	bool "miniigd"
+	help
+	  A miniigd daemon.
+
+config APP_MKDOSFS
+        bool "mkdosfs"
+        help
+          A tool to make dos file system.
+
+config APP_MP
+        bool "mp daemon"
+        help
+          A mp daemon.
+
+config APP_NTFS3G
+	bool "ntfs3g"
+	default n
+	help
+	  NT file system support
+		
+config APP_NTPCLIENT
+	bool "ntpclient"
+	help
+	  The ntpclient daemon
+
+config APP_OPENSSL
+	bool "openssl"
+	help
+	  The openssl tool.
+	default n
+
+comment "Choose openssl version."
+
+	choice 
+		prompt "openssl"
+		default APP_OPENSSL-0.9.8B
+		depends on APP_OPENSSL
+			config APP_OPENSSL-0.9.8B
+				bool "openssl-0.9.8b"
+				help 
+					The openssl-0.9.8b tool.
+			config APP_OPENSSL-0.9.8I
+				bool "openssl-0.9.8i"
+				help 
+					This version used for toolchain-1.5.5.
+	endchoice
+
+config APP_HOSTAPD_HCM
+	bool "hostapd in host controlled mode"
+	depends on APP_OPENSSL
+	help
+	  The hostap daemon is patched based on 0.6.10
+
+config APP_WAPI
+	bool "wapi_utils"
+	depends on APP_OPENSSL
+	help
+	  The wapi certs related applications.
+	default n
+
+config APP_ORAYDDNS
+	bool "oray ddns"
+	help
+	  The oray ddns daemon
+
+config APP_PATHSEL
+	bool "pathsel"
+	help
+	  The mesh path selection paemon
+
+config APP_PPPD
+	bool "pppd"
+	help
+	  A ppp daemon.
+
+config  PPPOE_DISCONNECT_FLOW_PATCH
+        bool "pppoe_disc_flow_patch"
+        help
+           A pppoe disconect flow patch.
+ 
+config APP_PPTP
+	bool "pptp"
+	help
+	  A pptp client.
+
+config APP_ECMH
+	bool "ecmh"
+	help
+	  A mld proxy for IPv6
+
+config APP_RADVD
+	bool "radvd"
+	help
+	  radvd daemon for Ipv6.
+
+config APP_RELOAD
+	bool "reload"
+	help
+	  Reload configuration at the end of init.
+
+config APP_ROUTED
+	bool "routed"
+	help
+	   RIP daemon for dynamic routing
+
+config APP_FWD
+	bool "firmware write daemon"
+	default y 
+	help
+	  A firmware write daemon.
+	  
+config APP_RTK_CMD
+	bool "rtk_cmd daemon"
+	default y 
+	help
+	  A rtk_cmd daemon.
+source "samba/Kconfig"
+
+config APP_SCRIPT
+	bool "scripts"
+	help
+	  The scripts used to init the gw and start the daemons
+
+config APP_SQUASHFS40
+	bool "squashfs 4.0"
+	help
+	  squashfs tools to build image 
+
+config APP_SNMP
+	bool "snmp"
+	help
+	  An SNMP Daemon for network management
+ 
+config APP_TR069
+	bool "tr069"
+	select APP_ROUTED
+	help
+	  TR069 Daemon for network management
+	#select USER_CWMP_WITH_SSL
+	
+config USER_CWMP_WITH_SSL
+	bool
+	depends on APP_TR069
+	
+choice
+prompt "Subarchitecture Type"
+default USER_CWMP_SSL_NO_SUPPORT
+depends on APP_TR069
+
+config USER_CWMP_SSL_NO_SUPPORT
+	depends on APP_TR069
+	bool "no support any SSL"
+		
+config USER_CWMP_WITH_OPENSSL
+	depends on APP_TR069
+	bool "support OPENSSL"
+	select USER_CWMP_WITH_SSL
+	select APP_OPENSSL
+	
+config USER_CWMP_WITH_MATRIXSSL
+	depends on APP_TR069
+	bool "support MATRIXSSL"
+	select USER_CWMP_WITH_SSL
+	
+endchoice
+
+config APP_TR104
+	bool "tr104"
+	depends on APP_TR069
+	depends on APP_RTK_VOIP
+	help
+		TR104 Parameters incorporated with TR069
+
+config APP_UDHCPD
+	bool "udhcp" 
+	help
+	  An embedded DHCP client and server	
+
+config APP_UPDATEDD
+	bool "updatedd DDNS"
+	help
+	  An DDNS daemon for serverl DDNS ISP
+
+config APP_USBMOUNT
+	bool "usbmount"
+	help
+	  The usbmount daemon.
+
+config USBDISK_UPDATE_IMAGE
+        depends on APP_USBMOUNT
+        bool "usbdisk update image"
+        help
+          Update image from specific file in usb disk.
+
+config APP_VSFTPD
+	bool "vsftpd"
+	help
+	  The ftp daemon.
+
+config APP_WIRELESSTOOLS
+	bool "wireless tools"
+	help
+	  The wireless tools
+
+config APP_WSC
+	bool "wsc daemon"
+	select APP_MINI_UPNP
+	help
+	  The wireless WPS daemon
+ 
+config APP_HOSTAPD
+	bool "hostapd"
+	help
+	  The hostap daemon in vserion 0.6.9
+
+config APP_RTK_VOIP
+	bool "rtk_voip"
+	help
+	  The rtk voip
+
+config APP_PMC_UTILS
+	bool "pmc utils"
+	select LIB_Z
+	help
+	  The pmc utils
+
+config APP_HOSTAPD_SLAVE
+        bool "hostapd_slave"
+        help
+          The hostap_slave daemon in support vserion 0.6.10
+	
+config APP_RTK_INBAND_CTL
+        bool "rtk_inband_ctl"
+        help
+          This daemon support realtek proprietary inband control
+
+config APP_RTK_INBAND_HOST
+        bool "rtk inband Host utility sample"
+        help
+          rtk inband Host utility sample
+
+config APP_NFBI
+	bool "nfbi"
+	help
+	  User space program for NFBI.
+	  
+config APP_NFBI_HOST
+	bool "nfbi host"
+	help
+	  NFBI user space program for Host.
+	  
+config APP_IOH
+	bool "ioh"
+	help
+	  IOH client & daemon
+
+config APP_NMBS
+	bool "nmbs"
+	help
+	  Nmb server.	  
+
+config APP_AUTORUNIMG
+	bool "ulinker autorun image tool"
+	help
+	  Tool for generate ulinker auto install image.
+
+comment "USB3G support"
+config APP_COMGT
+	bool "comgt"
+	help
+	  GSM dialup script.
+
+config APP_CHAT
+	bool "chat"
+	help
+	  PPP chat.
+
+config APP_LIBUSB
+ 	bool "libusb"
+ 	help
+ 	  libusb.
+
+config APP_USBMODESWITCH
+	bool "usb-modeswitch"
+	help
+	  usb-modeswitch.
+
+config APP_MBPK_EJECT
+	bool "mbpk_eject"
+	help
+	  mbpk_eject.
+
+config APP_USBMODESWITCH_DATA
+	bool "usb-modeswitch-data"
+	help
+	  usb-modeswitch-data.
+
+config APP_USBUTILS
+	bool "usbutils"
+	help
+	  usbutils.
+
+config APP_HUBCTRL
+	bool "hub-ctrl"
+	help
+	  hub-ctrl.
+
+config APP_MNET
+	bool "mnet"
+	help
+	  mnet.
+
+comment "Libraries"
+
+config LIB_PNG
+    bool "libpng"
+    select LIB_Z
+	help
+	  A small example library, only for demostration.
+
+config LIB_Z
+    bool "zlib"
+	help
+	  zlib 1.2.5 required by pmc utils
+
+config LIB_NL
+    depends on APP_HOSTAPD
+    bool "libnl-1.1"
+	help
+	  library requried by hostapd-0.6.9
+
+config APP_FLEX
+	bool "flex library"
+	help
+	  flex library.
+
+comment "Debug & Test"
+
+config APP_CLE_SHELL
+	bool "cle_shell"
+	help
+	  for debug and IC test.
+
+config APP_UTILS
+	bool "utils"
+	help
+	  A set of useful utilities for debug and IC test.
+
+config APP_IPERF
+	bool "iperf"
+	help
+	  A modern tool for network performance measurement.
+
+config APP_DHRYSTONE
+	bool "dhrystone"
+	help
+	  A small example, only for demostration.
+
+config APP_IOZONE
+	bool "iozone"
+	help 
+	  A filesystem benchmark tool
+
+config APP_LTP
+	bool "ltp"
+	help 
+	  Linux Test Project
+
+config APP_EXAMPLE
+	bool "example"
+	help
+	  A small example, only for demostration.
+
+config APP_RELOAD
+	bool "reload"
+	help
+	  A periodly checking utility
+
+config APP_DLNA_DMS
+	bool "dlna_dms"
+	help
+	 ushare daemon
+config APP_MT_DAAPD
+	bool "mt-daapd"
+	help
+	 mt-daapd is a program which acts as an iTunes(DAAP) server for Linux and other Posix unixes. It may eventually support Win32 as well.
+config APP_LIBICONV
+	bool "libiconv"
+	depends on APP_DLNA_DMS
+	help
+	 libiconv-1.14
+	default y
+##############################################################################

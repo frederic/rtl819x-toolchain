@@ -1,0 +1,10 @@
+
+# $Id: Config.in,v 1.2 2008-01-08 12:25:22 rock Exp $
+
+mainmenu_option next_comment
+comment 'PCM Controller @ Realtek'
+tristate 'PCM Controller @ Realtek support' CONFIG_PCM
+#if [ "$CONFIG_PCM" = "y" ]; then
+#	dep_tristate 'PCM Controller support' CONFIG_PCM
+#fi
+endmenu

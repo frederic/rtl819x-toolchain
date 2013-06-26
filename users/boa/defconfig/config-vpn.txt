@@ -1,0 +1,576 @@
+;
+;	RTL8186 system configuration file for vpn-gateway mode
+;
+;	$Id: config-vpn.txt,v 1.1.1.1 2007/08/06 10:04:43 root Exp $
+;
+;	Copyright (c) Realtek Semiconductor Corp., 2004. All Rights Reserved.
+
+; Hardware setting
+; ---------------------------------------------------------------------------
+HW_NIC0_ADDR=00e04c818621	; Ethernet LAN address
+HW_NIC1_ADDR=00e04c818622	; WAN mac address
+
+; WLAN0 interface. Note: "WLAN0" means 8186 embedded wlan controller
+HW_WLAN0_WLAN_ADDR=00e04c818621	; wlan0 MAC address
+HW_WLAN0_REG_DOMAIN=1		; FCC=1, IC=2, ETSI=3, SPAIN=4, FRANCE=5, MKK=6, ISRAEL=7
+HW_WLAN0_RF_TYPE=7		; 7 - RTL8225(11b/g), 8 - RTL8255(11b/g/a), 9 - RTL8255B(11 b/g/a full-band)
+HW_WLAN0_TX_POWER_CCK=8 8 8 8 8 8 8 8 8 8 8 8 8 8 ; channel 1~14 Tx power for CCK
+HW_WLAN0_TX_POWER_OFDM=16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16
+				; channel 1~162 Tx power for OFDM. ch1-14 for 2.4G, other ch for 5G
+; for 8255B RF 
+;HW_WLAN0_RF_TYPE=9
+;HW_WLAN0_TX_POWER_CCK=20 20 20 20 20 20 20 20 20 20 20 20 20 10 ; channel 1~14 Tx power for CCK
+;HW_WLAN0_TX_POWER_OFDM=14 14 14 14 14 14 14 14 14 14 14 14 14 14 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24
+				
+HW_WLAN0_ANT_DIVERSITY=0	; 1 - enable diversity, 0 - disable diversity
+HW_WLAN0_TX_ANT=0		; Tx antenna, 0 - A , 1 - B
+HW_WLAN0_INIT_GAIN=4		; baseband initial gain value
+HW_WLAN0_CCA_MODE=0		; CCA mode
+HW_WLAN0_LED_TYPE=2	; Except 0/1 is hardware wired, others are controlled by software
+			; 	WLAN-LED0		WLAN-LED1
+			; =============================================================
+			;  0	tx			rx
+			;  1	enabled/tx/rx		N/A
+			;  2	link			tx/rx (data, management packet)
+			;  3	link/tx/rx		N/A (data packet)
+			;  4	link			tx-data/rx-data (data packet)
+			;  5	link/tx-data/rx-data	N/A (data packet)
+			;  6	enable			tx/rx (data packet)
+			;  7	enable/tx-data/rx-data  N/A (data packet)
+
+; WLAN1 interface. Note:"WLAN1" means external wlan controller connected through PCI. 
+;   	If you do not use it, you can ignore the following setting.
+HW_WLAN1_WLAN_ADDR=00e04c818623	; wlan0 MAC address
+HW_WLAN1_REG_DOMAIN=1		; FCC=1, IC=2, ETSI=3, SPAIN=4, FRANCE=5, MKK=6
+HW_WLAN1_RF_TYPE=7		; 7 - RTL8225(11b/g), 8 - RTL8255(11b/g/a)
+HW_WLAN1_TX_POWER_CCK=8 8 8 8 8 8 8 8 8 8 8 8 8 8 ; channel 1~14 Tx power for CCK
+HW_WLAN1_TX_POWER_OFDM=14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14
+				; channel 1~14 Tx power for OFDM
+HW_WLAN1_ANT_DIVERSITY=0	; 1 - enable diversity, 0 - disable diversity
+HW_WLAN1_TX_ANT=0		; Tx antenna, 0 - A , 1 - B
+HW_WLAN1_INIT_GAIN=4		; baseband initial gain value
+HW_WLAN1_CCA_MODE=0		; CCA mode
+HW_WLAN1_LED_TYPE=2	; Except 0/1 is hardware wired, others are controlled by software
+			; 	WLAN-LED0		WLAN-LED1
+			; =============================================================
+			;  0	tx			rx
+			;  1	enabled/tx/rx		N/A
+			;  2	link			tx/rx (data, management packet)
+			;  3	link/tx/rx		N/A (data packet)
+			;  4	link			tx-data/rx-data (data packet)
+			;  5	link/tx-data/rx-data	N/A (data packet)
+			;  6	enable			tx/rx (data packet)
+			;  7	enable/tx-data/rx-data  N/A (data packet)
+
+
+; Firmware factory-default setting
+; ---------------------------------------------------------------------------
+; wan interface
+DEF_WAN_MAC_ADDR=000000000000	; clone mac
+DEF_WAN_IP_ADDR=172.1.1.1	; ip address
+DEF_WAN_SUBNET_MASK=255.255.255.0	; subnet mask of
+DEF_WAN_DEFAULT_GATEWAY=172.1.1.254	; default gateway
+DEF_WAN_DHCP=1			; protocol, 0 - fixed ip, 1 - dhcp client, 3 - PPPoE, 4 - PPTP
+DEF_DNS_MODE=0			; DNS mode, 0 - auto, 1 - manual
+DEF_DNS1=0.0.0.0		; DNS value, refer when DNS is set to auto
+DEF_DNS2=0.0.0.0
+DEF_DNS3=0.0.0.0
+
+DEF_PPP_USER_NAME=		; PPPoE login user name
+DEF_PPP_PASSWORD=		; PPPoE login user passwowrd
+DEF_PPP_IDLE_TIME=300		; idle time of PPPoE (in sec)
+DEF_PPP_CONNECT_TYPE=0		; PPPoE connect type, 0 - continuous, 1 - connet on demand, 2 - manual
+DEF_PPP_MTU_SIZE=1452		; PPPoE MTU size (1360-1492)
+
+DEF_PPTP_IP_ADDR=172.1.1.2	; PPTP local IP address
+DEF_PPTP_SUBNET_MASK=255.255.255.0 	; PPTP subnet mask
+DEF_PPTP_SERVER_IP_ADDR=172.1.1.1 	; PPTP server IP address
+DEF_PPTP_USER_NAME=""		; PPTP login user name
+DEF_PPTP_PASSWORD=""		; PPTP login user passwowrd
+DEF_PPTP_MTU_SIZE=1460		; PPTP MTU size (1400-1460)
+DEF_FIXED_IP_MTU_SIZE=1500	; fixed IP MTU size (1400-1500)
+DEF_DHCP_MTU_SIZE=1492		; dhcp client MTU size (1400-1492)
+
+DEF_NTP_ENABLED=0		; NTP flag, 0 - disable, 1 - enable
+DEF_NTP_SERVER_ID=0		; 0 - selected from menu, 1 - input manually
+DEF_NTP_TIMEZONE="-8 4"		; Taipei timezone
+DEF_NTP_SERVER_IP1=0.0.0.0	; server IP addr1, selected from menu list
+DEF_NTP_SERVER_IP2=0.0.0.0	; server IP addr2, manual input
+
+DEF_DDNS_ENABLED=0		; DDNS flag,  0 - disable, 1 - enable
+DEF_DDNS_TYPE=0			; DDNS type, 0 - DynDNS, 1 - TZO
+DEF_DDNS_DOMAIN_NAME="host.dyndns.org" ; host domain name
+DEF_DDNS_USER=			; DDNS user name
+DEF_DDNS_PASSWORD=		; DDNS user password
+
+DEF_IPSECTUNNEL_ENABLED=0	; ipsec gateway flag, 0 - disable, 1 - enabled
+DEF_IPSECTUNNEL_TBL_NUM=0	; ipsec entry number
+
+; Firewall
+DEF_PORTFW_ENABLED=0		; port-forwarding flag, 0 - disable, 1 - enable
+DEF_PORTFW_TBL_NUM=0		; existing port-fowarding table entry number
+DEF_IPFILTER_ENABLED=0		; ip-filtering flag, 0 - disable, 1 - enable
+DEF_IPFILTER_TBL_NUM=0		; existing ip-filtering table entry number
+DEF_PORTFILTER_ENABLED=0	; port-filtering flag, 0 - disable, 1 - enable
+DEF_PORTFILTER_TBL_NUM=0	; existing port-filtering table entry number
+DEF_MACFILTER_ENABLED=0		; mac-filtering flag, 0 - disable, 1 - enable
+DEF_MACFILTER_TBL_NUM=0		; existing mac-filtering table entry number
+DEF_TRIGGERPORT_ENABLED=0	; trigger-port flag, 0 - disable, 1 - enable
+DEF_TRIGGERPORT_TBL_NUM=0	; existing trigger-port table entry number
+DEF_DMZ_ENABLED=0		; DMZ flag, 0 - disable, 1 - enable
+DEF_DMZ_HOST=0.0.0.0		; DMZ ip address
+
+DEF_UPNP_ENABLED=0		; uPNP flag, 0 - disable, 1 - enable
+DEF_WEB_WAN_ACCESS_ENABLED=0	; web access on WAN, 0 - disable, 1 - enable
+DEF_PING_WAN_ACCESS_ENABLED=0	; web access on WAN, 0 - disable, 1 - enable
+
+; LAN interface
+DEF_DEVICE_NAME="RTL8186"	; device logical namem, referred by uPNP IGD name
+DEF_ELAN_MAC_ADDR=000000000000	; Ethernet MAC clone address
+DEF_IP_ADDR=192.168.1.254	; ip address
+DEF_DHCP_CLIENT_START=192.168.1.100	; DHCP client range - start address
+DEF_DHCP_CLIENT_END=192.168.1.200	; DHCP client range - end address
+DEF_SUBNET_MASK=255.255.255.0		; subnet mask
+DEF_DEFAULT_GATEWAY=0.0.0.0		; default route
+DEF_DHCP=2			; DHCP mode, 0 - fixed ip, 1 - dhcp client, 2 - dhcp server
+DEF_STP_ENABLED=0		; spanning tree protocol flag, 0 - disable, 1 - enable
+
+; web management
+DEF_SUPER_NAME=super		; supervisor user name, if NULL, supervisor account will be disabled
+DEF_SUPER_PASSWORD=super	; supervisor user password, if NULL, supervisor account will be disabled
+DEF_USER_NAME=			; user name
+DEF_USER_PASSWORD=		; user password
+
+DEF_SCRLOG_ENABLED=0		; system Log flag, 0 - disabled, 1 - enabled (not supported yet)
+DEF_AUTODISCOVERY_ENABLED=1	; auto-discovery flag, 0 - disabled, 1 - enabled
+DEF_OP_MODE=0			; operation mode, 0 - gateway mode (LAN:br0(eth0+wlan0), WAN:eth1)
+				; 		  1 - bridge mode (LAN:br0(eth0+eth1+wlan0))
+				; 		  2 - WISP(wireless ISP) mode (LAN:br0(eth0+eth1), WAN:wlan0)
+DEF_WISP_WAN_ID=0		; wlan interface id for WISP mode. 0 - use wlan0 as WAN and OP_MODE is set WISP.
+				; 	1 - use wlan0 as WAN and OP_MODE is set WISP.	
+
+DEF_VPN_PASSTHRU_IPSEC_ENABLED=1	; IPSEC pass-through flag, 0 - disable, 1 - enable
+DEF_VPN_PASSTHRU_PPTP_ENABLED=1		; PPTP pass-through flag, 0 - disable, 1 - enable
+DEF_VPN_PASSTHRU_L2TP_ENABLED=1		; L2TP pass-through flag, 0 - disable, 1 - enable
+
+; WLAN0 interface. Note: "WLAN0" means 8186 embedded wlan controller
+DEF_WLAN0_WLAN_MAC_ADDR=000000000000; clone mac address
+DEF_WLAN0_SSID=RTL8186-VPN-GW	; SSID
+DEF_WLAN0_CHANNEL=11		; channel number
+DEF_WLAN0_WEP=0			; WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits
+DEF_WLAN0_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+DEF_WLAN0_WEP64_KEY2=0000000000
+DEF_WLAN0_WEP64_KEY3=0000000000
+DEF_WLAN0_WEP64_KEY4=0000000000
+DEF_WLAN0_WEP128_KEY1=00000000000000000000000000	; WEP-128bits key1~key4
+DEF_WLAN0_WEP128_KEY2=00000000000000000000000000
+DEF_WLAN0_WEP128_KEY3=00000000000000000000000000
+DEF_WLAN0_WEP128_KEY4=00000000000000000000000000
+DEF_WLAN0_WEP_DEFAULT_KEY=0	; default tx key id (0-3)
+DEF_WLAN0_WEP_KEY_TYPE=1	; key type, 0 - ASCII, 1 - hex
+DEF_WLAN0_FRAG_THRESHOLD=2346	; fragment threshold, 256-2346
+DEF_WLAN0_RTS_THRESHOLD=2347	; RTS threshold, 0 - 2347
+DEF_WLAN0_BASIC_RATES=15	; basic rate, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+DEF_WLAN0_SUPPORTED_RATES=4095	; supported rate,  bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+DEF_WLAN0_BEACON_INTERVAL=100	; beacon interval in ms(20-1024) 
+DEF_WLAN0_PREAMBLE_TYPE=0	; preamble type, 0 - long preamble, 1 - short preamble
+DEF_WLAN0_AUTH_TYPE=2		; athentication type, 0 - open system, 1 - shared key, 2 - auto (both)
+DEF_WLAN0_HIDDEN_SSID=0		; hidden ssid, 0 - disable, 1 - enable
+DEF_WLAN0_WLAN_DISABLED=0	; wlan interface flag, 0 - wlan enabled, 1 - wlan disabled
+DEF_WLAN0_INACTIVITY_TIME=30000	; wlan client inactivity time (in 10ms)
+DEF_WLAN0_RATE_ADAPTIVE_ENABLED=1	; tx rate adaptive enable/disable, 1 - enabled, 0 - disabled
+DEF_WLAN0_MACAC_NUM=0		; existing table entry number for mac access control
+DEF_WLAN0_MACAC_ENABLED=0	; wlan mac access control flag, 0 - disable, 1 - enable
+DEF_WLAN0_DTIM_PERIOD=1		; DTIM period
+DEF_WLAN0_BLOCK_RELAY=0		; blocking packets between wireless client (relay),
+				; 0 - disabled, 1 - block relay, 2 - block relay but passup
+DEF_WLAN0_BAND=3		; bit mask of band selection, 1-11b, 2-11g, 4-11a
+DEF_WLAN0_FIX_RATE=0		; fixed data rate, 0-disable, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+DEF_WLAN0_MODE=0		; operation mode, 0-AP, 1-client, 2-WDS, 3-AP+WDS
+
+DEF_WLAN0_ENCRYPT=0		; 0 - Encrypt disabled, 1 - WEP, 2 - WPA, 4 - WPA2, 6 - WPA2 mixed
+DEF_WLAN0_ENABLE_1X=0		; 802.1x flag, 0 - disabled, 1 - enabled
+DEF_WLAN0_WPA_AUTH=2		; WPA authentication type, 1 - WPA-Radius, 2 - PSK
+DEF_WLAN0_WPA_CIPHER_SUITE=1	; WPA Cipher suite, 1 - TKIP, 2 - AES
+DEF_WLAN0_WPA_PSK=		; WPA PSK value
+DEF_WLAN0_WPA_GROUP_REKEY_TIME=86400; group key update time (in sec)
+DEF_WLAN0_RS_IP=0.0.0.0		; Radius serverIP address
+DEF_WLAN0_RS_PORT=1812		; Radius server port
+DEF_WLAN0_RS_PASSWORD=		; Radius server password
+DEF_WLAN0_RS_MAXRETRY=3		; Max retry of Radius server
+DEF_WLAN0_RS_INTERVAL_TIME=5	; Interval time of retry
+DEF_WLAN0_WPA2_PRE_AUTH=0	; WPA2 pre-authentication flag, 0 - disable, 1 - enable
+DEF_WLAN0_WPA2_CIPHER_SUITE=2	; WPA Cipher suite, 1 - TKIP, 2 - AES
+DEF_WLAN0_MACCLONE_ENABLED=0	; wlan mac clone flag (client mode used), 0 - disable, 1 - enable
+DEF_WLAN0_IAPP_DISABLED=0	; IAPP flag, 0 - IAPP enabled, 1 - IAPP disabled
+DEF_WLAN0_PROTECTION_DISABLED=0	; 802.11g protection mode flag, 0 - protection enable, 1 - protection disabled
+
+DEF_WLAN0_WDS_ENABLED=0		; WDS flag, 0 - disable, 1 - enable
+DEF_WLAN0_WDS_NUM=0		; existing table entry number for WDS AP
+DEF_WLAN0_WDS_WEP=0		; WDS WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits, 3-TKIP, 4-AES
+DEF_WLAN0_WDS_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+DEF_WLAN0_WDS_WEP64_KEY2=0000000000
+DEF_WLAN0_WDS_WEP64_KEY3=0000000000
+DEF_WLAN0_WDS_WEP64_KEY4=0000000000
+DEF_WLAN0_WDS_WEP128_KEY1=00000000000000000000000000 ; WEP-128bits key1~key4
+DEF_WLAN0_WDS_WEP128_KEY2=00000000000000000000000000
+DEF_WLAN0_WDS_WEP128_KEY3=00000000000000000000000000
+DEF_WLAN0_WDS_WEP128_KEY4=00000000000000000000000000
+DEF_WLAN0_WDS_WEP_DEFAULT_KEY=0	; default tx key id (0-3)
+DEF_WLAN0_WDS_WEP_KEY_TYPE=1	; key type, 0 - ASCII, 1 - hex
+DEF_WLAN0_WDS_PSK_FORMAT=0	; psk format, 0 - ACSII, 1 - hex
+DEF_WLAN0_WDS_PSK=		; psk value
+
+DEF_WLAN0_EASYCFG_ENABLED=1	; easy-config flag, 0-disable, 1-enable
+DEF_WLAN0_EASYCFG_MODE=1	; easy-config mode, 1 - button, 2 - QA 
+DEF_WLAN0_EASYCFG_ALG_REQ=32	; request encryption (client mode), 4-TKIP, 32-AES
+DEF_WLAN0_EASYCFG_ALG_SUPP=36	; support encryption (AP mode), TKIP+AES
+DEF_WLAN0_EASYCFG_SCAN_SSID=REALTEK_EASY_CONFIG ; SSID used by easy-config
+
+; for WPS
+DEF_WLAN0_WSC_METHOD=3			; metheod, 1: PIN, 2: PBC, 3: both
+DEF_WLAN0_WSC_PIN="95661469"	; PIN number
+DEF_WLAN0_WSC_AUTH=1			; auth type (1: open)
+DEF_WLAN0_WSC_ENC=1				; encrypt type (1: open)
+DEF_WLAN0_WSC_UPNP_ENABLED=1	; upnp enabled flag (1: enabled)
+DEF_WLAN0_WSC_REGISTRAR_ENABLED=1 ; internal registrar enabled flag (1: enabled)
+
+; Universal repeater
+DEF_REPEATER_ENABLED1=0		; enable/disable universal repeater for wlan0
+DEF_REPEATER_SSID1=		; ssid of wlan0 extended interface
+
+; WLAN1 interface. Note:"WLAN1" means external wlan controller connected through PCI. 
+;	If you do not use it, you can ignore the following setting.
+DEF_WLAN1_WLAN_MAC_ADDR=000000000000; clone mac address
+DEF_WLAN1_SSID=RTL8186-VPN-GW	; SSID
+DEF_WLAN1_CHANNEL=11		; channel number
+DEF_WLAN1_WEP=0			; WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits
+DEF_WLAN1_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+DEF_WLAN1_WEP64_KEY2=0000000000
+DEF_WLAN1_WEP64_KEY3=0000000000
+DEF_WLAN1_WEP64_KEY4=0000000000
+DEF_WLAN1_WEP128_KEY1=00000000000000000000000000	; WEP-128bits key1~key4
+DEF_WLAN1_WEP128_KEY2=00000000000000000000000000
+DEF_WLAN1_WEP128_KEY3=00000000000000000000000000
+DEF_WLAN1_WEP128_KEY4=00000000000000000000000000
+DEF_WLAN1_WEP_DEFAULT_KEY=0	; default tx key id (0-3)
+DEF_WLAN1_WEP_KEY_TYPE=1	; key type, 0 - ASCII, 1 - hex
+DEF_WLAN1_FRAG_THRESHOLD=2346	; fragment threshold, 256-2346
+DEF_WLAN1_RTS_THRESHOLD=2347	; RTS threshold, 0 - 2347
+DEF_WLAN1_BASIC_RATES=15	; basic rate, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+DEF_WLAN1_SUPPORTED_RATES=4095	; supported rate,  bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+DEF_WLAN1_BEACON_INTERVAL=100	; beacon interval in ms(20-1024) 
+DEF_WLAN1_PREAMBLE_TYPE=0	; preamble type, 0 - long preamble, 1 - short preamble
+DEF_WLAN1_AUTH_TYPE=2		; athentication type, 0 - open system, 1 - shared key, 2 - auto (both)
+DEF_WLAN1_HIDDEN_SSID=0		; hidden ssid, 0 - disable, 1 - enable
+DEF_WLAN1_WLAN_DISABLED=0	; wlan interface flag, 0 - wlan enabled, 1 - wlan disabled
+DEF_WLAN1_INACTIVITY_TIME=30000	; wlan client inactivity time (in 10ms)
+DEF_WLAN1_RATE_ADAPTIVE_ENABLED=1	; tx rate adaptive enable/disable, 1 - enabled, 0 - disabled
+DEF_WLAN1_MACAC_NUM=0		; existing table entry number for mac access control
+DEF_WLAN1_MACAC_ENABLED=0	; wlan mac access control flag, 0 - disable, 1 - enable
+DEF_WLAN1_DTIM_PERIOD=1		; DTIM period
+DEF_WLAN1_BLOCK_RELAY=0		; blocking packets between wireless client (relay),
+				; 0 - disabled, 1 - block relay, 2 - block relay but passup
+DEF_WLAN1_BAND=3		; bit mask of band selection, 1-11b, 2-11g, 4-11a
+DEF_WLAN1_FIX_RATE=0		; fixed data rate, 0-disable, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+DEF_WLAN1_MODE=0		; operation mode, 0-AP, 1-client, 2-WDS, 3-AP+WDS
+
+DEF_WLAN1_ENCRYPT=0		; 0 - Encrypt disabled, 1 - WEP, 2 - WPA, 4 - WPA2, 6 - WPA2 mixed
+DEF_WLAN1_ENABLE_1X=0		; 802.1x flag, 0 - disabled, 1 - enabled
+DEF_WLAN1_WPA_AUTH=2		; WPA authentication type, 1 - WPA-Radius, 2 - PSK
+DEF_WLAN1_WPA_CIPHER_SUITE=1	; WPA Cipher suite, 1 - TKIP, 2 - AES
+DEF_WLAN1_WPA_PSK=		; WPA PSK value
+DEF_WLAN1_WPA_GROUP_REKEY_TIME=86400; group key update time (in sec)
+DEF_WLAN1_RS_IP=0.0.0.0		; Radius serverIP address
+DEF_WLAN1_RS_PORT=1812		; Radius server port
+DEF_WLAN1_RS_PASSWORD=		; Radius server password
+DEF_WLAN1_RS_MAXRETRY=3		; Max retry of Radius server
+DEF_WLAN1_RS_INTERVAL_TIME=5	; Interval time of retry
+DEF_WLAN1_WPA2_PRE_AUTH=0	; WPA2 pre-authentication flag, 0 - disable, 1 - enable
+DEF_WLAN1_WPA2_CIPHER_SUITE=2	; WPA Cipher suite, 1 - TKIP, 2 - AES
+DEF_WLAN1_MACCLONE_ENABLED=0	; wlan mac clone flag (client mode used), 0 - disable, 1 - enable
+DEF_WLAN1_IAPP_DISABLED=0	; IAPP flag, 0 - IAPP enabled, 1 - IAPP disabled
+DEF_WLAN1_PROTECTION_DISABLED=0	; 802.11g protection mode flag, 0 - protection enable, 1 - protection disabled
+
+DEF_WLAN1_WDS_ENABLED=0		; WDS flag, 0 - disable, 1 - enable
+DEF_WLAN1_WDS_NUM=0		; existing table entry number for WDS AP
+DEF_WLAN1_WDS_WEP=0		; WDS WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits, 3-TKIP, 4-AES
+DEF_WLAN1_WDS_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+DEF_WLAN1_WDS_WEP64_KEY2=0000000000
+DEF_WLAN1_WDS_WEP64_KEY3=0000000000
+DEF_WLAN1_WDS_WEP64_KEY4=0000000000
+DEF_WLAN1_WDS_WEP128_KEY1=00000000000000000000000000 ; WEP-128bits key1~key4
+DEF_WLAN1_WDS_WEP128_KEY2=00000000000000000000000000
+DEF_WLAN1_WDS_WEP128_KEY3=00000000000000000000000000
+DEF_WLAN1_WDS_WEP128_KEY4=00000000000000000000000000
+DEF_WLAN1_WDS_WEP_DEFAULT_KEY=0	; default tx key id (0-3)
+DEF_WLAN1_WDS_WEP_KEY_TYPE=1	; key type, 0 - ASCII, 1 - hex
+DEF_WLAN1_WDS_PSK_FORMAT=0	; psk format, 0 - ACSII, 1 - hex
+DEF_WLAN1_WDS_PSK=		; psk value
+
+DEF_WLAN1_EASYCFG_ENABLED=1	; easy-config flag, 0-disable, 1-enable
+DEF_WLAN1_EASYCFG_MODE=1	; easy-config mode, 1 - button, 2 - QA 
+DEF_WLAN1_EASYCFG_ALG_REQ=32	; request encryption (client mode), 4-TKIP, 32-AES
+DEF_WLAN1_EASYCFG_ALG_SUPP=36	; support encryption (AP mode), TKIP+AES
+DEF_WLAN1_EASYCFG_SCAN_SSID=REALTEK_EASY_CONFIG ; SSID used by easy-config
+
+; Universal repeater
+DEF_REPEATER_ENABLED2=0		; enable/disable universal repeater for wlan1
+DEF_REPEATER_SSID2=		; ssid of wlan1 extended interface
+ 
+
+; Firmware current-used setting
+; ---------------------------------------------------------------------------
+; wan interface
+WAN_MAC_ADDR=000000000000	; clone mac
+WAN_IP_ADDR=172.1.1.1	; ip address
+WAN_SUBNET_MASK=255.255.255.0	; subnet mask of
+WAN_DEFAULT_GATEWAY=172.1.1.254	; default gateway
+WAN_DHCP=1			; protocol, 0 - fixed ip, 1 - dhcp client, 3 - PPPoE, 4 - PPTP
+DNS_MODE=0			; DNS mode, 0 - auto, 1 - manual
+DNS1=0.0.0.0			; DNS value, refer when DNS is set to auto
+DNS2=0.0.0.0
+DNS3=0.0.0.0
+
+PPP_USER_NAME=			; PPPoE login user name
+PPP_PASSWORD=			; PPPoE login user passwowrd
+PPP_IDLE_TIME=300		; idle time of PPPoE (in sec)
+PPP_CONNECT_TYPE=0		; PPPoE connect type, 0 - continuous, 1 - connet on demand, 2 - manual
+PPP_MTU_SIZE=1452		; PPPoE MTU size (1360-1492)
+
+PPTP_IP_ADDR=172.1.1.2		; PPTP local IP address
+PPTP_SUBNET_MASK=255.255.255.0 	; PPTP subnet mask
+PPTP_SERVER_IP_ADDR=172.1.1.1 	; PPTP server IP address
+PPTP_USER_NAME=""		; PPTP login user name
+PPTP_PASSWORD=""		; PPTP login user passwowrd
+PPTP_MTU_SIZE=1460		; PPTP MTU size (1400-1460)
+FIXED_IP_MTU_SIZE=1500	; fixed IP MTU size (1400-1500)
+DHCP_MTU_SIZE=1492		; dhcp client MTU size (1400-1492)
+
+NTP_ENABLED=0			; NTP flag, 0 - disable, 1 - enable
+NTP_SERVER_ID=0			; 0 - selected from menu, 1 - input manually
+NTP_TIMEZONE="-8 4"		; Taipei timezone
+NTP_SERVER_IP1=0.0.0.0		; server IP addr1, selected from menu list
+NTP_SERVER_IP2=0.0.0.0		; server IP addr2, manual input
+
+DDNS_ENABLED=0			; DDNS flag,  0 - disable, 1 - enable
+DDNS_TYPE=0			; DDNS type, 0 - DynDNS, 1 - TZO
+DDNS_DOMAIN_NAME="host.dyndns.org" ; host domain name
+DDNS_USER=			; DDNS user name
+DDNS_PASSWORD=			; DDNS user password
+
+IPSECTUNNEL_ENABLED=0		; ipsec gateway flag, 0 - disable, 1 - enabled
+IPSECTUNNEL_TBL_NUM=0		; ipsec entry number
+
+; Firewall
+PORTFW_ENABLED=0		; port-forwarding flag, 0 - disable, 1 - enable
+PORTFW_TBL_NUM=0		; existing port-fowarding table entry number
+IPFILTER_ENABLED=0		; ip-filtering flag, 0 - disable, 1 - enable
+IPFILTER_TBL_NUM=0		; existing ip-filtering table entry number
+PORTFILTER_ENABLED=0		; port-filtering flag, 0 - disable, 1 - enable
+PORTFILTER_TBL_NUM=0		; existing port-filtering table entry number
+MACFILTER_ENABLED=0		; mac-filtering flag, 0 - disable, 1 - enable
+MACFILTER_TBL_NUM=0		; existing mac-filtering table entry number
+TRIGGERPORT_ENABLED=0		; trigger-port flag, 0 - disable, 1 - enable
+TRIGGERPORT_TBL_NUM=0		; existing trigger-port table entry number
+DMZ_ENABLED=0			; DMZ flag, 0 - disable, 1 - enable
+DMZ_HOST=0.0.0.0		; DMZ ip address
+
+UPNP_ENABLED=0			; uPNP flag, 0 - disable, 1 - enable
+WEB_WAN_ACCESS_ENABLED=0	; web access on WAN, 0 - disable, 1 - enable
+PING_WAN_ACCESS_ENABLED=0	; web access on WAN, 0 - disable, 1 - enable
+
+; LAN interface
+DEVICE_NAME="RTL8186"		; device logical namem, referred by uPNP IGD name
+ELAN_MAC_ADDR=000000000000	; Ethernet MAC clone address
+IP_ADDR=192.168.1.254		; ip address
+DHCP_CLIENT_START=192.168.1.100	; DHCP client range - start address
+DHCP_CLIENT_END=192.168.1.200	; DHCP client range - end address
+SUBNET_MASK=255.255.255.0	; subnet mask
+DEFAULT_GATEWAY=0.0.0.0		; default route
+DHCP=2				; DHCP mode, 0 - fixed ip, 1 - dhcp client, 2 - dhcp server
+STP_ENABLED=0			; spanning tree protocol flag, 0 - disable, 1 - enable
+
+; web management
+SUPER_NAME=super		; supervisor user name, if NULL, supervisor account will be disabled
+SUPER_PASSWORD=super		; supervisor user password, if NULL, supervisor account will be disabled
+USER_NAME=			; user name
+USER_PASSWORD=			; user password
+
+; system management
+SCRLOG_ENABLED=0		; system Log flag, 0 - disabled, 1 - enabled (not supported yet)
+AUTODISCOVERY_ENABLED=1		; auto-discovery flag, 0 - disabled, 1 - enabled
+OP_MODE=0			; operation mode, 0 - gateway mode (LAN:br0(eth0+wlan0), WAN:eth1)
+				; 		  1 - bridge mode (LAN:br0(eth0+eth1+wlan0))
+				; 		  2 - WISP(wireless ISP) mode (LAN:br0(eth0+eth1), WAN:wlan0)
+WISP_WAN_ID=0			; wlan interface id for WISP mode. 0 - use wlan0 as WAN and OP_MODE is set WISP.
+				; 	1 - use wlan0 as WAN and OP_MODE is set WISP.				
+
+VPN_PASSTHRU_IPSEC_ENABLED=1	; IPSEC pass-through flag, 0 - disable, 1 - enable
+VPN_PASSTHRU_PPTP_ENABLED=1		; PPTP pass-through flag, 0 - disable, 1 - enable
+VPN_PASSTHRU_L2TP_ENABLED=1		; L2TP pass-through flag, 0 - disable, 1 - enable
+
+; WLAN0 interface. Note: "WLAN0" means 8186 embedded wlan controller
+WLAN0_WLAN_MAC_ADDR=000000000000; clone mac address
+WLAN0_SSID=RTL8186-VPN-GW	; SSID
+WLAN0_CHANNEL=11		; channel number
+WLAN0_WEP=0			; WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits
+WLAN0_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+WLAN0_WEP64_KEY2=0000000000
+WLAN0_WEP64_KEY3=0000000000
+WLAN0_WEP64_KEY4=0000000000
+WLAN0_WEP128_KEY1=00000000000000000000000000	; WEP-128bits key1~key4
+WLAN0_WEP128_KEY2=00000000000000000000000000
+WLAN0_WEP128_KEY3=00000000000000000000000000
+WLAN0_WEP128_KEY4=00000000000000000000000000
+WLAN0_WEP_DEFAULT_KEY=0		; default tx key id (0-3)
+WLAN0_WEP_KEY_TYPE=1		; key type, 0 - ASCII, 1 - hex
+WLAN0_FRAG_THRESHOLD=2346	; fragment threshold, 256-2346
+WLAN0_RTS_THRESHOLD=2347	; RTS threshold, 0 - 2347
+WLAN0_BASIC_RATES=15		; basic rate, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+WLAN0_SUPPORTED_RATES=4095	; supported rate,  bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+WLAN0_BEACON_INTERVAL=100	; beacon interval in ms(20-1024) 
+WLAN0_PREAMBLE_TYPE=0		; preamble type, 0 - long preamble, 1 - short preamble
+WLAN0_AUTH_TYPE=2		; athentication type, 0 - open system, 1 - shared key, 2 - auto (both)
+WLAN0_HIDDEN_SSID=0		; hidden ssid, 0 - disable, 1 - enable
+WLAN0_WLAN_DISABLED=0		; wlan interface flag, 0 - wlan enabled, 1 - wlan disabled
+WLAN0_INACTIVITY_TIME=30000	; wlan client inactivity time (in 10ms)
+WLAN0_RATE_ADAPTIVE_ENABLED=1 	; tx rate adaptive enable/disable, 1 - enabled, 0 - disabled
+WLAN0_MACAC_NUM=0		; existing table entry number for mac access control
+WLAN0_MACAC_ENABLED=0		; wlan mac access control flag, 0 - disable, 1 - enable
+WLAN0_DTIM_PERIOD=1		; DTIM period
+WLAN0_BLOCK_RELAY=0		; blocking packets between wireless client (relay),
+				; 0 - disabled, 1 - block relay, 2 - block relay but passup
+WLAN0_BAND=3			; bit mask of band selection, 1-11b, 2-11g, 4-11a
+WLAN0_FIX_RATE=0		; fixed data rate, 0-disable, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+WLAN0_MODE=0			; operation mode, 0-AP, 1-client, 2-WDS, 3-AP+WDS
+
+WLAN0_ENCRYPT=0			; 0 - Encrypt disabled, 1 - WEP, 2 - WPA, 4 - WPA2, 6 - WPA2 mixed
+WLAN0_ENABLE_1X=0		; 802.1x flag, 0 - disabled, 1 - enabled
+WLAN0_WPA_AUTH=2		; WPA authentication type, 1 - WPA-Radius, 2 - PSK
+WLAN0_WPA_CIPHER_SUITE=1	; WPA Cipher suite, 1 - TKIP, 2 - AES
+WLAN0_WPA_PSK=			; WPA PSK value
+WLAN0_WPA_GROUP_REKEY_TIME=86400; group key update time (in sec)
+WLAN0_RS_IP=0.0.0.0		; Radius serverIP address
+WLAN0_RS_PORT=1812		; Radius server port
+WLAN0_RS_PASSWORD=		; Radius server password
+WLAN0_RS_MAXRETRY=3		; Max retry of Radius server
+WLAN0_RS_INTERVAL_TIME=5	; Interval time of retry
+WLAN0_WPA2_PRE_AUTH=0		; WPA2 pre-authentication flag, 0 - disable, 1 - enable
+WLAN0_WPA2_CIPHER_SUITE=2	; WPA Cipher suite, 1 - TKIP, 2 - AES
+WLAN0_MACCLONE_ENABLED=0	; wlan mac clone flag (client mode used), 0 - disable, 1 - enable
+WLAN0_IAPP_DISABLED=0		; IAPP flag, 0 - IAPP enabled, 1 - IAPP disabled
+WLAN0_PROTECTION_DISABLED=0	; 802.11g protection mode flag, 0 - protection enable, 1 - protection disabled
+
+WLAN0_WDS_ENABLED=0		; WDS flag, 0 - disable, 1 - enable
+WLAN0_WDS_NUM=0			; existing table entry number for WDS AP
+WLAN0_WDS_WEP=0			; WDS WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits, 3-TKIP, 4-AES
+WLAN0_WDS_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+WLAN0_WDS_WEP64_KEY2=0000000000
+WLAN0_WDS_WEP64_KEY3=0000000000
+WLAN0_WDS_WEP64_KEY4=0000000000
+WLAN0_WDS_WEP128_KEY1=00000000000000000000000000 ; WEP-128bits key1~key4
+WLAN0_WDS_WEP128_KEY2=00000000000000000000000000
+WLAN0_WDS_WEP128_KEY3=00000000000000000000000000
+WLAN0_WDS_WEP128_KEY4=00000000000000000000000000
+WLAN0_WDS_WEP_DEFAULT_KEY=0	; default tx key id (0-3)
+WLAN0_WDS_WEP_KEY_TYPE=1	; key type, 0 - ASCII, 1 - hex
+WLAN0_WDS_PSK_FORMAT=0		; psk format, 0 - ACSII, 1 - hex
+WLAN0_WDS_PSK=			; psk value
+
+WLAN0_EASYCFG_ENABLED=1		; easy-config flag, 0-disable, 1-enable
+WLAN0_EASYCFG_MODE=1		; easy-config mode, 1 - button, 2 - QA 
+WLAN0_EASYCFG_ALG_REQ=32	; request encryption (client mode), 4-TKIP, 32-AES
+WLAN0_EASYCFG_ALG_SUPP=36	; support encryption (AP mode), TKIP+AES
+WLAN0_EASYCFG_SCAN_SSID=REALTEK_EASY_CONFIG ; SSID used by easy-config
+
+; for WPS
+WLAN0_WSC_METHOD=3			; metheod, 1: PIN, 2: PBC, 3: both
+WLAN0_WSC_PIN="95661469"	; PIN number
+WLAN0_WSC_AUTH=1			; auth type (1: open)
+WLAN0_WSC_ENC=1				; encrypt type (1: open)
+WLAN0_WSC_UPNP_ENABLED=1	; upnp enabled flag (1: enabled)
+WLAN0_WSC_REGISTRAR_ENABLED=1 ; internal registrar flag (1: enabled)
+
+; Universal repeater
+REPEATER_ENABLED1=0		; enable/disable universal repeater for wlan0
+REPEATER_SSID1=			; ssid of wlan0 extended interface
+
+; WLAN1 interface. Note:"WLAN1" means external wlan controller connected through PCI. 
+;	If you do not use it, you can ignore the following setting.
+WLAN1_WLAN_MAC_ADDR=000000000000; clone mac address
+WLAN1_SSID=RTL8186-VPN-GW	; SSID
+WLAN1_CHANNEL=11		; channel number
+WLAN1_WEP=0			; WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits
+WLAN1_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+WLAN1_WEP64_KEY2=0000000000
+WLAN1_WEP64_KEY3=0000000000
+WLAN1_WEP64_KEY4=0000000000
+WLAN1_WEP128_KEY1=00000000000000000000000000	; WEP-128bits key1~key4
+WLAN1_WEP128_KEY2=00000000000000000000000000
+WLAN1_WEP128_KEY3=00000000000000000000000000
+WLAN1_WEP128_KEY4=00000000000000000000000000
+WLAN1_WEP_DEFAULT_KEY=0		; default tx key id (0-3)
+WLAN1_WEP_KEY_TYPE=1		; key type, 0 - ASCII, 1 - hex
+WLAN1_FRAG_THRESHOLD=2346	; fragment threshold, 256-2346
+WLAN1_RTS_THRESHOLD=2347	; RTS threshold, 0 - 2347
+WLAN1_BASIC_RATES=15		; basic rate, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+WLAN1_SUPPORTED_RATES=4095	; supported rate,  bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+WLAN1_BEACON_INTERVAL=100	; beacon interval in ms(20-1024) 
+WLAN1_PREAMBLE_TYPE=0		; preamble type, 0 - long preamble, 1 - short preamble
+WLAN1_AUTH_TYPE=2		; athentication type, 0 - open system, 1 - shared key, 2 - auto (both)
+WLAN1_HIDDEN_SSID=0		; hidden ssid, 0 - disable, 1 - enable
+WLAN1_WLAN_DISABLED=0		; wlan interface flag, 0 - wlan enabled, 1 - wlan disabled
+WLAN1_INACTIVITY_TIME=30000	; wlan client inactivity time (in 10ms)
+WLAN1_RATE_ADAPTIVE_ENABLED=1	; tx rate adaptive enable/disable, 1 - enabled, 0 - disabled
+WLAN1_MACAC_NUM=0		; existing table entry number for mac access control
+WLAN1_MACAC_ENABLED=0		; wlan mac access control flag, 0 - disable, 1 - enable
+WLAN1_DTIM_PERIOD=1		; DTIM period
+WLAN1_BLOCK_RELAY=0		; blocking packets between wireless client (relay),
+				; 0 - disabled, 1 - block relay, 2 - block relay but passup
+WLAN1_BAND=3			; bit mask of band selection, 1-11b, 2-11g, 4-11a
+WLAN1_FIX_RATE=0		; fixed data rate, 0-disable, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+WLAN1_MODE=0			; operation mode, 0-AP, 1-client, 2-WDS, 3-AP+WDS
+
+WLAN1_ENCRYPT=0			; 0 - Encrypt disabled, 1 - WEP, 2 - WPA, 4 - WPA2, 6 - WPA2 mixed
+WLAN1_ENABLE_1X=0		; 802.1x flag, 0 - disabled, 1 - enabled
+WLAN1_WPA_AUTH=2		; WPA authentication type, 1 - WPA-Radius, 2 - PSK
+WLAN1_WPA_CIPHER_SUITE=1	; WPA Cipher suite, 1 - TKIP, 2 - AES
+WLAN1_WPA_PSK=			; WPA PSK value
+WLAN1_WPA_GROUP_REKEY_TIME=86400; group key update time (in sec)
+WLAN1_RS_IP=0.0.0.0		; Radius serverIP address
+WLAN1_RS_PORT=1812		; Radius server port
+WLAN1_RS_PASSWORD=		; Radius server password
+WLAN1_RS_MAXRETRY=3		; Max retry of Radius server
+WLAN1_RS_INTERVAL_TIME=5	; Interval time of retry
+WLAN1_WPA2_PRE_AUTH=0		; WPA2 pre-authentication flag, 0 - disable, 1 - enable
+WLAN1_WPA2_CIPHER_SUITE=2	; WPA Cipher suite, 1 - TKIP, 2 - AES
+WLAN1_MACCLONE_ENABLED=0	; wlan mac clone flag (client mode used), 0 - disable, 1 - enable
+WLAN1_IAPP_DISABLED=0		; IAPP flag, 0 - IAPP enabled, 1 - IAPP disabled
+WLAN1_PROTECTION_DISABLED=0	; 802.11g protection mode flag, 0 - protection enable, 1 - protection disabled
+
+WLAN1_WDS_ENABLED=0		; WDS flag, 0 - disable, 1 - enable
+WLAN1_WDS_NUM=0			; existing table entry number for WDS AP
+WLAN1_WDS_WEP=0			; WDS WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits, 3-TKIP, 4-AES
+WLAN1_WDS_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+WLAN1_WDS_WEP64_KEY2=0000000000
+WLAN1_WDS_WEP64_KEY3=0000000000
+WLAN1_WDS_WEP64_KEY4=0000000000
+WLAN1_WDS_WEP128_KEY1=00000000000000000000000000 ; WEP-128bits key1~key4
+WLAN1_WDS_WEP128_KEY2=00000000000000000000000000
+WLAN1_WDS_WEP128_KEY3=00000000000000000000000000
+WLAN1_WDS_WEP128_KEY4=00000000000000000000000000
+WLAN1_WDS_WEP_DEFAULT_KEY=0	; default tx key id (0-3)
+WLAN1_WDS_WEP_KEY_TYPE=1	; key type, 0 - ASCII, 1 - hex
+WLAN1_WDS_PSK_FORMAT=0		; psk format, 0 - ACSII, 1 - hex
+WLAN1_WDS_PSK=			; psk value
+
+WLAN1_EASYCFG_ENABLED=1		; easy-config flag, 0-disable, 1-enable
+WLAN1_EASYCFG_MODE=1		; easy-config mode, 1 - button, 2 - QA 
+WLAN1_EASYCFG_ALG_REQ=32	; request encryption (client mode), 4-TKIP, 32-AES
+WLAN1_EASYCFG_ALG_SUPP=36	; support encryption (AP mode), TKIP+AES
+WLAN1_EASYCFG_SCAN_SSID=REALTEK_EASY_CONFIG ; SSID used by easy-config
+
+; Universal repeater
+REPEATER_ENABLED2=0		; enable/disable universal repeater for wlan1
+REPEATER_SSID2=			; ssid of wlan1 extended interface

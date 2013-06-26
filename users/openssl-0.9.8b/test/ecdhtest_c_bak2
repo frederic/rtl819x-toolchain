@@ -1,0 +1,812 @@
+/* crypto/ecdh/ecdhtest.c */
+/* ====================================================================
+ * Copyright 2002 Sun Microsystems, Inc. ALL RIGHTS RESERVED.
+ *
+ * The Elliptic Curve Public-Key Crypto Library (ECC Code) included
+ * herein is developed by SUN MICROSYSTEMS, INC., and is contributed
+ * to the OpenSSL project.
+ *
+ * The ECC Code is licensed pursuant to the OpenSSL open source
+ * license provided below.
+ *
+ * The ECDH software is originally written by Douglas Stebila of
+ * Sun Microsystems Laboratories.
+ *
+ */
+/* ====================================================================
+ * Copyright (c) 1998-2003 The OpenSSL Project.  All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer. 
+ *
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *
+ * 3. All advertising materials mentioning features or use of this
+ *    software must display the following acknowledgment:
+ *    "This product includes software developed by the OpenSSL Project
+ *    for use in the OpenSSL Toolkit. (http://www.openssl.org/)"
+ *
+ * 4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be used to
+ *    endorse or promote products derived from this software without
+ *    prior written permission. For written permission, please contact
+ *    openssl-core@openssl.org.
+ *
+ * 5. Products derived from this software may not be called "OpenSSL"
+ *    nor may "OpenSSL" appear in their names without prior written
+ *    permission of the OpenSSL Project.
+ *
+ * 6. Redistributions of any form whatsoever must retain the following
+ *    acknowledgment:
+ *    "This product includes software developed by the OpenSSL Project
+ *    for use in the OpenSSL Toolkit (http://www.openssl.org/)"
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY
+ * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
+ * ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * ====================================================================
+ *
+ * This product includes cryptographic software written by Eric Young
+ * (eay@cryptsoft.com).  This product includes software written by Tim
+ * Hudson (tjh@cryptsoft.com).
+ *
+ */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "../e_os.h"
+
+#include <openssl/opensslconf.h>	/* for OPENSSL_NO_ECDH */
+#include <openssl/crypto.h>
+#include <openssl/bio.h>
+#include <openssl/bn.h>
+#include <openssl/objects.h>
+#include <openssl/rand.h>
+#include <openssl/sha.h>
+#include <openssl/err.h>
+
+//Added for test
+//CustomOid.h Wapi.h WapiCrypto.h WapiCrypto.c WapiSupplicant.c
+#include "WapiCrypto.c"
+#include "WapiSupplicant.c"
+#include "../crypto/ec/ec_lcl.h"
+
+//For test
+#define NOISY
+
+//For wapi
+//#include <stdio.h>
+//#include <sys/types.h> 
+//#include <sys/stat.h> 
+#include <fcntl.h>
+//#include <sys/dir.h>
+//#include <string.h>
+#define TMP_PEER_PUB_KEY "/tmp/wapi/peerPubKey"
+
+#define SUCCESS 0
+#define FAILED -1
+
+/*
+*/
+static int storeTmpPeerPubKey2File(const char * tmpFile, const unsigned char * strTmpPeerPubKey, const int tmpPeerPubKeyLen)
+{
+	int fd;
+
+	int ret, toRet;
+
+	//initial
+	fd=-1;
+
+	if(tmpFile==NULL)
+	{
+		printf("%s(%d),tmpFile is null.\n",__FUNCTION__,__LINE__);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+	if(strTmpPeerPubKey==NULL)
+	{
+		printf("%s(%d),strTmpPeerPubKey is null.\n",__FUNCTION__,__LINE__);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+	
+	fd=open(tmpFile, O_WRONLY | O_CREAT | O_TRUNC);
+	if ( fd == -1 ) 
+	{
+		printf("open %s error.\n", tmpFile);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+
+	ret=write(fd, (void *)strTmpPeerPubKey, tmpPeerPubKeyLen);
+	printf("%s(%d),ret=%d, tmpPeerPubKeyLen=%d\n",__FUNCTION__,__LINE__,ret, tmpPeerPubKeyLen);//Added for test
+	if((ret==FAILED)||(ret< tmpPeerPubKeyLen))
+	{
+		printf("%s(%d),error: write file failed.\n",__FUNCTION__,__LINE__);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+
+	toRet=SUCCESS;
+
+err:
+	if(fd!=-1)
+		close(fd);
+	
+	return toRet;
+}
+
+static int readTmpPeerPubKey(const char * tmpFile, unsigned char * strTmpPeerPubKey, int * tmpPeerPubKeyLen)
+{
+	int fd;
+	int ret, toRet;
+	unsigned char buffer[300];
+
+	//initial
+	fd=-1;
+
+	if(tmpFile==NULL)
+	{
+		printf("%s(%d),tmpFile is null.\n",__FUNCTION__,__LINE__);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+	if(strTmpPeerPubKey==NULL)
+	{
+		printf("%s(%d),strTmpPeerPubKey is null.\n",__FUNCTION__,__LINE__);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+	if(tmpPeerPubKeyLen==NULL)
+	{
+		printf("%s(%d),tmpPeerPubKeyLen is null.\n",__FUNCTION__,__LINE__);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+	
+	fd=open(tmpFile, O_RDONLY);
+	if ( fd == -1 ) 
+	{
+		printf("open %s error.\n", tmpFile);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+
+	ret=read(fd, (void *)buffer, sizeof(buffer));
+	printf("%s(%d),ret=%d\n",__FUNCTION__,__LINE__,ret);//Added for test
+	if(ret==FAILED)
+	{
+		printf("%s(%d),error: read file failed.\n",__FUNCTION__,__LINE__);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+
+	memcpy(strTmpPeerPubKey, buffer, ret);
+	* tmpPeerPubKeyLen=ret;
+
+	toRet=SUCCESS;
+
+err:
+	if(fd!=-1)
+		close(fd);
+	
+	return toRet;
+}
+
+#ifdef OPENSSL_NO_ECDH
+int main(int argc, char *argv[])
+{
+    printf("No ECDH support\n");
+    return(0);
+}
+#else
+#include <openssl/ec.h>
+#include <openssl/ecdh.h>
+
+#ifdef OPENSSL_SYS_WIN16
+#define MS_CALLBACK	_far _loadds
+#else
+#define MS_CALLBACK
+#endif
+
+#if 0
+static void MS_CALLBACK cb(int p, int n, void *arg);
+#endif
+
+static const char rnd_seed[] = "string to make the random number generator think it has entropy";
+
+
+static const int KDF1_SHA1_len = 20;
+static void *KDF1_SHA1(const void *in, size_t inlen, void *out, size_t *outlen)
+	{
+#ifndef OPENSSL_NO_SHA
+	if (*outlen < SHA_DIGEST_LENGTH)
+		return NULL;
+	else
+		*outlen = SHA_DIGEST_LENGTH;
+	return SHA1(in, inlen, out);
+#else
+	return NULL;
+#endif
+	}
+
+//For wapi
+static const int KDF1_SHA256_len = 32;
+static void *KDF1_SHA256(const void *in, size_t inlen, void *out, size_t *outlen)
+	{
+#ifndef OPENSSL_NO_SHA
+	if (*outlen < SHA256_DIGEST_LENGTH)
+		return NULL;
+	else
+		*outlen = SHA256_DIGEST_LENGTH;
+	return SHA256(in, inlen, out);
+#else
+	return NULL;
+#endif
+	}
+
+#if 0
+/******************************************************************
+KD_HMAC_SHA256
+*******************************************************************/
+static void KD_HMAC_SHA256(unsigned char *text,unsigned int text_len,unsigned char *key, unsigned int key_len,unsigned char *output,unsigned int length)
+{
+	unsigned int i;
+	unsigned int shalength = SHA256_DIGEST_LENGTH;
+	for(i=0;i<length/SHA256_DIGEST_LENGTH;i++,length-=SHA256_DIGEST_LENGTH)
+	{
+		HMAC_SHA256(text,text_len,key,key_len,&output[i*SHA256_DIGEST_LENGTH],&shalength);
+		text = &output[i*SHA256_DIGEST_LENGTH];
+		text_len=SHA256_DIGEST_LENGTH;
+	}
+	if(length>0)
+		HMAC_SHA256(text,text_len,key,key_len,&output[i*SHA256_DIGEST_LENGTH],&length);
+}
+/**********************************************************************
+
+**********************************************************************/
+
+static void WapiECDHComputeBMK(EC_KEY *a,unsigned char *peerPublicKey,unsigned char peerPublicKeyLength,unsigned char *bkbuf,unsigned char *bklen)
+{
+	 BIGNUM *x_a=NULL, *y_a=NULL,*x_b=NULL, *y_b=NULL;
+	 const EC_GROUP *group;
+	 EC_POINT *srvr_ecpoint = NULL;
+	 BN_CTX *bn_ctx = NULL;
+	 int aout,alen;
+	 unsigned char *abuf;
+	 BN_CTX *ctx = NULL;
+	 EC_KEY *b;
+	 
+	 group = EC_KEY_get0_group(a);
+	 
+	 TRACE("\nBegin ECDH test!\n");
+	 
+	 if ((x_a=BN_new()) == NULL) goto err;
+	 if ((y_a=BN_new()) == NULL) goto err;
+	 if ((x_b=BN_new()) == NULL) goto err;
+	 if ((y_b=BN_new()) == NULL) goto err;
+
+	 b = EC_KEY_new_by_curve_name(NID_X9_62_prime192v1);
+	 
+	 srvr_ecpoint = EC_POINT_new(group);
+	 ctx = BN_CTX_new();
+	 bn_ctx = BN_CTX_new();
+	 if(srvr_ecpoint == NULL || bn_ctx == NULL ||ctx ==NULL || b==NULL)
+	 { 
+	  	TRACE("unable to new EC_POINT \n");
+	  	goto err;
+	 }
+	 
+	 if(EC_POINT_oct2point(group, srvr_ecpoint,peerPublicKey, peerPublicKeyLength, bn_ctx) == 0)
+	 {
+	  	TRACE("unable to convert octect to point \n");
+	  	goto err;
+	 }
+	 
+	 EC_KEY_set_public_key(b, srvr_ecpoint);
+	 
+	 if (EC_METHOD_get_field_type(EC_GROUP_method_of(group)) == NID_X9_62_prime_field) 
+	 {
+	 	 if (!EC_POINT_get_affine_coordinates_GFp(group,EC_KEY_get0_public_key(a), x_a, y_a, ctx)) 
+	  		goto err;
+	 }
+	 else
+	 {
+	 	 if (!EC_POINT_get_affine_coordinates_GF2m(group,EC_KEY_get0_public_key(a), x_a, y_a, ctx)) 
+	  		goto err;
+	 }
+	 
+
+	 if (EC_METHOD_get_field_type(EC_GROUP_method_of(group)) == NID_X9_62_prime_field) 
+	 {
+	  	if (!EC_POINT_get_affine_coordinates_GFp(group, EC_KEY_get0_public_key(b), x_b, y_b, ctx))
+			goto err;
+	  }
+	 else
+	 {
+	  	if (!EC_POINT_get_affine_coordinates_GF2m(group, EC_KEY_get0_public_key(b), x_b, y_b, ctx)) 
+			goto err;
+	 }
+	 alen=128;
+	 abuf=(unsigned char *)OPENSSL_malloc(alen);
+	 aout=ECDH_compute_key(abuf,alen,EC_KEY_get0_public_key(b),a,NULL);
+	 TRACE("finish ECDH compute key, out length = %d\n", aout);
+
+	 memcpy(bkbuf,abuf,aout);
+	 *bklen=aout;
+	 
+err:
+	 ERR_print_errors_fp(stderr);
+	 
+	 if(bn_ctx) 
+	 	BN_CTX_free(bn_ctx);
+	if(ctx)
+		BN_CTX_free(ctx);
+	 
+	 if(srvr_ecpoint) 
+	 	EC_POINT_free(srvr_ecpoint);
+	 srvr_ecpoint = NULL;
+
+	 if(b)
+	 	EC_KEY_free(b);
+	 
+	 if (abuf != NULL) OPENSSL_free(abuf);
+	 if (x_a) BN_free(x_a);
+	 if (y_a) BN_free(y_a);
+	 if (x_b) BN_free(x_b);
+	 if (y_b) BN_free(y_b);
+ 
+}
+#endif
+
+static int test_ecdh_curve(int nid, const char *text, BN_CTX *ctx, BIO *out)
+	{
+	EC_KEY *a=NULL;
+	EC_KEY *b=NULL;
+	BIGNUM *x_a=NULL, *y_a=NULL,
+	       *x_b=NULL, *y_b=NULL;
+	char buf[12];
+	unsigned char *abuf=NULL,*bbuf=NULL;
+	int i,alen,blen,aout,bout,ret, toRet;
+	const EC_GROUP *group;
+
+	unsigned char priKeyBuf[1000];
+	//char * priKeyBuf=NULL;
+	int privKeyBufLen;
+	FILE * fp;
+	unsigned char *p1,*p2,*pp;
+	int pp_len;
+	char name[1000];
+	char header[1000];
+
+	//For test
+	unsigned char Nae[32];
+	unsigned char Nasue[32];
+	char *BKlabel="base key expansion for key and additional nonce";
+	unsigned char  b_pubkey0[300], *b0;
+	 int			b_pubkey_len0;
+	unsigned char  b_pubkey[300],*b1;
+	 int			b_pubkey_len;
+	 unsigned char  a_pubkey[300],*a1;
+	 int			a_pubkey_len;
+
+	 unsigned char ab_buf1[300];
+	 unsigned char ab_len1;
+	 unsigned char ab_buf2[300];
+	 unsigned char ab_len2;
+
+	unsigned char bk[16];
+	unsigned char twoMac[12];
+	unsigned char seed[32];
+	unsigned char Last_authenticate_Flag[32];
+	unsigned char keybuf[100];
+	 unsigned char BKlabelbuf[200];
+	 int BKLabelLen;
+
+	int res;
+
+	a = EC_KEY_new_by_curve_name(nid);
+	b = EC_KEY_new_by_curve_name(nid);
+	if (a == NULL || b == NULL)
+		goto err;
+
+	group = EC_KEY_get0_group(a);
+
+	if ((x_a=BN_new()) == NULL) goto err;
+	if ((y_a=BN_new()) == NULL) goto err;
+	if ((x_b=BN_new()) == NULL) goto err;
+	if ((y_b=BN_new()) == NULL) goto err;
+
+	BIO_puts(out,"Testing key generation with ");
+	BIO_puts(out,text);
+#ifdef NOISY
+	BIO_puts(out,"\n");
+#else
+	BIO_flush(out);
+#endif
+
+	if (!EC_KEY_generate_key(a)) goto err;
+	
+	if (EC_METHOD_get_field_type(EC_GROUP_method_of(group)) == NID_X9_62_prime_field) 
+		{
+		if (!EC_POINT_get_affine_coordinates_GFp(group,
+			EC_KEY_get0_public_key(a), x_a, y_a, ctx)) goto err;
+		}
+	else
+		{
+		if (!EC_POINT_get_affine_coordinates_GF2m(group,
+			EC_KEY_get0_public_key(a), x_a, y_a, ctx)) goto err;
+		}
+#ifdef NOISY
+	BIO_puts(out,"  pri 1=");
+	BN_print(out,a->priv_key);
+	BIO_puts(out,"\n  pub 1=");
+	BN_print(out,x_a);
+	BIO_puts(out,",");
+	BN_print(out,y_a);
+	BIO_puts(out,"\n");
+#else
+	BIO_printf(out," .");
+	BIO_flush(out);
+#endif
+
+/*
+	memset(priKeyBuf,0,sizeof(priKeyBuf));
+	//priKeyBuf=BN_bn2hex(a->priv_key);
+	pp=priKeyBuf;
+	res=i2d_ECPrivateKey(a,&pp);
+	printf("%s(%d),res=%d\n",__FUNCTION__,__LINE__,res);//Added for test
+
+	//dumpDex((const unsigned char *) priKeyBuf, 200);
+	
+	//if(!priKeyBuf)
+	//{
+	//	printf("BN_bn2hex  fail!\n");	//Added for test
+	//	toRet=0;
+	//	goto err;
+	//}
+	privKeyBufLen=res;
+	printf("%s(%d),privKeyBufLen=%d\n",__FUNCTION__,__LINE__,privKeyBufLen);//Added for test
+	dumpDex((const unsigned char *) priKeyBuf, privKeyBufLen);
+	printf("\n%s(%d),privKeyBufLen=%d\n",__FUNCTION__,__LINE__,privKeyBufLen);//Added for test
+
+	//To get as public key from as_cer file
+	fp = fopen("/tmp/debug_wapi", "a+");
+	if (!fp) 
+	{
+		printf("open /tmp/debug_wapi  fail!\n");	//Added for test
+		toRet=0;
+		goto err;
+	}
+	
+	printf("open /tmp/debug_wapi  file ok!\n");//Added for test
+
+	memset(name,0, sizeof(name));
+	memset(header,0,sizeof(header));
+	strcpy(name,"EC PRIVATE KEY");
+	//strcpy(header,"header_of_priv_key_zj");
+	
+	PEM_write(fp, name, header, priKeyBuf, (long)privKeyBufLen);
+
+	fclose(fp);
+	//if(priKeyBuf)
+	//	OPENSSL_free(priKeyBuf);
+*/
+
+	if (!EC_KEY_generate_key(b)) goto err;
+
+	if (EC_METHOD_get_field_type(EC_GROUP_method_of(group)) == NID_X9_62_prime_field) 
+		{
+		if (!EC_POINT_get_affine_coordinates_GFp(group, 
+			EC_KEY_get0_public_key(b), x_b, y_b, ctx)) goto err;
+		}
+	else
+		{
+		if (!EC_POINT_get_affine_coordinates_GF2m(group, 
+			EC_KEY_get0_public_key(b), x_b, y_b, ctx)) goto err;
+		}
+
+#ifdef NOISY
+	BIO_puts(out,"  pri 2=");
+	BN_print(out,b->priv_key);
+	BIO_puts(out,"\n  pub 2=");
+	BN_print(out,x_b);
+	BIO_puts(out,",");
+	BN_print(out,y_b);
+	BIO_puts(out,"\n");
+#else
+	BIO_printf(out,".");
+	BIO_flush(out);
+#endif
+
+	//alen=KDF1_SHA256_len;
+	alen=128;
+	abuf=(unsigned char *)OPENSSL_malloc(alen);
+	//aout=ECDH_compute_key(abuf,alen,EC_KEY_get0_public_key(b),a,KDF1_SHA256);
+	aout=ECDH_compute_key(abuf,alen,EC_KEY_get0_public_key(b),a,NULL);
+	printf("%s(%d), aout=%d\n",__FUNCTION__,__LINE__, aout);//Added for test
+
+#ifdef NOISY
+	BIO_puts(out,"  key1 =");
+	for (i=0; i<aout; i++)
+		{
+		sprintf(buf,"%02X",abuf[i]);
+		BIO_puts(out,buf);
+		}
+	BIO_puts(out,"\n");
+#else
+	BIO_printf(out,".");
+	BIO_flush(out);
+#endif
+
+	//blen=KDF1_SHA256_len;
+	blen=128;
+	bbuf=(unsigned char *)OPENSSL_malloc(blen);
+//	bout=ECDH_compute_key(bbuf,blen,EC_KEY_get0_public_key(a),b,KDF1_SHA256);
+	bout=ECDH_compute_key(bbuf,blen,EC_KEY_get0_public_key(a),b,NULL);
+	printf("%s(%d), bout=%d\n",__FUNCTION__,__LINE__, bout);//Added for test
+
+#ifdef NOISY
+	BIO_puts(out,"  key2 =");
+	for (i=0; i<bout; i++)
+		{
+		sprintf(buf,"%02X",bbuf[i]);
+		BIO_puts(out,buf);
+		}
+	BIO_puts(out,"\n");
+#else
+	BIO_printf(out,".");
+	BIO_flush(out);
+#endif
+
+	if ((aout < 4) || (bout != aout) || (memcmp(abuf,bbuf,aout) != 0))
+		{
+#ifndef NOISY
+		BIO_printf(out, " failed\n\n");
+		BIO_printf(out, "key a:\n");
+		BIO_printf(out, "private key: ");
+		BN_print(out, EC_KEY_get0_private_key(a));
+		BIO_printf(out, "\n");
+		BIO_printf(out, "public key (x,y): ");
+		BN_print(out, x_a);
+		BIO_printf(out, ",");
+		BN_print(out, y_a);
+		BIO_printf(out, "\nkey b:\n");
+		BIO_printf(out, "private key: ");
+		BN_print(out, EC_KEY_get0_private_key(b));
+		BIO_printf(out, "\n");
+		BIO_printf(out, "public key (x,y): ");
+		BN_print(out, x_b);
+		BIO_printf(out, ",");
+		BN_print(out, y_b);
+		BIO_printf(out, "\n");
+		BIO_printf(out, "generated key a: ");
+		for (i=0; i<bout; i++)
+			{
+			sprintf(buf, "%02X", bbuf[i]);
+			BIO_puts(out, buf);
+			}
+		BIO_printf(out, "\n");
+		BIO_printf(out, "generated key b: ");
+		for (i=0; i<aout; i++)
+			{
+			sprintf(buf, "%02X", abuf[i]);
+			BIO_puts(out,buf);
+			}
+		BIO_printf(out, "\n");
+#endif
+		fprintf(stderr,"Error in ECDH routines\n");
+		toRet=FAILED;
+		}
+	else
+		{
+#ifndef NOISY
+		BIO_printf(out, " ok\n");
+#endif
+		toRet=SUCCESS;
+		}
+	///////////////////////////////
+
+	//For test
+	b1 = b_pubkey;
+	 b_pubkey_len = i2o_ECPublicKey(b, (unsigned char * * )&b1);
+	 printf("%s(%d), b_pubkey_len=%d\n",__FUNCTION__,__LINE__, b_pubkey_len);//Added for test
+	 dumpDex(b_pubkey, b_pubkey_len);
+	//To store peer pub key into tmp file -- just for test here
+	ret=storeTmpPeerPubKey2File(TMP_PEER_PUB_KEY, b_pubkey, b_pubkey_len);
+	printf("%s(%d),ret=%d\n",__FUNCTION__,__LINE__,ret);//Added for test
+	if(ret==FAILED)
+	{
+		printf("%s(%d), storeTmpPeerPubKey2File failed.\n",__FUNCTION__,__LINE__);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+
+	//To initial
+	memset(b_pubkey, 0, sizeof(b_pubkey));
+	b_pubkey_len=0;
+	//To get peer pub key from tmp file
+	ret=readTmpPeerPubKey(TMP_PEER_PUB_KEY, b_pubkey, &b_pubkey_len);
+	printf("%s(%d),ret=%d, b_pubkey_len=%d\n",__FUNCTION__,__LINE__,ret, b_pubkey_len);//Added for test
+	if(ret==FAILED)
+	{
+		printf("%s(%d), storeTmpPeerPubKey2File failed.\n",__FUNCTION__,__LINE__);//Added for test
+		toRet=FAILED;
+		goto err;
+	}
+	dumpDex(b_pubkey, b_pubkey_len);
+	printf("----------------------%s(%d)---------\n",__FUNCTION__,__LINE__);//Added for test
+	
+	 
+	WapiECDHComputeBMK(a, b_pubkey, b_pubkey_len, ab_buf1, &ab_len1);
+	printf("%s(%d), ab_len1=%d\n",__FUNCTION__,__LINE__, ab_len1);//Added for test
+
+#if 0
+	a1 = a_pubkey;
+	 a_pubkey_len = i2o_ECPublicKey(a, (unsigned char * * )&a1);
+	 printf("%s(%d), a_pubkey_len=%d\n",__FUNCTION__,__LINE__, a_pubkey_len);//Added for test
+	WapiECDHComputeBMK(b, a_pubkey, a_pubkey_len, ab_buf2, &ab_len2);
+	printf("%s(%d), ab_len2=%d\n",__FUNCTION__,__LINE__, ab_len2);//Added for test
+
+	printf("%s(%d), a_pubkey_len=%d---------\n",__FUNCTION__,__LINE__, a_pubkey_len);//Added for test
+	dumpDex(a_pubkey, a_pubkey_len);
+	//printf("%s(%d), b_pubkey_len=%d---------\n",__FUNCTION__,__LINE__, b_pubkey_len);//Added for test
+	//dumpDex(b_pubkey, b_pubkey_len);
+	printf("%s(%d), ab_len1=%d---------\n",__FUNCTION__,__LINE__, ab_len1);//Added for test
+	dumpDex(ab_buf1, ab_len1);
+	printf("%s(%d), ab_len2=%d---------\n",__FUNCTION__,__LINE__, ab_len2);//Added for test
+	dumpDex(ab_buf2, ab_len2);
+#endif
+	printf("----------------------%s(%d)---------\n",__FUNCTION__,__LINE__);//Added for test
+
+	 //calculate bk
+	 memset(Nae,0, sizeof(Nae));
+	 memset(Nasue,0, sizeof(Nasue));
+	 memcpy(BKlabelbuf,Nae,32);
+	 BKLabelLen = 32;
+         memcpy(BKlabelbuf+32,Nasue,32);
+	  BKLabelLen += 32;
+	 memcpy(BKlabelbuf+64,BKlabel,strlen(BKlabel));	
+	  BKLabelLen += strlen(BKlabel);
+
+	   KD_HMAC_SHA256(BKlabelbuf, BKLabelLen, ab_buf1, ab_len1, keybuf, 48);
+	   printf("%s(%d)--bk----\n",__FUNCTION__,__LINE__);//Added for test
+	   dumpDex(keybuf, 48);
+
+	memcpy(bk, keybuf, 16);
+	   memcpy(seed,keybuf+16,32);
+	   SHA256(seed,32, Last_authenticate_Flag);
+	    printf("%s(%d)---Last_authenticate_Flag---\n",__FUNCTION__,__LINE__);//Added for test
+	   dumpDex(Last_authenticate_Flag, 32);
+
+	
+	   //calculate BKID
+	   memset(twoMac, 0, sizeof(twoMac));
+	  KD_HMAC_SHA256(twoMac, 12, bk, 16, keybuf, 16);
+	  printf("%s(%d)---BKID---\n",__FUNCTION__,__LINE__);//Added for test
+	   dumpDex(keybuf, 16);
+	   
+	//End for test
+err:
+	ERR_print_errors_fp(stderr);
+
+	if (abuf != NULL) OPENSSL_free(abuf);
+	if (bbuf != NULL) OPENSSL_free(bbuf);
+	if (x_a) BN_free(x_a);
+	if (y_a) BN_free(y_a);
+	if (x_b) BN_free(x_b);
+	if (y_b) BN_free(y_b);
+	if (b) EC_KEY_free(b);
+	if (a) EC_KEY_free(a);
+	return(toRet);
+	}
+
+int main(int argc, char *argv[])
+	{
+	BN_CTX *ctx=NULL;
+	int ret=1;
+	BIO *out;
+
+	printf("%s(%d)\n",__FUNCTION__,__LINE__);//Added for test
+
+	test_wapi();//Added for test
+
+
+	CRYPTO_malloc_debug_init();
+	CRYPTO_dbg_set_options(V_CRYPTO_MDEBUG_ALL);
+	CRYPTO_mem_ctrl(CRYPTO_MEM_CHECK_ON);
+
+#ifdef OPENSSL_SYS_WIN32
+	CRYPTO_malloc_init();
+#endif
+
+	RAND_seed(rnd_seed, sizeof rnd_seed);
+
+	out=BIO_new(BIO_s_file());
+	if (out == NULL) EXIT(1);
+	BIO_set_fp(out,stdout,BIO_NOCLOSE);
+#if 0
+	//Added for test
+	ret=wapiCertVerify("/var/certs/user.cer","/var/certs/as.cer",out);
+	printf("%s(%d):as.cer, ret=%d\n",__FUNCTION__,__LINE__,ret);//Added for test
+
+
+	//Added for test
+	ret=ReadCertificate("/var/certs/as.cer",out);
+	printf("%s(%d):as.cer, ret=%d\n",__FUNCTION__,__LINE__,ret);//Added for test
+
+	ret=ReadCertificate("/var/certs/user.cer",out);
+	printf("%s(%d):user.cer, ret=%d\n",__FUNCTION__,__LINE__,ret);//Added for test
+#endif
+
+
+	if ((ctx=BN_CTX_new()) == NULL) goto err;
+
+	/* NIST PRIME CURVES TESTS */
+	if (test_ecdh_curve(NID_X9_62_prime192v1, "NIST Prime-Curve P-192", ctx, out)==FAILED) goto err;
+#if 0
+
+	if (!test_ecdh_curve(NID_secp224r1, "NIST Prime-Curve P-224", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_X9_62_prime256v1, "NIST Prime-Curve P-256", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_secp384r1, "NIST Prime-Curve P-384", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_secp521r1, "NIST Prime-Curve P-521", ctx, out)) goto err;
+	/* NIST BINARY CURVES TESTS */
+	if (!test_ecdh_curve(NID_sect163k1, "NIST Binary-Curve K-163", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_sect163r2, "NIST Binary-Curve B-163", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_sect233k1, "NIST Binary-Curve K-233", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_sect233r1, "NIST Binary-Curve B-233", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_sect283k1, "NIST Binary-Curve K-283", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_sect283r1, "NIST Binary-Curve B-283", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_sect409k1, "NIST Binary-Curve K-409", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_sect409r1, "NIST Binary-Curve B-409", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_sect571k1, "NIST Binary-Curve K-571", ctx, out)) goto err;
+	if (!test_ecdh_curve(NID_sect571r1, "NIST Binary-Curve B-571", ctx, out)) goto err;
+#endif
+
+	ret = 0;
+
+err:
+	ERR_print_errors_fp(stderr);
+	if (ctx) BN_CTX_free(ctx);
+	BIO_free(out);
+	CRYPTO_cleanup_all_ex_data();
+	ERR_remove_state(0);
+	CRYPTO_mem_leaks_fp(stderr);
+	EXIT(ret);
+	return(ret);
+	}
+
+#if 0
+static void MS_CALLBACK cb(int p, int n, void *arg)
+	{
+	char c='*';
+
+	if (p == 0) c='.';
+	if (p == 1) c='+';
+	if (p == 2) c='*';
+	if (p == 3) c='\n';
+	BIO_write((BIO *)arg,&c,1);
+	(void)BIO_flush((BIO *)arg);
+#ifdef LINT
+	p=n;
+#endif
+	}
+#endif
+#endif

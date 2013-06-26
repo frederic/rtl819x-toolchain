@@ -1,0 +1,103 @@
+#!/bin/sh
+# udhcpc bound script
+NTP_PROCESS=/var/ntp_run
+RESOLV_CONF="/etc/udhcpc/resolv.conf"
+GETMIB="flash get"
+START_FIREWALL=firewall.sh
+ROUTE_SET=/bin/set_route.sh
+ROUTE_DEL=/bin/del_route.sh
+[ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
+[ -n "$subnet" ] && NETMASK="netmask $subnet"
+
+ifconfig $interface $ip $BROADCAST $NETMASK
+echo "$ip" > /var/eth1_ip
+if [ "$router" ]
+then
+	echo "deleting routers"
+	while route del default dev $interface
+	do :
+	done
+
+	for i in $router
+	do
+		route add -net default gw $i dev $interface
+	done
+fi
+
+echo -n > $RESOLV_CONF
+[ -n "$domain" ] && echo domain $domain >> $RESOLV_CONF
+
+DNS="--cache=off"
+eval `$GETMIB DNS_MODE`
+if [ $DNS_MODE = '0' ]; then
+	for i in $dns
+	do
+		echo adding dns $i
+		echo nameserver $i >> $RESOLV_CONF
+		DNS="$DNS -s $i"
+	done
+else
+	eval `$GETMIB DNS1`
+	if [ "$DNS1" != '0.0.0.0' ]; then
+		DNS="$DNS -s $DNS1"
+		echo nameserver $DNS1 >> $RESOLV_CONF
+	fi
+	eval `$GETMIB DNS2`
+	if [ "$DNS2" != '0.0.0.0' ]; then
+		DNS="$DNS -s $DNS2"
+		echo nameserver $DNS2 >> $RESOLV_CONF
+	fi
+	eval `$GETMIB DNS3`
+	if [ "$DNS3" != '0.0.0.0' ]; then
+		DNS="$DNS -s $DNS3"
+		echo nameserver $DNS3 >> $RESOLV_CONF
+	fi
+fi
+
+echo start DNS Relay Daemon
+dnrd $DNS
+cp $RESOLV_CONF /var/resolv.conf
+# enable firewall
+echo 'Set Firewall...'
+#echo 2 > /proc/fast_nat
+$START_FIREWALL
+
+#upnp.sh
+if [ -f /bin/vpn.sh ]; then
+        echo 'Setup VPN'
+	vpn.sh all
+fi
+
+#restart igmp proxy
+eval `$GETMIB IGMP_PROXY_DISABLED`
+
+killall -9 igmpproxy 2> /dev/null
+rm -f /var/run/igmp_pid 2> /dev/null
+if [ $IGMP_PROXY_DISABLED = 0 ]; then
+	igmpproxy wlan0-vxd br0 &
+echo 1 > /proc/br_igmpsnoop
+else
+	echo 0 > /proc/br_igmpsnoop
+fi
+
+#echo 'Set Route'
+$ROUTE_DEL
+$ROUTE_SET wlan0-vxd
+#restart DDNS and ntp while that is killed in disconnect.sh
+eval `flash get DDNS_ENABLED`
+if [ $DDNS_ENABLED = 1 ]; then
+killall -9 ddns.sh 2> /dev/null
+rm -f /var/firstddns 2> /dev/null
+ddns.sh all
+fi
+
+eval `flash get NTP_ENABLED`
+if [ $NTP_ENABLED = 1 ]; then
+if [ ! -f $NTP_PROCESS ]; then
+ntp.sh &
+fi
+fi
+
+
+
+

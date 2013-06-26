@@ -1,0 +1,46 @@
+libm/fmodf.os libm/fmodf.os: libm/float_wrappers.c \
+  ././include/libc-symbols.h ./include/bits/uClibc_arch_features.h \
+  ./include/math.h ./include/features.h ./include/bits/uClibc_config.h \
+  ./include/sys/cdefs.h ./include/libc-internal.h \
+  ./include/bits/stackinfo.h ./include/bits/huge_val.h \
+  ./include/bits/huge_valf.h ./include/bits/huge_vall.h \
+  ./include/bits/inf.h ./include/bits/nan.h ./include/bits/mathdef.h \
+  ./include/sgidefs.h ./include/bits/mathcalls.h ./include/complex.h \
+  ./include/bits/cmathcalls.h
+
+././include/libc-symbols.h:
+
+./include/bits/uClibc_arch_features.h:
+
+./include/math.h:
+
+./include/features.h:
+
+./include/bits/uClibc_config.h:
+
+./include/sys/cdefs.h:
+
+./include/libc-internal.h:
+
+./include/bits/stackinfo.h:
+
+./include/bits/huge_val.h:
+
+./include/bits/huge_valf.h:
+
+./include/bits/huge_vall.h:
+
+./include/bits/inf.h:
+
+./include/bits/nan.h:
+
+./include/bits/mathdef.h:
+
+./include/sgidefs.h:
+
+./include/bits/mathcalls.h:
+
+./include/complex.h:
+
+./include/bits/cmathcalls.h:
+cmd_libm_fmodf.os := rsdk-linux-gcc -c libm/float_wrappers.c -o libm/fmodf.os -include include/libc-symbols.h -Wall -Wstrict-prototypes -fno-strict-aliasing -fPIC -mabi=32 -fno-builtin -nostdinc -Iinclude -I. -Ilibc/sysdeps/linux/rlx -fno-asm -march=4181 -EB -msoft-float -DUCLIBC_INTERNAL -std=gnu99 -Os -funit-at-a-time -mno-split-addresses -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux/rlx -Ilibpthread/linuxthreads.old/sysdeps/rlx -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux -Ilibpthread/linuxthreads.old/sysdeps/pthread -Ilibpthread/linuxthreads.old -Ilibpthread -I/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/ -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6//include-fixed -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6/include -DNDEBUG "-mno-split-addresses" -DNOT_IN_libc -DIS_IN_libm -D_IEEE_LIBM -MT libm/fmodf.os -MD -MP -MF libm/.fmodf.os.dep -DL_fmodf

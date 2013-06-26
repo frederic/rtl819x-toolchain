@@ -1,0 +1,42 @@
+#!/bin/sh
+#
+# Initializes DALLAS
+#
+
+major=254                                                                       
+
+kernel_ver=`/bin/uname -r`
+
+if [ -d /lib/modules/${kernel_ver}/dallas ]
+then
+	ifconfig eth2 up
+	echo "Initializing DALLAS"
+	
+	/sbin/insmod /lib/modules/${kernel_ver}/dallas/dallas_ctrl.ko dallas_uni="eth2"
+	                                                        
+	major=`grep pbrc /proc/devices | awk '{print $1}'`
+	                                                        
+	if [ "test"${major} = "test" ]
+	then
+		echo "Dallas device not found!"
+	else
+		cd /dev/
+		/bin/mknod dallas c ${major} 0
+		chmod 666 /dev/dallas
+	fi
+	
+	# Load the image
+	if [ -r /lib/modules/${kernel_ver}/dallas/dallas.bin ]
+	then
+		dallas_ctrl non_slave /lib/modules/${kernel_ver}/dallas/dallas.bin
+	elif [ -r /lib/modules/${kernel_ver}/dallas/isr.bin ]
+	then
+		dallas_ctrl slave /lib/modules/${kernel_ver}/dallas/isr.bin
+	else
+		echo "Dallas image not found!"
+	fi
+else
+	echo "Dallas module not found!"
+fi
+
+

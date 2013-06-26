@@ -1,0 +1,121 @@
+.\"                                      -*- nroff -*-
+.\" ushare.1 - Manual page for uShare.
+.\"
+.\" Copyright (C) 2005-2007 Benjamin Zores
+.\"
+.\" This program is free software; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU Library General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program; if not, write to the Free Software Foundation,
+.\" Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+.\"
+.TH USHARE 1 "July 05, 2007"
+.SH NAME
+uShare \(hy a lightweight UPnP A/V and DLNA Media Server
+.SH SYNOPSIS
+.B ushare
+[\f-\-v\fR] [\f-\-n name\fR] [\f-\-i interface\fR] [\f-\-p port\fR] [\f-\-w\fR] [\f-\-c directory\fR] [[\f-\-c directory\fR]...]
+.SH DESCRIPTION
+\fBuShare\fP is a free UPnP / DLNA multimedia files Media Server.
+It implements the server component that provides UPnP media devices with
+information on available multimedia files. uShare uses the built-in http
+server of libupnp to stream the files to clients.
+
+.SH OPTIONS
+This program follow the usual GNU command line syntax.
+.TP
+\fB\-\-name (\-n)\fR \fINAME\fR
+Set UPnP Friendly Name (display name of the media server).
+Default is 'uShare'.
+.TP
+\fB\-\-interface (\-i)\fR \fIINTERFACE\fR
+Set Network interface to listen on.
+Default is 'uShare'.
+.TP
+\fB\-\-cfg (\-f)\fR \fIFILE\fR
+Config file to be used.
+.TP
+\fB\-\-port (\-p)\fR \fIPORT\fR
+Set Network port to listen on.
+Default is random above 49152.
+.TP
+\fB\-\-telnet_port (\-q)\fR \fIPORT\fR
+Set Network port to listen on for telnet control connections.
+Default is 1337.
+.TP
+\fB\-\-content (\-c)\fR \fIDIRECTORY\fR
+Set directory to scan for multimedia files.
+.TP
+\fB\-\-no\-web (\-w)\fR
+Disable the control web page (enabled by default).
+.TP
+\fB\-\-no\-telnet (\-t)\fR
+Disable the telnet control (enabled by default).
+.TP
+\fB\-\-override-iconv-err (\-o)\fR
+If iconv fails parsing name, still add to media contents
+(hoping the renderer can handle it).
+.TP
+\fB\-\-verbose (\-v)\fR
+Set verbose display.
+.TP
+\fB\-\-xbox (\-x)\fR
+Use XboX 360 compliant profile.
+.TP
+\fB\-\-dlna (\-d)\fR
+Use DLNA compliant profile (required for PlayStation3).
+.TP
+\fB\-\-daemon (\-D)\fR
+Run as a daemon.
+.TP
+\fB\-\-version (\-V)\fR
+Display uShare version number.
+.TP
+\fB\-\-help (\-h)\fR
+Display help message.
+.SH "REMOTE CONTROL"
+You can also perform remote control of uShare UPnP Media Server through its
+web interface. This let you define new content locations at runtime or
+update the currently shared one in case the filesystem has changed.
+To disable this feature, use the \-\-no\-web option (see bellow).
+.TP
+Just go to :
+.TP
+.B   http://ip_address:port/web/ushare.html
+.SH "FILE TYPES"
+The following file formats (extensions) are supported :
+.TP
+.B Video
+asf, avi, dv, divx, wmv, mjpg, mjpeg, mpeg, mpg, mpe, mp2p, vob, mp2t, m1v, m2v, m4v, m4p, mp4ps, ts, ogm, mkv, rmvb, mov, qt
+.TP
+.B Audio
+aac, ac3, aif, aiff, at3p, au, snd, dts, rmi, mp1, mp2, mp3, mp4, mpa, ogg, wav, pcm, lpcm, l16, wma, mka, ra, rm, ram
+.TP
+.B Images
+bmp, ico, gif, jpeg, jpg, jpe, pcd, png, pnm, ppm, qti, qtf, qtif, tif, tiff
+.TP
+.B Playlist
+pls, m3u, asx
+.TP
+.B Subtitles
+dks, idx, mpl, pjs, psb, scr, srt, ssa, stl, sub, tts, vsf, zeg
+.TP
+.B Miscellaneous files
+bup, ifo
+.SH "REPORTING BUGS"
+Report bugs to <\fIushare@geexbox.org\fP>.
+.SH AUTHOR
+uShare was written by Benjamin Zores <ben@geexbox.org>.
+.SH COPYRIGHT
+Copyright \(co 2005-2007 Benjamin Zores
+
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.

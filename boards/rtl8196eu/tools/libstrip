@@ -1,0 +1,213 @@
+#!/bin/sh
+##############################################################################
+#paramter format: OPENSSL=x MAJOR_VERSION="0.9.30"
+#Set paramter
+##############################################################################\
+for i in $*; do
+        eval $i
+done
+
+if [ -n "$MAJOR_VERSION" ]; then
+	echo $MAJOR_VERSION
+else
+	echo "ERROR!!!!!!!!!!!!! 			       !!!!!!!!!!!!!!"
+	echo "ERROR!!!!!!!!!!!!! MAJOR_VERSION MUST SPECIFIED  !!!!!!!!!!!!!!"
+	echo "ERROR!!!!!!!!!!!!! 			       !!!!!!!!!!!!!!"
+	exit
+fi
+
+###############################################################################
+# SECTION 1: Set Global variables
+###############################################################################
+ROOTDIR=`pwd`
+LIBSTRIPDIR="$TOOLS_DIR"
+ROOTFS="$ROMFS_DIR"
+ROOTLIB="$ROMFS_DIR/lib"
+UCLIB_DIR="$TOOLCHAIN_DIR/lib"
+STRIP="$TOOLCHAIN_DIR/bin/rsdk-linux-strip"
+SSTRIP="$TOOLCHAIN_DIR/bin/rsdk-linux-sstrip"
+OPENSSL_DIR="$USERS_DIR/openssl-0.9.8b"
+
+###########################################################
+# Library need be stripped
+###########################################################
+LIBLD="$UCLIB_DIR/ld-uClibc-$MAJOR_VERSION.so"
+LIBC="$UCLIB_DIR/libc.a"
+LIBCRYPTO="$UCLIB_DIR/libcrypt.a"
+LIBRESOLV="$UCLIB_DIR/libresolv.a"
+#because original libdl-0.9.28.so size is smaller than the file
+#rebuilt from the static libary, so we copy it directly.
+#LIBDL="$UCLIB_DIR/libdl.a" 
+LIBNSL="$UCLIB_DIR/libnsl.a"
+LIBM="$UCLIB_DIR/libm.a"
+LIBGCC="$UCLIB_DIR/libgcc.a"
+LIBPTHREAD="$UCLIB_DIR/libpthread.a"
+LIBSTDCPP="$UCLIB_DIR/libstdc++.a"
+LIBSUPCPP="$UCLIB_DIR/libsupc++.a"
+LIBOPENSSLCRYPTO="$OPENSSL_DIR/libcrypto.a"
+LIBOPENSSLSSL="$OPENSSL_DIR/libssl.a"
+#LIBLIST="$LIBC $LIBCRYPTO $LIBRESOLV $LIBDL $LIBNSL $LIBM $LIBGCC $LIBPTHREAD"
+LIBLIST="$LIBC $LIBCRYPTO $LIBRESOLV $LIBDL $LIBNSL $LIBM  $LIBPTHREAD"
+if [ -n "$OPENSSL" -a "$OPENSSL" == "1" ]; then
+LIBLIST="$LIBLIST $LIBOPENSSLCRYPTO $LIBOPENSSLSSL"
+fi
+
+if [ -n "$BTCLIENT" -a "$BTCLIENT" == "1" ]; then
+LIBLIST="$LIBLIST $LIBSTDCPP"
+fi
+###########################################################
+# Tools which are used for rebuilding share librarys
+###########################################################
+LD="$TOOLCHAIN_DIR/bin/rsdk-linux-ld -Os"
+LDSCRIPT="$TOOLCHAIN_DIR/lib/ldscripts/elf32btsmip.xs"
+#INTERPDIR="$ROOTDIR/lib/uClibc/libc/misc/internals/interp.o"
+LDOPTIONS="-shared --warn-common --warn-once -z combreloc -s -nostdlib --script=ldscript --no-whole-archive $INTERPDIR"
+
+###############################################################################
+# SECTION 2: parse unresolved symbols in execution files
+###############################################################################
+if [ -e tempsym ]; then
+	rm tempsym
+fi
+
+FILES=`find $ROOTFS/bin \( -type d -o -type f -o -type b -o -type c -o -type l \) -print | file -f - | grep ELF |  grep "shared" | cut -d':' -f1`
+
+for i in $FILES; do
+	$LIBSTRIPDIR/list_dynamic_symbol $i >> tempsym
+done
+
+function gensym() {
+	sort tempsym | uniq > temp
+#	sed 's/^/-u /' temp > symbols
+	LISYM=`cat temp`
+}
+
+#patch for OPENSSL
+#function extrsym() {
+#	LISYM="$LISYM gmtime_r gmtime"
+#}
+
+gensym
+#extrsym
+rm temp;
+rm tempsym; 
+
+###############################################################################
+# SECTION 3: parse library BASENAME/REALNAME/SONAME
+###############################################################################
+for i in $LIBLIST; do
+	basename $i >> tempfile
+done
+
+LIBFILES=`cat tempfile`
+sed 's/..$//' tempfile > tempfile1
+REALNAME=(`cat tempfile1 | sed "s/$/-$MAJOR_VERSION.so /"`)
+SONAME=(`cat tempfile1 | sed 's/$/.so.0 /'`)
+rm tempfile1; rm tempfile;
+#rm symbols; 
+cd $ROOTLIB
+
+###############################################################################
+# SECTION 4: Generate share librarys for those unsovled symbols
+###############################################################################
+
+function genlib() {
+	rm -f ldscript
+	echo "INCLUDE $LDSCRIPT" > ldscript
+	for i in $LISYM ; do
+     			echo "EXTERN($i)" >> ldscript
+	done
+	count=0
+	for i in $LIBFILES; do
+		if [ $i == "libc.a" ]; then
+			$LD $LDOPTIONS -soname=${SONAME[$count]} -o libuClibc-$MAJOR_VERSION.so $UCLIB_DIR/$i
+		elif [ $i == "libcrypto.a" ]; then
+			$LD $LDOPTIONS -soname=${SONAME[$count]} -o libcrypto.so $LIBOPENSSLCRYPTO
+		elif [ $i == "libssl.a" ]; then
+			$LD $LDOPTIONS -soname=${SONAME[$count]} -o libssl.so $LIBOPENSSLSSL
+		elif [ $i == "libstdc++.a" ]; then
+			$LD $LDOPTIONS -soname=${SONAME[$count]} -o libstdc++.so $LIBSTDCPP $LIBSUPCPP
+		else
+			$LD $LDOPTIONS -soname=${SONAME[$count]} -o ${REALNAME[$count]} $UCLIB_DIR/$i
+		fi
+		count=$[ count + 1 ]
+	done
+	rm -f ldscript
+}
+genlib
+
+###############################################################################
+# SECTION 5: Second parse unresolved symbols in libraries
+###############################################################################
+FILES=`ls *.so`
+
+for i in $FILES; do
+	$LIBSTRIPDIR/list_dynamic_symbol $i >> tempsym
+done
+
+gensym 
+genlib
+rm temp;
+rm tempsym;
+###############################################################################
+# SECTION 6: remove unused information in shared library with mips-linux-strip
+###############################################################################
+cp $UCLIB_DIR/ld-uClibc-$MAJOR_VERSION.so $ROOTLIB/.
+if [ -z $LIBDL ]; then
+cp $UCLIB_DIR/libdl-$MAJOR_VERSION.so     $ROOTLIB/.
+fi
+if [ -z $LIBNSL ]; then
+cp $UCLIB_DIR/libnsl-$MAJOR_VERSION.so    $ROOTLIB/.
+fi
+if [ -z $LIBM ]; then
+cp $UCLIB_DIR/libm-$MAJOR_VERSION.so    $ROOTLIB/.
+fi
+if [ -z $LIBRESOLV ]; then
+cp $UCLIB_DIR/libresolv-$MAJOR_VERSION.so $ROOTLIB/.
+fi
+if [ -z $LIBCRYPT ]; then
+cp $UCLIB_DIR/libcrypt-$MAJOR_VERSION.so  $ROOTLIB/.
+fi
+
+#we now use pre-generated libgcc_s_xxxx.so.1 other than generate it by ourselves
+cp $UCLIB_DIR/libgcc_s_5281.so.1  $ROOTLIB/.
+
+ln -sf ld-uClibc-$MAJOR_VERSION.so ld-uClibc.so.0
+ln -sf libcrypt-$MAJOR_VERSION.so  libcrypt.so.0
+ln -sf libuClibc-$MAJOR_VERSION.so libc.so.0
+ln -sf libpthread-$MAJOR_VERSION.so libpthread.so.0
+ln -sf libdl-$MAJOR_VERSION.so     libdl.so.0
+ln -sf libm-$MAJOR_VERSION.so      libm.so.0
+ln -sf libnsl-$MAJOR_VERSION.so    libnsl.so.0
+ln -sf libresolv-$MAJOR_VERSION.so libresolv.so.0
+ln -sf libgcc_s_5281.so.1  libgcc_s.so
+ln -sf libgcc_s_5281.so.1  libgcc_s_5281_debug.so.1
+if [ -n "$BTCLIENT" -a "$BTCLIENT" == "1" ]; then
+ln -sf libstdc++.so        libstdc++.so.6
+fi
+
+#patch for openssl
+if [ -n "$OPENSSL" -a  "$OPENSSL" == "1" ]; then
+mv libcrypto.so libcrypto.so.0.9.8
+mv libssl.so libssl.so.0.9.8
+fi
+
+#here strip libs
+FILES=`ls *.so.*`
+for i in $FILES; do
+	$STRIP $i
+	$SSTRIP $i
+done
+
+#here we strip bins
+ALL_LIST=`find $ROOTFS/bin/ \( -not -type l -and -not -name "*.sh" \) `
+# Then: strip the binary file one by one.
+for myFile in $ALL_LIST ; do
+        if [ -f $myFile ]; then
+                $STRIP $myFile
+                $SSTRIP $myFile
+        fi
+done
+
+cd $ROOTDIR
+#rm symbols;

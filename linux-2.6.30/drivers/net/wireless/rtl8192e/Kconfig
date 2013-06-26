@@ -1,0 +1,70 @@
+#
+# Wireless LAN device configuration
+#
+config RTL8192E
+	tristate "RTL8192E, RTL8881A support"
+
+config WLAN_HAL_8192EE
+        bool "Realtek 8192E wireless support"
+	select WLAN_HAL
+	select WLAN_HAL_88XX
+	depends on RTL8192E	
+        default n    
+
+config RTL8190_PRIV_SKB
+        bool "Private skb buffer management"
+        depends on RTL8192E
+        default y
+
+config RTL_VAP_SUPPORT
+        bool "Virtual AP Support"
+        depends on RTL8192E
+        default y
+
+config RTL_CLIENT_MODE_SUPPORT
+        bool "Client Mode Support"
+        depends on RTL8192E
+        default y
+
+config RTL_REPEATER_MODE_SUPPORT
+	bool "Repeater Mode support"
+	depends on RTL8192E && RTL_CLIENT_MODE_SUPPORT
+	default y
+
+config RTL_802_1X_CLIENT_SUPPORT
+	bool "Client Mode 802.1x Support"
+	depends on RTL8192E && RTL_CLIENT_MODE_SUPPORT
+	default n
+
+config RTL_SUPPORT_MULTI_PROFILE
+	bool "Multiple AP profile Support"
+	depends on RTL8192E && RTL_CLIENT_MODE_SUPPORT
+	default y
+
+config RTL_WDS_SUPPORT
+        bool "WDS Support"
+        depends on RTL8192E
+        default y
+
+config PHY_EAT_40MHZ
+	bool "Clock Source, Select is 40MHz, otherwise 25MHz"
+	depends on RTL8192E && !AUTO_PCIE_PHY_SCAN
+	default y
+
+#
+# Hidden options
+#
+
+
+config RTL_ODM_WLAN_DRIVER
+	bool 
+	
+config WLAN_HAL
+        bool 
+        select RTL_ODM_WLAN_DRIVER if WLAN_HAL
+
+config WLAN_HAL_88XX
+        bool 
+        depends on WLAN_HAL
+        
+

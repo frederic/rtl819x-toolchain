@@ -1,0 +1,194 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2003. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>SNMP Setting</title>
+</head>
+<script>
+
+function disableText (text,val) {
+  if (document.all || document.getElementById)
+    text.disabled = val;
+}
+
+function disableSnmpText(val)
+{
+	disableText(document.snmp.snmp_name, val);
+	disableText(document.snmp.snmp_location, val);
+	disableText(document.snmp.snmp_contact, val);
+	disableText(document.snmp.snmp_rwcommunity, val);
+	disableText(document.snmp.snmp_rocommunity, val);
+	disableText(document.snmp.snmp_trap1, val);
+	disableText(document.snmp.snmp_trap2, val);
+	disableText(document.snmp.snmp_trap3, val);
+
+}
+
+function updateState()
+{
+	if(document.snmp.snmp_enabled.checked)
+		disableSnmpText(false);
+	else
+		disableSnmpText(true);
+}
+
+function snmp_saveChanges()
+{
+	form = document.snmp ;
+	if(form.snmp_enabled.checked){
+		if(form.snmp_name.value == ""){
+			alert("SNMP Name can't be empty");
+			form.snmp_name.value = form.snmp_name.defaultValue;
+			form.snmp_name.focus();
+			return false ;
+		}
+		if(form.snmp_location.value == ""){
+			alert("SNMP Location can't be empty");
+			form.snmp_location.value = form.snmp_location.defaultValue;
+			form.snmp_location.focus();
+			return false ;
+		}
+		if(form.snmp_contact.value == ""){
+			alert("SNMP Contact can't be empty");
+			form.snmp_contact.value = form.snmp_contact.defaultValue;
+			form.snmp_contact.focus();
+			return false ;
+		}
+		if(form.snmp_rwcommunity.value == ""){
+			alert("Read/Write Community can't be empty");
+			form.snmp_rwcommunity.value = form.snmp_rwcommunity.defaultValue;
+			form.snmp_rwcommunity.focus();
+			return false ;
+		}
+		if(form.snmp_rocommunity.value == ""){
+			alert("Read only Community can't be empty");
+			form.snmp_rocommunity.value = form.snmp_rocommunity.defaultValue;
+			form.snmp_rocommunity.focus();
+			return false ;
+		}
+	}
+	return true;
+}
+
+function Load_Setting()
+{
+	if ( <% getIndex("snmp_enabled"); %> )
+		document.snmp.snmp_enabled.checked = true;
+	updateState();
+}
+</script>
+<body onload="Load_Setting();">
+<blockquote>
+<h2><font color="#0000FF">SNMP&nbsp; Setting</font></h2>
+
+
+<table border=0 width="500" cellspacing=0 cellpadding=0>
+  <tr><font size=2>
+   SNMP is a application for network managment 
+  </tr>
+  <tr><hr size=1 noshade align=top></tr>
+</table>
+<form action=/boafrm/formSetSNMP method=POST name="snmp">
+<table border="0" width=600>
+
+	<tr><td colspan="2"><font size=2><b>
+		<input type="checkbox" name="snmp_enabled" value="ON" ONCLICK=updateState()>&nbsp;&nbsp;Enable SNMP </b><br>
+	    </td>
+	</tr>
+	<tr ><td height=10> </td> </tr>
+	<tr>
+	<td width ="20%">
+	<font size=2> <b> Name : </b> </font>
+	</td>
+	<td width ="85%">
+ 			<font size=2><input type="text" name="snmp_name" size="20" maxlength="50"			       value="<% getInfo("snmp_name"); %>"></font>
+	</td>
+	</tr>
+	<td width ="20%">
+	<font size=2> <b> Location : </b> </font>
+	</td>
+	<td width ="85%">
+ 			<font size=2><input type="text" name="snmp_location" size="20" maxlength="50"			       value="<% getInfo("snmp_location"); %>"></font>
+	</td>
+	</tr>
+	<tr><td width="20%"><font size=2> <b>Contanct : </b> </font></td>
+	    <td width="85%">
+ 			<font size=2><input type="text" name="snmp_contact" size="20" maxlength="50"			       value="<% getInfo("snmp_contact"); %>"></font>
+	    </td>
+	</tr>
+	<tr>
+	<td width ="20%">
+	<font size=2> <b> Read/Write Conmmunity : </b> </font>
+	</td>
+	<td width ="85%">
+		<font size=2><input type="text" name="snmp_rwcommunity" size="20" maxlength="30"
+		value="<% getInfo("snmp_rwcommunity"); %>"></font>
+	</td>
+	</tr>
+	<tr>
+	<td width ="20%">
+	<font size=2> <b> Read-Only Community : </b> </font>
+	</td>
+	<td width ="85%">
+		<font size=2><input type="text" name="snmp_rocommunity" size="20" maxlength="50" 
+		value="<% getInfo("snmp_rocommunity"); %>"	></font>
+	</td>
+	</tr>
+	<!--	
+	<tr>
+	<td width ="20%">
+	<font size=2> <b> Trap1 : </b> </font>
+	</td>
+	<td width ="85%">
+		<font size=2><input type="text" name="snmp_trap1" size="20" maxlength="30"
+		value="<% getInfo("snmp_trap1"); %>"></font>
+	</td>
+	</tr>
+	<tr>
+	<td width ="20%">
+	<font size=2> <b> Trap2 : </b> </font>
+	</td>
+	<td width ="85%">
+		<font size=2><input type="text" name="snmp_trap2" size="20" maxlength="30"
+		value="<% getInfo("snmp_trap2"); %>"></font>
+	</td>
+	</tr>
+	<tr>
+	<td width ="20%">
+	<font size=2> <b> Trap3 : </b> </font>
+	</td>
+	<td width ="85%">
+		<font size=2><input type="text" name="snmp_trap3" size="20" maxlength="30"
+		value="<% getInfo("snmp_trap3"); %>"></font>
+	</td>
+	</tr>
+
+
+
+	-->
+
+
+
+	<tr>
+		<td  height =5>
+		</td>
+	</tr>
+	<tr>
+        
+	</tr>	
+</table>
+  <p>
+  <input type="hidden" value="/snmp.htm" name="submit-url">
+  <input type="submit" value="Apply Change" name="apply" onClick="return snmp_saveChanges()">
+&nbsp;&nbsp;
+  <input type="reset" value="Reset" name="set" >
+<script>
+		updateState();
+  </script>
+</form>
+</blockquote>
+</font>
+</body>
+
+</html>

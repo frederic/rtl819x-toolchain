@@ -1,0 +1,116 @@
+==================================================================================
+Introduction 
+	This document is the guideline for building/using/porting the Hostapd 
+application to support Realtek's Wifi device.
+
+==================================================================================
+
+1.Build the hostapd daemon 
+-----------------------------
+	If the Wifi device is connected to your platform using GMII/MII interface
+then the inband libary must be built and enabled in hostapd.control. Please follow 
+the steps below to build the hostapd daemon.()
+
+    a. Build the inband libary (#This step can be skipped,if you dont need inband-cotrol)
+	
+	- Enter the inband_dir directory.(default:../../inband_dir)
+	
+	- Modify the definition of CC and LD in /inband_lib/Makefile to fit your
+        toolchain setting.
+
+	- type make and the inband.a libray will be built on your platform. 
+	
+    b. Enable/Disable the inband-control support in Hostapd.    
+	
+        - Enable the lines below in hostapd-0.6.10/hostapd/Makefile to enable the 
+	inband-support.In the other hand,disable these lines to disable the inband-control.
+
+	CFLAGS += -DINBAND_CTRL
+	CFLAGS += -I../../inband_lib
+	LIBS += ../../inband_lib/inband.a
+
+    c. Make the Hostapd	
+	
+	- enter the directory : hostapd-0.6.10/hostapd/
+	
+	- Modify hostapd-0.6.10/hostapd/Makefile to include your openssl libary.Below 
+	lines are the default setting in Realtek's WIFI-AP SDK.
+
+	LIBS += -ldl ../../openssl-0.9.8b/libssl.a ../../openssl-0.9.8b/libcrypto.a
+        LIBS_p += ../../openssl-0.9.8b/libcrypto.a
+        LIBS_h += ../../openssl-0.9.8b/libcrypto.a
+
+	- Modify the definition of CC and LD in hostapd-0.6.10/hostapd/Makefile to 
+	  fit your toolchain setting.
+
+	- type 'make' under hostapd-0.6.10/hostapd ,then the hostapd daemon will be built. 
+
+NOTEs:
+	-  Because of the ethernet type 0x8899 and 0x9000 is used for inband control 
+	please do not use them in other applications.
+	
+	- The default local interface for inband control is "br0', you can change the definition
+	in drv_realtek.c(the line list below) to fit your MII interface setting.
+	
+		#define INBAND_INTF             "br0"
+
+	- The default MAC address for inband-control  is "00:12:34:56:78:99", it
+	 can be changed in drv_realtek.c.
+
+==================================================================================
+
+2.Realtek proprietary configuration options
+----------------------------
+	  
+	- Please refer to file hostapd.test_conf(under hostapd-0.6.10/hostapd/conf)
+	 for detail descriptions about the new added realtek private configurations. All these 
+	 configurations are directly mapped to realtek WiFi mibs.
+
+	- Other inherently hostapd configurations are same as before.
+
+	- 'auth_algs' has new values for supporting Open Networking & WEP+802.1x
+	 	 ## ======== Modify auth_algs support==========
+		 ## bit 0 = Open System Authentication
+		 ## bit 1 = Shared Key Authentication (requires WEP)
+		 ## bit 0 + bit 1 = Auto WEP mode
+		 ## bit 2 = WEP + 802.1x
+		 ## bit 3 = Open Networking(no security)
+
+	- These hostapd configuration files(under /hostapd-0.6.10/hostapd/conf) can be examples for testing
+	      - hostapd.none_security   :WPS configured, Open Networking.
+	      - hostapd.wpa_psk         :WPS configured, WPA-PSK CCMP.
+	- NOT Supported yet:
+    	      - Some IEEE 802.11 related configurations
+      	      - IEEE 802.11r configuration
+              - Passive scanning
+              - Multiple BSSID support 
+
+
+==================================================================================
+
+3.Porting notes
+-----------------------------	 
+	The Hostapd for Realtek WiFi device is based on hostapd 0.6.10 and patch the realtek's implementation. 
+Some notes are listed below to help you to port this package to your platform(for example , 
+you are using hostapd 0.6.9 on your platform not 0.6.10). 
+
+	- Driver_realtek.c & Driver_realtek.h under /hostapd-0.6.10/hostapd are the main added files 
+	for supporting realtek WiFi device. 
+
+	- Other modifications about Hostapd-0.6.10 were labeled with compile tag 'RTK_HAPD'. 
+	You can check these patches by searching the keyword 'RTK_HAPD'.
+
+	-  List of modified source files in hostapd v0.6.10:
+	      - Config.c  
+	      - Driver.h
+	      - Hostapd.c
+	      - Hostapd.h
+	      - Iapp.c
+	      - Os_unix.c
+	      - Wps.h
+	      - Wps_hostapd.c
+	      - Wps_registrar.c
+	      - Wps_upnp_event.c
+	      - Wps_upnp_web.c
+
+=================================================================================

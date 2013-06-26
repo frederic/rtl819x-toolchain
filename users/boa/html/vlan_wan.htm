@@ -1,0 +1,130 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<title>SIP</title>
+<script language="javascript">
+function Init()
+{
+        enableVlanWAN();
+}
+function enableVlanWAN()
+{
+	var checked = document.net_form.vlan_wan_bridge_enable.checked;
+       	
+	document.net_form.vlan_wan_tag.disabled  = !(document.net_form.vlan_wan_enable.checked);
+	document.net_form.vlan_wan_host_pri.disabled  = !(document.net_form.vlan_wan_enable.checked);
+		
+		document.net_form.vlan_wan_bridge_tag.disabled  	  =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_port_0.disabled     =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_port_1.disabled     =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_port_2.disabled     =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_port_3.disabled     =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_port_wifi_root.disabled  =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_port_wifi_vap0.disabled  =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_port_wifi_vap1.disabled  =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_port_wifi_vap2.disabled  =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_port_wifi_vap3.disabled  =!(document.net_form.vlan_wan_bridge_enable.checked);
+		
+		if(document.net_form.vlan_wan_bridge_enable.checked==false)
+			document.net_form.vlan_wan_bridge_multicast_enable.checked = false;
+			
+		document.net_form.vlan_wan_bridge_multicast_enable.disabled   =!(document.net_form.vlan_wan_bridge_enable.checked);
+		document.net_form.vlan_wan_bridge_multicast_tag.disabled  	  =!(document.net_form.vlan_wan_bridge_multicast_enable.checked);
+		
+}
+function check_param()
+{
+}
+</script>
+
+</head>
+<body bgcolor="#ffffff" text="#000000" onload="Init()">
+<form method="post" action="/boafrm/formVlanWAN" name=net_form>
+
+<p>
+<tr>
+<b>Add VLAN Tags for WAN packet</b>
+<p>
+
+
+<table cellSpacing=1 cellPadding=1 border=0 width=650>
+<tr>
+        <td bgColor=#aaddff width=200>
+<input type=checkbox name=vlan_wan_enable onClick="enableVlanWAN();" <%getInfo("vlan_wan_enable");%>>Tag for WAN packets
+       </td>
+        <td bgColor=#ddeeff width=150>
+     VLAN ID <input type=text name=vlan_wan_tag size=4 maxlength=4 value="<%getInfo("vlan_wan_tag");%>"> 
+        </td>
+<td bgColor=#ddeeff width=150>For Local Packet</td>
+        <td bgColor=#ddeeff width=150>
+               Priority <input type=text name=vlan_wan_host_pri size=1 maxlength=1 value="<%getInfo("vlan_wan_host_pri");%>"> ( 0~7 )
+        </td>
+        
+</tr>
+
+<table cellSpacing=1 cellPadding=1 border=0 width=650>
+<tr>
+        <td bgColor=#aaddff width=200>
+                <input type=checkbox name=vlan_wan_bridge_enable onClick="enableVlanWAN();" <%getInfo("vlan_wan_bridge_enable");%>>Bridge with WAN
+        </td>
+        <td bgColor=#ddeeff width=150>
+                VLAN ID <input type=text name=vlan_wan_bridge_tag size=4 maxlength=4 value="<%getInfo("vlan_wan_bridge_tag");%>"> 
+        </td>
+	
+        <td bgColor=#ddeeff width=150>
+                <input type=checkbox name=vlan_wan_bridge_multicast_enable onClick="enableVlanWAN();" <%getInfo("vlan_wan_bridge_multicast_enable");%>>Multicast Packet
+        </td>
+        <td bgColor=#ddeeff width=150>
+                VLAN ID <input type=text name=vlan_wan_bridge_multicast_tag size=4 maxlength=4 value="<%getInfo("vlan_wan_bridge_multicast_tag");%>"> 
+        </td>
+
+</tr>
+</table>
+
+
+
+<table cellSpacing=1 cellPadding=1 border=0 width=650>
+<tr>     
+        <td bgColor=#ddeeff width=450>
+                <input type=checkbox name=vlan_wan_bridge_port_0 <%getInfo("vlan_wan_bridge_port_0");%>>LAN Port 0
+                <input type=checkbox name=vlan_wan_bridge_port_1 <%getInfo("vlan_wan_bridge_port_1");%>>LAN Port 1
+                <input type=checkbox name=vlan_wan_bridge_port_2 <%getInfo("vlan_wan_bridge_port_2");%>>LAN Port 2
+                <input type=checkbox name=vlan_wan_bridge_port_3 <%getInfo("vlan_wan_bridge_port_3");%>>LAN Port 3
+        </td>
+</tr>
+<tr>
+          <td bgColor=#ddeeff width=450>
+                <input type=checkbox name=vlan_wan_bridge_port_wifi_root <%getInfo("vlan_wan_bridge_port_wifi_root");%>>WiFi root
+                <input type=checkbox name=vlan_wan_bridge_port_wifi_vap0 <%getInfo("vlan_wan_bridge_port_wifi_vap0");%>>VAP 1
+                <input type=checkbox name=vlan_wan_bridge_port_wifi_vap1 <%getInfo("vlan_wan_bridge_port_wifi_vap1");%>>VAP 2
+                <input type=checkbox name=vlan_wan_bridge_port_wifi_vap2 <%getInfo("vlan_wan_bridge_port_wifi_vap2");%>>VAP 3
+                <input type=checkbox name=vlan_wan_bridge_port_wifi_vap3 <%getInfo("vlan_wan_bridge_port_wifi_vap3");%>>VAP 4
+        </td>
+
+</tr>
+
+</table>
+
+<td>Note I:  The lan port 0 is near the WAN port. </td>
+<br>
+<td>  Note II:  VLAN ID 9 is reserved for other purpose. </td>
+<br>
+<td>Note III:  LOCAL packet : Management and VoIP Packet. </td>
+
+<p>
+<table cellSpacing=1 cellPadding=2 border=0 width=375>
+<tr>
+   	<td colspan=3 align=center>
+   		<input type="submit" value="Apply" onclick="return check_param()">
+   		&nbsp;&nbsp;&nbsp;&nbsp;
+   		<input type="reset" value="Reset">
+   	</td>
+</tr>
+</table>
+
+</p>
+</form>
+</body>
+</html>

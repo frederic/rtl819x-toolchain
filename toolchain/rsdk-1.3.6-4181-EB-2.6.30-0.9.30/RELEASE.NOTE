@@ -1,0 +1,288 @@
+----------------
+RSDK Release 1.3
+----------------
+
+We are pleased to announce the release of RSDK version 1.3
+on Sep. 29, 2006. RSDK is the software development kit that 
+supports Realtek's in-house processor cores. Version 1.3.0 is 
+the first stable release for branch 1.3.
+
+What's new in release 1.3
+
+1. gcc-3.4.6
+
+The gcc has been upgraded from 3.2.3 to 3.4.6. gcc release 3.4 has a lot 
+of enhancement over gcc release 3.2, not only in code size reduction,
+but also in performance optimization. 
+A brief summary is listed as follows:
+
+  * Better inter-procedural optimization
+
+  * More realistic code size estimates used by inlining for C
+
+  * A new loop optimizer and two loop transformations -- 
+       loop peeling and loop unswitching
+
+  * Better register allocation
+
+  * Better MIPS ABIs compliance
+
+  * Better optimization in code size reduction 
+
+A new option -mno-data-in-code has been added to the 1.3 release. 
+If this option is enabled, gcc will not generate code that 
+embeds data in the text section. Instead, constant data will
+always be allocated in the data section. The benefit is that the 
+text section can be more compact, hence a better IMEM/ICACHE 
+utilization. This option is especially useful in MIPS16 where
+code size is critical.
+
+Load and store twin-word instructions in function bodies, prologues, 
+and epilogues are disabled by default. (lt/st for RLX5181, LX5280 
+and ltw for RLX4181). The twin-word instructions can be enabled by 
+using the following options.
+                                                                                                    
+-ftword
+enable lt/st (RLX5181,LX5280), ltw (RLX4181)
+                                                                                                    
+-ftword-stack
+enable twin-word instructions in function's prologue and epilogue.
+
+GCC will attempt to merge identical constants across compilation units
+through the -fmerge-constants option. This option is the default for
+optimized compilation if the assembler and linker support it. 
+When this option is enabled, GCC will allocate constants in two 
+dedicate sections, .rodata.cst4 and .rodata.str1.4, so that duplicate
+constants can be identified and removed. The linker script must be
+modified to handle these two sections if they are not already dealt 
+with.
+
+In RSDK 1.3, the -fmerge-constants option is turned off by default 
+unless it is explicitly switched on. This is to ease the migration
+efforts for users from 1.2 to 1.3.
+
+2. uClibc-0.9.28
+
+The uClibc C library has been upgraded from 0.9.27 to 0.9.28.
+The memcpy and memset functions in uClibc 0.9.28 have also been patched
+for RLX/LX processor cores to improve performance by using word copy 
+as much as possible and to avoid unsupported unalign load/store 
+instructions.
+
+3. Insight-6.4
+
+The Insight/GDB has been upgraded from 6.0 to 6.4. Insight 6.4 provides
+better MIPS1, MIPS16, and MIPS1/MIPS16 mixed mode debugging support.
+
+
+4. RSDK Supplementary Library Module
+
+A supplementary library module has been added to enrich RSDK's
+capability in functional profiling, performance tuning, and remote 
+debugging. The supplementary library includes the following four 
+modules:
+
+   a. CP3 library - CP3 performance counter
+   b. Profiler library - function-level profiling support
+   c. GDB I/O - remote I/O via GDB remote serial protocol
+   d. RLXCOV - RLX code coverage analysis library
+
+
+CPUs supported by RSDK release 1.3
+
+1. LX4180:
+   up to RTL release 4.0.2
+
+2. RLX4181
+   up to RTL release 1.2
+
+3. LX5280
+   up to RTL release 1.9.3
+
+4. RLX5181
+   up to RTL release 1.3
+
+
+----------------
+RSDK Release 1.2
+----------------
+
+We are pleased to announce the release of RSDK version 1.2
+on Mar. 17, 2006. RSDK is the toolchain which supports Realtek's 
+in-house processor cores. Version 1.2.0 is the first
+official release for branch 1.2. Any latter update fixes bugs
+found in version 1.2.0.
+
+What's new in release 1.2
+
+1. Better MIPS16 support
+
+RSDK 1.2.x provides better MIPS16 support. The GCC has been upgraded
+from 3.2 to 3.2.3. Several bugs related to MIPS16 have been fixed 
+during the transition from branch 1.1 to branch 1.2. The binutils
+has been upgraded from 2.14 to 2.16.1, which solved many MIPS16 
+related linking problem. Finally, the __attribute__((mips16)) 
+attribute has been added to enable mixture of MIPS1/MIPS16 codes in 
+a single file.
+
+2. gcc-3.2.3
+
+The gcc has been upgraded from 3.2 to 3.2.3. Load and store twin-word 
+instructions in functions as well as function prologue and epilogue are 
+disabled by default. (lt/st for RLX5181, LX5280 and ltw for RLX4181).
+They can be enabled by using the following options.
+                                                                                                    
+-flt/-fst/-fltw
+enable lt/st (RLX5181,LX5280), ltw (RLX4181)
+                                                                                                    
+-ftword-stack
+enable twin-word instructions in function's prologue and epilogue.
+                                                                                                    
+Below is the summary of the bug fixes and changes.
+                                                                                                    
+    * Fixed gcc delay slot optimization bug
+    * Patched newlib strlen inline assembly for LX4180, RLX4181, RLX5181
+    * Added __m[4180,4181,5181,5280] preprocessor definition in CPP_SPEC
+    * Added __attribute__((mips16)) support
+    * Added configurable twin-word stack operations
+    * Made soft-float a default option in mips16
+
+3. binutils-2.16.1
+
+The binutils has been upgraded from 2.14 to 2.16.1.
+The binutils 2.16.1 provides better MIPS16 support.
+                                                                                                    
+Below is the summary of the bug fixes and changes.
+                                                                                                    
+    * Fixed branch delay slot optimization bug
+    * Added error messages when mixing MIPS16 and MIPS32 objects.
+    * Added instructions for the MAC-DIV module.
+    * Added missing MIPS16 instructions
+                                                                                                    
+4. newlib-1.14.0
+
+The newlib C library has been upgraded from 1.13.0 to 1.14.0
+
+5. uClibc-0.9.27
+
+The memcpy and memset functions in uClibc 0.9.27 have been patched
+to improve performance by using word copy as much as possible and 
+to avoid unalign load/store instructions which are not supported on 
+RLX/LX processor cores. 
+
+
+CPUs supported by RSDK release 1.2
+
+1. LX4180:
+   up to RTL release 4.0.2
+
+2. RLX4181
+   up to RTL release 1.1
+
+3. LX5280
+   up to RTL release 1.9.3
+
+4. RLX5181
+   up to RTL release 1.2
+
+
+----------------
+RSDK Release 1.1
+----------------
+
+We are pleased to announce the release of RSDK version 1.1 on 
+Dec. 22, 2005. RSDK is the toolchain which supports Realtek's 
+in-house processor cores. Version 1.1.0 is the first
+official release following the standard release procedure.
+
+Features 
+
+1. Full regression test
+
+This version of RSDK has underwent a complete regression test
+on each of its components in the hope to provide a stable and
+reliable develop environment. While the regression test may not 
+be completely error-proof, this will be one of the standard 
+procedure for future releases and more corner cases will be
+covered with the continuous addition of tests.
+
+2. Multi-platform
+
+Both Linux and Cygwin development platforms are supported to
+deliver RSDK toolchain to developers' familiar environment. 
+Two sets of toolchains are provided, one under Linux and the 
+other under Cygwin.
+
+3. Multi-libc 
+
+Both newlib and uClibc C libraries are supported to provide
+developers a flexible choice of target system. Under each 
+platform, two separate toolchains are delivered, one for 
+newlib and the other for uClibc.
+
+4. Multi-lib
+
+Multiple processors are supported. Developers may choose 
+the target processor by using the -march, -mtune, or -mcpu
+switches. Supported processors are 4180, 4181, 5181, and 5280.
+
+5. Basic MIPS16 support
+
+This version of RSDK supports basic MIPS16 extension.
+
+6. Issue Tracking
+
+In parallel to the release of RSDK version 1.1, a issue tracking 
+system (Mantis) is created to aid and enhance the usability 
+of RSDK toolchain. Any bug or feature request may be submitted
+through the issue tracking system and will be handled in a 
+hopefully timely fashion. The issue tracking system is available 
+at http://cadinfo/cgi-bin/rcs_issue_dtd.pl under 
+the "processor and platform" project.
+
+
+What's in RSDK Release 1.1
+
+The RSDK toolchain is derived from a collection of GNU utilities.
+The set of tools is summarized as follows:
+
+1. gcc-3.2
+   C/C++ compiler
+
+2. binutils-2.14
+   Linker, assembler, object file manipulation utilities
+
+3. newlib-1.13.0
+   A trimmed-down version of C library with a flexible libgloss 
+   interface for porting to different systems
+
+4. uClibc-0.9.27
+   A Linux-based C library. (All previous compiled binaries 
+   should be recompiled to link with this C library)
+
+5. insight 6.0
+   A TK/TCL based graphical debugger interface and a GNU gdb
+   debugger backend
+
+
+CPUs supported by RSDK release 1.1
+
+1. LX4180:
+   up to RTL release 4.0.2
+
+2. RLX4181
+   up to RTL release 1.0
+
+3. LX5280
+   up to RTL release 1.9.3
+
+4. RLX5181
+   up to RTL release 1.1
+
+
+For more information, please contact the DTD processor and platform team:
+Ching-Yeh Yu (cyyu@realtek.com.tw)
+Chen-You Huang (jyhuang@realtek.com.tw)
+Ching-Tung Wu (tonywu@realtek.com.tw)
+Chi-Feng Wu (cfwu@realtek.com.tw)
+

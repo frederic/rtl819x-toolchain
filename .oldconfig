@@ -1,0 +1,6 @@
+OLD_LINUXDIR="linux-2.6.30"
+OLD_BOARDDIR="boards/rtl8196e"
+OLD_BZBOXDIR="users/busybox-1.13"
+OLD_RSDKDIR="toolchain/rsdk-1.3.6-4181-EB-2.6.30-0.9.30"
+OLD_MODEL="RTL8196E_92D_GW"
+OLD_ROUTER=""

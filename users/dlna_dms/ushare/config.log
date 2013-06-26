@@ -1,0 +1,707 @@
+# ./configure --prefix=/home/wenjian_jia/trunk/users/dlna_dms/tmp --disable-dlna --cross-prefix=rsdk-linux- --cross-compile --with-libupnp-dir=/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib --with-libdlna-dir=/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib --enable-debug --disable-nls
+AR=rsdk-linux-ar
+BASH=/bin/sh
+BASH_ARGC=([0]="8")
+BASH_ARGV=([0]="--disable-nls" [1]="--enable-debug" [2]="--with-libdlna-dir=/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib" [3]="--with-libupnp-dir=/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib" [4]="--cross-compile" [5]="--cross-prefix=rsdk-linux-" [6]="--disable-dlna" [7]="--prefix=/home/wenjian_jia/trunk/users/dlna_dms/tmp")
+BASH_LINENO=([0]="0")
+BASH_SOURCE=([0]="./configure")
+BASH_VERSINFO=([0]="3" [1]="2" [2]="25" [3]="1" [4]="release" [5]="i686-redhat-linux-gnu")
+BASH_VERSION='3.2.25(1)-release'
+CC=rsdk-linux-gcc
+CFLAGS='-I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include'
+CINIT=1
+CONFIGFILE=config.mak
+CONFIG_32BIT=y
+CONFIG_APP_AUTH=y
+CONFIG_APP_BRCTL=y
+CONFIG_APP_BUSYBOX=y
+CONFIG_APP_DLNA_DMS=y
+CONFIG_APP_DNRD=y
+CONFIG_APP_GOAHEAD=y
+CONFIG_APP_IAPP=y
+CONFIG_APP_IGMPPROXY=y
+CONFIG_APP_IPROUTE=y
+CONFIG_APP_IPTABLES=y
+CONFIG_APP_IWCONTROL=y
+CONFIG_APP_L2TPD=y
+CONFIG_APP_LLTDD=y
+CONFIG_APP_MINIIGD=y
+CONFIG_APP_MINI_UPNP=y
+CONFIG_APP_NTPCLIENT=y
+CONFIG_APP_PPPD=y
+CONFIG_APP_PPTP=y
+CONFIG_APP_RELOAD=y
+CONFIG_APP_ROUTED=y
+CONFIG_APP_SAMBA=y
+CONFIG_APP_SCRIPT=y
+CONFIG_APP_SQUASHFS40=y
+CONFIG_APP_UDHCPD=y
+CONFIG_APP_UPDATEDD=y
+CONFIG_APP_USBMOUNT=y
+CONFIG_APP_WIRELESSTOOLS=y
+CONFIG_APP_WSC=y
+CONFIG_ARCH_32BIT=y
+CONFIG_ARCH_BUS_PCI=y
+CONFIG_ARCH_CACHE_WBC=y
+CONFIG_ARCH_CPU_EB=y
+CONFIG_ARCH_CPU_LLSC=y
+CONFIG_ARCH_CPU_RLX5281=y
+CONFIG_ARCH_CPU_SYNC=y
+CONFIG_ARCH_CPU_ULS=y
+CONFIG_ARCH_FLATMEM_ENABLE=y
+CONFIG_ARCH_IRQ_CPU=y
+CONFIG_ARCH_IRQ_VEC=y
+CONFIG_ARCH_POPULATES_NODE_MAP=y
+CONFIG_ARCH_SUPPORTS_OPROFILE=y
+CONFIG_ARCH_SUSPEND_POSSIBLE=y
+CONFIG_BASE_FULL=y
+CONFIG_BASE_SMALL=0
+CONFIG_BINFMT_ELF=y
+CONFIG_BINFMT_ELF32=y
+CONFIG_BLK_DEV=y
+CONFIG_BLK_DEV_SD=y
+CONFIG_BLOCK=y
+CONFIG_BOARDDIR=boards/rtl8198
+CONFIG_BOARD_rtl8198=y
+CONFIG_BOOT_32BIT=y
+CONFIG_BRIDGE=y
+CONFIG_BROKEN_ON_SMP=y
+CONFIG_BZBOXDIR=users/busybox-1.13
+CONFIG_CC_OPTIMIZE_FOR_SIZE=y
+CONFIG_CLASSIC_RCU=y
+CONFIG_CMDLINE='"console=ttyS0,38400 root=/dev/mtdblock1"'
+CONFIG_CPU_BIG_ENDIAN=y
+CONFIG_CPU_HAS_LLSC=y
+CONFIG_CPU_HAS_SYNC=y
+CONFIG_CPU_HAS_ULS=y
+CONFIG_CPU_HAS_WBC=y
+CONFIG_CPU_RLX5281=y
+CONFIG_CPU_SUPPORTS_32BIT_KERNEL=y
+CONFIG_CRC_CCITT=y
+CONFIG_CRYPTO=y
+CONFIG_CRYPTO_ALGAPI=y
+CONFIG_CRYPTO_ALGAPI2=y
+CONFIG_CRYPTO_ARC4=y
+CONFIG_CRYPTO_HASH=y
+CONFIG_CRYPTO_HASH2=y
+CONFIG_CRYPTO_HW=y
+CONFIG_CRYPTO_SHA1=y
+CONFIG_DECOMPRESS_LZMA=y
+CONFIG_DECOMPRESS_LZMA_NEEDED=y
+CONFIG_DEFAULTS_KERNEL_2_6=y
+CONFIG_DEFAULT_CFQ=y
+CONFIG_DEFAULT_IOSCHED='"cfq"'
+CONFIG_DEFAULT_MMAP_MIN_ADDR=4096
+CONFIG_DEFAULT_TCP_CONG='"cubic"'
+CONFIG_DEFCONFIG_LIST='"/lib/modules/NAME_RELEASE/.config"'
+CONFIG_DMA_NEED_PCI_MAP_STATE=y
+CONFIG_DMA_NONCOHERENT=y
+CONFIG_EMBEDDED=y
+CONFIG_EXPERIMENTAL=y
+CONFIG_EXTRA_FIRMWARE='""'
+CONFIG_EXTRTL8212_PHYID_P1=18
+CONFIG_EXTRTL8212_PHYID_P3=20
+CONFIG_EXTRTL8212_PHYID_P5=22
+CONFIG_FAT_DEFAULT_CODEPAGE=437
+CONFIG_FAT_DEFAULT_IOCHARSET='"iso8859-1"'
+CONFIG_FAT_FS=y
+CONFIG_FILE_LOCKING=y
+CONFIG_FIRMWARE_IN_KERNEL=y
+CONFIG_FLATMEM=y
+CONFIG_FLATMEM_MANUAL=y
+CONFIG_FLAT_NODE_MEM_MAP=y
+CONFIG_FRAME_WARN=1024
+CONFIG_FW_LOADER=y
+CONFIG_GENERIC_CALIBRATE_DELAY=y
+CONFIG_GENERIC_CLOCKEVENTS=y
+CONFIG_GENERIC_CLOCKEVENTS_BUILD=y
+CONFIG_GENERIC_FIND_LAST_BIT=y
+CONFIG_GENERIC_FIND_NEXT_BIT=y
+CONFIG_GENERIC_HARDIRQS=y
+CONFIG_GENERIC_HARDIRQS_NO__DO_IRQ=y
+CONFIG_GENERIC_HWEIGHT=y
+CONFIG_GENERIC_TIME=y
+CONFIG_H=config.h
+CONFIG_HAS_DMA=y
+CONFIG_HAS_IOMEM=y
+CONFIG_HAS_IOPORT=y
+CONFIG_HAVE_MLOCK=y
+CONFIG_HAVE_MLOCKED_PAGE_BIT=y
+CONFIG_HOTPLUG=y
+CONFIG_HW_HAS_PCI=y
+CONFIG_HZ=100
+CONFIG_HZ_100=y
+CONFIG_INET=y
+CONFIG_INIT_ENV_ARG_LIMIT=32
+CONFIG_IOSCHED_CFQ=y
+CONFIG_IOSCHED_NOOP=y
+CONFIG_IP_FIB_HASH=y
+CONFIG_IP_MROUTE=y
+CONFIG_IP_MULTICAST=y
+CONFIG_IP_NF_FILTER=y
+CONFIG_IP_NF_IPTABLES=y
+CONFIG_IP_NF_MANGLE=y
+CONFIG_IP_NF_TARGET_MASQUERADE=y
+CONFIG_IRQ_CPU=y
+CONFIG_IRQ_VEC=y
+CONFIG_KERNEL_STACK_SIZE_ORDER=2
+CONFIG_LEGACY_PTYS=y
+CONFIG_LEGACY_PTY_COUNT=256
+CONFIG_LINUXDIR=linux-2.6.30
+CONFIG_LLC=y
+CONFIG_LOCALVERSION='""'
+CONFIG_LOCKDEP_SUPPORT=y
+CONFIG_LOG_BUF_SHIFT=12
+CONFIG_MIPS=y
+CONFIG_MISC_FILESYSTEMS=y
+CONFIG_MMU=y
+CONFIG_MODEL=RTL8198_SPI_SQUASHFS
+CONFIG_MODEL_RTL8198_SPI_SQUASHFS=y
+CONFIG_MSDOS_FS=y
+CONFIG_MSDOS_PARTITION=y
+CONFIG_MTD=y
+CONFIG_MTD_BLKDEVS=y
+CONFIG_MTD_BLOCK=y
+CONFIG_MTD_CFI_I1=y
+CONFIG_MTD_CFI_I2=y
+CONFIG_MTD_MAP_BANK_WIDTH_1=y
+CONFIG_MTD_MAP_BANK_WIDTH_2=y
+CONFIG_MTD_MAP_BANK_WIDTH_4=y
+CONFIG_MTD_PARTITIONS=y
+CONFIG_NET=y
+CONFIG_NETDEVICES=y
+CONFIG_NETFILTER=y
+CONFIG_NETFILTER_ADVANCED=y
+CONFIG_NETFILTER_XTABLES=y
+CONFIG_NETFILTER_XT_MATCH_IPRANGE=y
+CONFIG_NETFILTER_XT_MATCH_MAC=y
+CONFIG_NETFILTER_XT_MATCH_MARK=y
+CONFIG_NETFILTER_XT_MATCH_STATE=y
+CONFIG_NETFILTER_XT_TARGET_MARK=y
+CONFIG_NETFILTER_XT_TARGET_TCPMSS=y
+CONFIG_NET_CLS=y
+CONFIG_NET_CLS_FW=y
+CONFIG_NET_SCHED=y
+CONFIG_NET_SCH_FIFO=y
+CONFIG_NET_SCH_HTB=y
+CONFIG_NET_SCH_SFQ=y
+CONFIG_NF_CONNTRACK=y
+CONFIG_NF_CONNTRACK_FTP=y
+CONFIG_NF_CONNTRACK_IPV4=y
+CONFIG_NF_CONNTRACK_PPTP=y
+CONFIG_NF_CONNTRACK_PROC_COMPAT=y
+CONFIG_NF_CONNTRACK_SIP=y
+CONFIG_NF_CT_PROTO_GRE=y
+CONFIG_NF_DEFRAG_IPV4=y
+CONFIG_NF_NAT=y
+CONFIG_NF_NAT_FTP=y
+CONFIG_NF_NAT_NEEDED=y
+CONFIG_NF_NAT_PPTP=y
+CONFIG_NF_NAT_PROTO_GRE=y
+CONFIG_NF_NAT_SIP=y
+CONFIG_NLATTR=y
+CONFIG_NLS=y
+CONFIG_NLS_CODEPAGE_437=y
+CONFIG_NLS_DEFAULT='"iso8859-1"'
+CONFIG_NLS_ISO8859_1=y
+CONFIG_PACKET=y
+CONFIG_PAGEFLAGS_EXTENDED=y
+CONFIG_PAGE_SIZE_4KB=y
+CONFIG_PANIC_PRINTK=y
+CONFIG_PHY_EAT_40MHZ=y
+CONFIG_PPP=y
+CONFIG_PPPOE=y
+CONFIG_PPP_ASYNC=y
+CONFIG_PPP_MPPE_MPPC=y
+CONFIG_PPP_SYNC_TTY=y
+CONFIG_PREEMPT_NONE=y
+CONFIG_PREVENT_FIRMWARE_BUILD=y
+CONFIG_PRINTK_FUNC=y
+CONFIG_PROC_FS=y
+CONFIG_PROC_KCORE=y
+CONFIG_PROC_PAGE_MONITOR=y
+CONFIG_PROC_SYSCTL=y
+CONFIG_ROUTER=
+CONFIG_RSDKDIR=toolchain/rsdk-1.3.6-5281-EB-2.6.30-0.9.30
+CONFIG_RTK_VLAN_SUPPORT=y
+CONFIG_RTL8190_PRIV_SKB=y
+CONFIG_RTL8192CD=y
+CONFIG_RTL8198_REVISION_B=y
+CONFIG_RTL819X_SPI_FLASH=y
+CONFIG_RTL865X_MBUF_HEADROOM=128
+CONFIG_RTL_8198=y
+CONFIG_RTL_8198_GW=y
+CONFIG_RTL_819X=y
+CONFIG_RTL_819X_SWCORE=y
+CONFIG_RTL_92C_SUPPORT=y
+CONFIG_RTL_CLIENT_MODE_SUPPORT=y
+CONFIG_RTL_CURRENT_SETTING_OFFSET=0xC000
+CONFIG_RTL_DEFAULT_SETTING_OFFSET=0x8000
+CONFIG_RTL_ETH_PRIV_SKB=y
+CONFIG_RTL_EXTPORT_VLANID=9
+CONFIG_RTL_FLASH_MAPPING_ENABLE=y
+CONFIG_RTL_FLASH_SIZE=0x400000
+CONFIG_RTL_HARDWARE_MULTICAST=y
+CONFIG_RTL_HARDWARE_NAT=y
+CONFIG_RTL_HW_NAPT=y
+CONFIG_RTL_HW_SETTING_OFFSET=0x6000
+CONFIG_RTL_IGMP_PROXY=y
+CONFIG_RTL_IGMP_SNOOPING=y
+CONFIG_RTL_IPTABLES_FAST_PATH=y
+CONFIG_RTL_IPTABLES_RULE_2_ACL=y
+CONFIG_RTL_IVL_SUPPORT=y
+CONFIG_RTL_LAYERED_ASIC_DRIVER=y
+CONFIG_RTL_LAYERED_ASIC_DRIVER_L3=y
+CONFIG_RTL_LAYERED_ASIC_DRIVER_L4=y
+CONFIG_RTL_LAYERED_DRIVER=y
+CONFIG_RTL_LAYERED_DRIVER_ACL=y
+CONFIG_RTL_LAYERED_DRIVER_L2=y
+CONFIG_RTL_LAYERED_DRIVER_L3=y
+CONFIG_RTL_LAYERED_DRIVER_L4=y
+CONFIG_RTL_LINUX_IMAGE_OFFSET=0x30000
+CONFIG_RTL_MLD_SNOOPING=y
+CONFIG_RTL_NF_CONNTRACK_GARBAGE_NEW=y
+CONFIG_RTL_PCIE_SIMPLE_INIT=y
+CONFIG_RTL_PPPOE_HWACC=y
+CONFIG_RTL_REPEATER_MODE_SUPPORT=y
+CONFIG_RTL_ROOT_IMAGE_OFFSET=0x130000
+CONFIG_RTL_VAP_SUPPORT=y
+CONFIG_RTL_WAPI_LOCAL_AS=0
+CONFIG_RTL_WDS_SUPPORT=y
+CONFIG_RTL_WEB_PAGES_OFFSET=0x10000
+CONFIG_RTL_WTDOG=y
+CONFIG_RWSEM_GENERIC_SPINLOCK=y
+CONFIG_SCHED_OMIT_FRAME_POINTER=y
+CONFIG_SCSI=y
+CONFIG_SCSI_DMA=y
+CONFIG_SCSI_LOWLEVEL=y
+CONFIG_SCSI_PROC_FS=y
+CONFIG_SCSI_TGT=y
+CONFIG_SELECT_MEMORY_MODEL=y
+CONFIG_SERIAL_8250=y
+CONFIG_SERIAL_8250_CONSOLE=y
+CONFIG_SERIAL_8250_NR_UARTS=2
+CONFIG_SERIAL_8250_RUNTIME_UARTS=1
+CONFIG_SERIAL_CORE=y
+CONFIG_SERIAL_CORE_CONSOLE=y
+CONFIG_SLAB=y
+CONFIG_SLABINFO=y
+CONFIG_SLHC=y
+CONFIG_SPLIT_PTLOCK_CPUS=4
+CONFIG_SQUASHFS=y
+CONFIG_SQUASHFS_EMBEDDED=y
+CONFIG_SQUASHFS_FRAGMENT_CACHE_SIZE=3
+CONFIG_SQUASHFS_LZMA=y
+CONFIG_SSB_POSSIBLE=y
+CONFIG_STANDALONE=y
+CONFIG_STP=y
+CONFIG_STRIP_ASM_SYMS=y
+CONFIG_SYSCTL=y
+CONFIG_SYSFS=y
+CONFIG_SYS_SUPPORTS_32BIT_KERNEL=y
+CONFIG_SYS_SUPPORTS_ARBIT_HZ=y
+CONFIG_TCP_CONG_CUBIC=y
+CONFIG_TRAD_SIGNALS=y
+CONFIG_UEVENT_HELPER_PATH='"/sbin/hotplug"'
+CONFIG_UNIX=y
+CONFIG_USB=y
+CONFIG_USB_ARCH_HAS_EHCI=y
+CONFIG_USB_ARCH_HAS_HCD=y
+CONFIG_USB_ARCH_HAS_OHCI=y
+CONFIG_USB_DEVICE_CLASS=y
+CONFIG_USB_EHCI_HCD=y
+CONFIG_USB_MON=y
+CONFIG_USB_OHCI_HCD=y
+CONFIG_USB_OHCI_LITTLE_ENDIAN=y
+CONFIG_USB_STORAGE=y
+CONFIG_USB_SUPPORT=y
+CONFIG_VFAT_FS=y
+CONFIG_VIRT_TO_BUS=y
+CONFIG_WIRELESS=y
+CONFIG_WIRELESS_EXT=y
+CONFIG_ZLIB_INFLATE=y
+CONFIG_ZONE_DMA_FLAG=0
+CROSS_COMPILE=rsdk-linux-
+CURDIR=/home/wenjian_jia/trunk/users/dlna_dms
+CXX=rsdk-linux-g++
+C_INCLUDE_PATH=/home/wenjian_jia/trunk/users/dlna_dms/tmp/include
+DIRSTACK=()
+DIR_BOARD=/home/wenjian_jia/trunk/target
+DIR_BZBOX=/home/wenjian_jia/trunk/users/busybox-1.13
+DIR_IMAGE=/home/wenjian_jia/trunk/target/image
+DIR_LINUX=/home/wenjian_jia/trunk/linux-2.6.30
+DIR_ROMFS=/home/wenjian_jia/trunk/target/romfs
+DIR_ROOT=/home/wenjian_jia/trunk
+DIR_RSDK=/home/wenjian_jia/trunk/toolchain/rsdk-1.3.6-5281-EB-2.6.30-0.9.30
+DIR_TMPFS=/home/wenjian_jia/trunk/target/tmpfs
+DIR_TOOLS=/home/wenjian_jia/trunk/target/tools
+DIR_USERS=/home/wenjian_jia/trunk/users
+EUID=505
+GROUPS=()
+G_BROKEN_FILENAMES=1
+HISTSIZE=1000
+HOME=/home/wenjian_jia
+HOSTNAME=APServer
+HOSTTYPE=i686
+IFS=' 	
+'
+INPUTRC=/etc/inputrc
+INSTALL='/usr/bin/install -c'
+Kconfig=Kconfig
+LANG=en_US.UTF-8
+LD=rsdk-linux-gcc
+LD_LIBRARY_PATH=/home/wenjian_jia/trunk/users/dlna_dms/tmp/tmp/lib
+LESSOPEN='|/usr/bin/lesspipe.sh %s'
+LOGNAME=wenjian_jia
+LS_COLORS='no=00:fi=00:di=00;34:ln=00;36:pi=40;33:so=00;35:bd=40;33;01:cd=40;33;01:or=01;05;37;41:mi=01;05;37;41:ex=00;32:*.cmd=00;32:*.exe=00;32:*.com=00;32:*.btm=00;32:*.bat=00;32:*.sh=00;32:*.csh=00;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.bz=00;31:*.tz=00;31:*.rpm=00;31:*.cpio=00;31:*.jpg=00;35:*.gif=00;35:*.bmp=00;35:*.xbm=00;35:*.xpm=00;35:*.png=00;35:*.tif=00;35:'
+MACHTYPE=i686-redhat-linux-gnu
+MAIL=/var/spool/mail/wenjian_jia
+MAKEFILE_LIST=' Makefile'
+MAKEFLAGS=w
+MAKELEVEL=4
+MFLAGS=-w
+OPTERR=1
+OPTIND=1
+OSTYPE=linux-gnu
+PATH=/home/wenjian_jia/trunk/toolchain/rsdk-1.3.6-5281-EB-2.6.30-0.9.30/bin:/usr/kerberos/bin:/usr/local/bin:/bin:/usr/bin:/home/wenjian_jia/bin:/sbin:/usr/sbin
+PIPESTATUS=([0]="0")
+PKG_CONFIG_PATH=/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib/pkgconfig
+POSIXLY_CORRECT=y
+PPID=8910
+PREFIX=/home/wenjian_jia/trunk/users/dlna_dms/tmp
+PS4='+ '
+PWD=/home/wenjian_jia/trunk/users/dlna_dms/ushare
+RANDOM=1141
+RANLIB=rsdk-linux-ranlib
+ROMFSINST=/home/wenjian_jia/trunk/config/romfsinst
+SHELL=/bin/bash
+SHELLOPTS=braceexpand:hashall:interactive-comments:posix
+SHLVL=6
+SSH_ASKPASS=/usr/libexec/openssh/gnome-ssh-askpass
+SSH_CLIENT='172.29.34.33 1428 22'
+SSH_CONNECTION='172.29.34.33 1428 172.29.37.197 22'
+SSH_TTY=/dev/pts/9
+SSTRIP=rsdk-linux-sstrip
+STRIP=rsdk-linux-strip
+TERM=xterm
+TMPC=/tmp/ushare-1223-8911-29536.c
+TMPDIR1=/tmp
+TMPE=/tmp/ushare-9348-8911-30990
+TMPO=/tmp/ushare-24224-8911-3393.o
+TMPS=/tmp/ushare-4616-8911-1141.S
+UID=505
+USER=wenjian_jia
+VERSION=1.1a
+WLTOOLS=wireless_tools.25
+_=--disable-nls
+app_=' wide-dhcpv6 radvd-0.9.1 dosfstools-2.11/dosfsck dosfstools-2.11/mkdosfs ntfs-3g-1.2531 mp-daemon gproxy 11s-PathSelection dnsmasq-2.33 hostapd-0.6.9/hostapd orayddns discover nfbi ctorrent-dnh3.3.2 dctcs.src/src comgt.0.32 ppp-2.4.4/chat libusb-0.1.12 usb-modeswitch mbpk_eject usb-modeswitch-data usbutils-0.86 hub-ctrl mnet cle-shell utils iperf-2.0.4 dhrystone iozone3_327/src/current example ltp openssl-0.9.8b wapi_utils/udp_sock wapi_utils/rwWapiFiles wapi_utils/other_tools wapi_utils/wapi_scripts'
+app_n=
+app_y=' busybox goahead-2.1.1 script/cinit squashfs4.0/squashfs-tools iproute2-2.6.29-1 iptables-1.4.4 ntpclient usbmount samba-3.0.24/source igmpproxy wireless_tools.25 dnrd-2.12.1/src routed ppp-2.4.4/pppd pptp-1.7.2 l2tpd mini_upnp wsc  auth/src  auth/src/dlisten udhcp-0.9.9-pre bridge-utils miniigd rc lltdd/native-linux updatedd-2.5 IAPP  dlna_dms'
+bindir='${PREFIX}/bin'
+cc=rsdk-linux-gcc
+cpu=x86
+cross_compile=yes
+cross_prefix=rsdk-linux-
+debug=yes
+dlna=no
+dostrip=yes
+extralibs=
+force_prefix=yes
+installstrip=-s
+lib_=' libnl-1.1 flex-2.5.33'
+lib_n=
+lib_y=' ppp-2.4.4/pppd/plugins/rp-pppoe'
+libdlnadir=/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib
+libupnpdir=/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib
+localedir='${PREFIX}/share/locale'
+logfile=config.log
+logging=yes
+make=make
+nls=no
+opt=--disable-nls
+optimize=yes
+optval=--disable-nls
+strip=rsdk-linux-strip
+sysconfdir='${PREFIX}/etc'
+system_name=Linux
+Checking for compiler available...
+check_ld
+check_cc
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	int main(){
+     2	    return 0;
+     3	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -o /tmp/ushare-9348-8911-30990 /tmp/ushare-24224-8911-3393.o
+check_header altivec.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <altivec.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+/tmp/ushare-1223-8911-29536.c:1:21: altivec.h: No such file or directory
+check_cc -msse
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <xmmintrin.h>
+     2	int main(void) {
+     3	#if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 2)
+     4	return 0;
+     5	#else
+     6	#error no vector builtins
+     7	#endif
+     8	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -msse -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+cc1: error: invalid option `sse'
+check_cc -march=athlon
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <mm3dnow.h>
+     2	int main(void) {
+     3	__m64 b1;
+     4	b1 = _m_pswapd(b1);
+     5	_m_femms();
+     6	return 0;
+     7	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -march=athlon -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+FATAL: -march mismatch. RSDK is configured for -march=5281 only
+check_cflags -W
+check_cc -W
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_cflags -Wall
+check_cc -Wall
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_cflags -D_LARGEFILE_SOURCE
+check_cc -D_LARGEFILE_SOURCE
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_cflags -D_FILE_OFFSET_BITS=64
+check_cc -D_FILE_OFFSET_BITS=64
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_cflags -D_REENTRANT
+check_cc -D_REENTRANT
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+Checking for locales ...
+check_header locale.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <locale.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_lib locale.h setlocale 
+check_header locale.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <locale.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_func setlocale
+check_ld
+check_cc
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	extern int setlocale();
+     2	int main(){
+     3	    setlocale();
+     4	    return 0;
+     5	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -o /tmp/ushare-9348-8911-30990 /tmp/ushare-24224-8911-3393.o
+Checking for ifaddrs ...
+check_lib ifaddrs.h getifaddrs 
+check_header ifaddrs.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <ifaddrs.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_func getifaddrs
+check_ld
+check_cc
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	extern int getifaddrs();
+     2	int main(){
+     3	    getifaddrs();
+     4	    return 0;
+     5	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -o /tmp/ushare-9348-8911-30990 /tmp/ushare-24224-8911-3393.o
+/tmp/ushare-24224-8911-3393.o: In function `main':
+/tmp/ushare-1223-8911-29536.c:3: undefined reference to `getifaddrs'
+collect2: ld returned 1 exit status
+Checking for langinfo ...
+check_header langinfo.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <langinfo.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_lib langinfo.h nl_langinfo 
+check_header langinfo.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <langinfo.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_func nl_langinfo
+check_ld
+check_cc
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	extern int nl_langinfo();
+     2	int main(){
+     3	    nl_langinfo();
+     4	    return 0;
+     5	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -o /tmp/ushare-9348-8911-30990 /tmp/ushare-24224-8911-3393.o
+Checking for iconv ...
+check_lib iconv.h iconv 
+check_header iconv.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <iconv.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_func iconv
+check_ld
+check_cc
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	extern int iconv();
+     2	int main(){
+     3	    iconv();
+     4	    return 0;
+     5	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -o /tmp/ushare-9348-8911-30990 /tmp/ushare-24224-8911-3393.o
+/tmp/ushare-24224-8911-3393.o: In function `main':
+/tmp/ushare-1223-8911-29536.c:3: undefined reference to `iconv'
+collect2: ld returned 1 exit status
+check_cflags -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib
+check_cc -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_ldflags -L/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib
+check_ld -L/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib
+check_cc
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	int main(){
+     2	    return 0;
+     3	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -L/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -o /tmp/ushare-9348-8911-30990 /tmp/ushare-24224-8911-3393.o
+Checking for libixml ...
+check_lib upnp/ixml.h ixmlRelaxParser -lixml
+check_header upnp/ixml.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <upnp/ixml.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_func ixmlRelaxParser
+check_ld
+check_cc
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	extern int ixmlRelaxParser();
+     2	int main(){
+     3	    ixmlRelaxParser();
+     4	    return 0;
+     5	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -L/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -o /tmp/ushare-9348-8911-30990 /tmp/ushare-24224-8911-3393.o -lixml
+Checking for libthreadutil ...
+check_lib upnp/ThreadPool.h ThreadPoolAdd -lthreadutil -lpthread
+check_header upnp/ThreadPool.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <upnp/ThreadPool.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_func ThreadPoolAdd
+check_ld
+check_cc
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	extern int ThreadPoolAdd();
+     2	int main(){
+     3	    ThreadPoolAdd();
+     4	    return 0;
+     5	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -L/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -o /tmp/ushare-9348-8911-30990 /tmp/ushare-24224-8911-3393.o -lixml -lthreadutil -lpthread
+Checking for libupnp >= 1.4.2 ...
+check_lib upnp/upnp.h UpnpSetMaxContentLength -lupnp
+check_header upnp/upnp.h
+check_cpp
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	#include <upnp/upnp.h>
+     2	int x;
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -E -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+check_func UpnpSetMaxContentLength
+check_ld
+check_cc
+BEGIN /tmp/ushare-1223-8911-29536.c
+     1	extern int UpnpSetMaxContentLength();
+     2	int main(){
+     3	    UpnpSetMaxContentLength();
+     4	    return 0;
+     5	}
+END /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -c -o /tmp/ushare-24224-8911-3393.o /tmp/ushare-1223-8911-29536.c
+rsdk-linux-gcc -L/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -o /tmp/ushare-9348-8911-30990 /tmp/ushare-24224-8911-3393.o -lixml -lthreadutil -lpthread -lupnp
+pkg-config libupnp --atleast-version=1.4.2
+
+uShare: configure is OK
+  version            1.1a
+  using libupnp      1.6.5
+configuration:
+  install prefix     /home/wenjian_jia/trunk/users/dlna_dms/tmp
+  configuration dir  ${PREFIX}/etc
+  locales dir        ${PREFIX}/share/locale
+  NLS support        no
+  DLNA support       no
+  C compiler         rsdk-linux-gcc
+  STRIP              rsdk-linux-strip
+  make               make
+  CPU                x86 ()
+  debug symbols      yes
+  strip symbols      no
+  optimize           yes
+
+  CFLAGS             -I/home/wenjian_jia/trunk/target/tmpfs/include -I/home/wenjian_jia/trunk/target/tmpfs/include -W -Wall -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_REENTRANT -D_GNU_SOURCE -g3 -DHAVE_DEBUG -O3 -DHAVE_LOCALE_H -DHAVE_SETLOCALE -DHAVE_LANGINFO_H -DHAVE_LANGINFO_CODESET -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib -pthread -I/home/wenjian_jia/trunk/users/dlna_dms/tmp/include/upnp
+  LDFLAGS             -L/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib
+  extralibs           -lixml -lthreadutil -lpthread -lupnp -L/home/wenjian_jia/trunk/users/dlna_dms/tmp/lib
+
+Creating config.mak ...
+Creating config.h ...

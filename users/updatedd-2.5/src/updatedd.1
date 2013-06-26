@@ -1,0 +1,60 @@
+.TH "UPDATEDD" "1" "March 2004" "Philipp Benner" "User Commands"
+.SH "NAME"
+updatedd \- client to update dynamic domain name records
+.SH SYNOPSIS
+.B updatedd
+.I "[OPTION]... SERVICE -- ..."
+.SH "DESCRIPTION"
+Updatedd is a program to update the IP address of a dynamic domain name record.
+The program is divided in one main program (updatedd) and several plugins. For each
+dynamic dns service exists one plugin.
+.br
+.I Notice that you should use updatedd-wrapper instead of running updatedd directly.
+
+There are two kinds of options: upper-case letters, which apply to the main program,
+and lower-case letters, which are passed on to the plugins.
+This manual only describes the options for the updatedd program itself.
+Type 'updatedd <plugin> -- --help' for information on plugin-specific options.
+.TP
+.B \-L
+List supported services (installed plugins) and exit.
+.TP
+.B \-Y
+Use syslog instead of stdout.
+.TP
+.B \-\-help
+Print help and exit.
+.TP
+.B \-\-version
+Print version information and exit.
+.TP
+.I Use `updatedd <service> -- --help' to get help for one of the plugins (suported services).
+.SH "RETURN CODES"
+.TP
+.B 0
+everything is ok
+.TP
+.B 1
+connection errors, communication problems (warnings)
+.TP
+.B 2
+invalid username or passord, service errors (fatal errors)
+.TP
+.B 3
+wrong usage
+.SH "AUTHOR"
+Written by Philipp Benner <mail@philipp-benner.de>.
+.SH "REPORTING BUGS"
+Report bugs to <updatedd@philipp-benner.de>.
+.SH "COPYRIGHT"
+Copyright (C) 2004 Philipp Benner.
+.br
+This is free software; see the source for copying conditions.  There is
+NO  warranty;  not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR
+PURPOSE.
+.SH "SEE ALSO"
+Look at /usr/share/doc/updatedd for further documentation
+(distributed by updatedd-doc) and at /usr/share/updatedd for
+additional scripts.
+.TP
+.I updatedd-wrapper(1) updatedd-wrapper.conf(5)

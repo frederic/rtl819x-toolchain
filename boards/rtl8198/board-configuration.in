@@ -1,0 +1,58 @@
+
+comment "rtl8198"
+choice
+prompt "Selected Board Configuration"
+default MODEL_RTL8198_SPI_SQUASHFS
+config DEFAULT_rtl8198
+	bool "default"
+config MODEL_RTL8198_SPI_SQUASHFS
+        bool "SPI flash + Squashfs"
+config MODEL_RTL8198_AP_SPI_SQUASHFS
+	bool "AP - SPI flash, Squashfs"
+config MODEL_RTL8198_CLIENT_SPI_SQUASHFS
+        bool "Client - SPI flash, Squashfs"
+config MODEL_RTL8198_MP
+        bool "MP"
+config MODEL_rtl8198_ict_basic
+	bool "ict_basic"
+config MODEL_rtl8198_ict_ipsec
+	bool "ict_ipsec"
+config MODEL_rtl8198_ict_usb
+	bool "ict_usb"
+config MODEL_rtl8198_ict_usb_ipsec
+	bool "ict_usb_ipsec"
+config MODEL_rtl8198_ict_usb_swcore
+	bool "ict_usb_swcore"
+config MODEL_rtl8198_ict_usb_bridge
+	bool "ict_usb_bridge"
+config MODEL_rtl8198_ict_usb_bridge_ipsec
+	bool "ict_usb_bridge_ipsec"
+config MODEL_rtl8198_ict_nfbi
+	bool "ict_nfbi"
+config MODEL_RTL8198_RAMFS_NFBI
+    bool "RAMFS + NFBI"
+config MODEL_RTL8198_NFBI_RTK_INBAND
+    bool "NFBI + RTK_INBAND AP"
+config MODEL_RTL8198_SQFS_INBAND_AP
+    bool "Squashfs CABLE MODEM AP with Inband"
+#config MODEL_rtl8198_NOR_SQUASHFS
+#	bool "NOR flash + Squahfs"
+#config MODEL_rtl8198_SPI_SQUASHFS
+#	bool "SPI flash + Squashfs"
+#config MODEL_rtl8198_ict
+#	bool "IC Test"
+endchoice
+
+menu "IC Test Configuration"
+config ICT_SUPPORT
+	bool "IC test support"
+config ICT_FOLDER
+	string "IC test folder"
+	depends on ICT_SUPPORT
+	default "../../../../ICTest"
+	
+config ICT_SCRIPT
+	string "IC test script"
+	depends on ICT_SUPPORT
+	default ""
+endmenu

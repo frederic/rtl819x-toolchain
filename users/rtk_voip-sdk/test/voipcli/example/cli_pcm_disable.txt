@@ -1,0 +1,5 @@
+VOIP_DRIVER_PCM
+VOIP_MGR_PCM_CFG
+enable
+0
+run

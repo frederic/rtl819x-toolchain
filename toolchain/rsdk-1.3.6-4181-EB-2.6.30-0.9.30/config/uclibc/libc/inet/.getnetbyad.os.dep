@@ -1,0 +1,136 @@
+libc/inet/getnetbyad.os libc/inet/getnetbyad.os: libc/inet/getnetbyad.c \
+  ././include/libc-symbols.h ./include/bits/uClibc_arch_features.h \
+  ./include/features.h ./include/bits/uClibc_config.h \
+  ./include/sys/cdefs.h ./include/libc-internal.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h \
+  ./include/bits/stackinfo.h ./include/netdb.h ./include/netinet/in.h \
+  ./include/stdint.h ./include/bits/wchar.h ./include/bits/wordsize.h \
+  ./include/sys/socket.h ./include/sys/uio.h ./include/sys/types.h \
+  ./include/bits/types.h ./include/bits/kernel_types.h \
+  ./include/bits/typesizes.h ./include/bits/pthreadtypes.h \
+  ./include/bits/sched.h ./include/time.h ./include/endian.h \
+  ./include/bits/endian.h ./include/sys/select.h ./include/bits/select.h \
+  ./include/bits/sigset.h ./include/bits/time.h ./include/sys/sysmacros.h \
+  ./include/bits/uio.h ./include/bits/socket.h ./include/limits.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/limits.h \
+  ./include/bits/posix1_lim.h ./include/bits/local_lim.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/limits.h \
+  ./include/bits/uClibc_local_lim.h ./include/bits/posix2_lim.h \
+  ./include/bits/xopen_lim.h ./include/bits/stdio_lim.h \
+  ./include/bits/sockaddr.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/socket.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/sockios.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/ioctl.h \
+  ./include/bits/in.h ./include/bits/byteswap.h ./include/rpc/netdb.h \
+  ./include/bits/siginfo.h ./include/bits/netdb.h ./include/unistd.h \
+  ./include/bits/posix_opt.h ./include/bits/environments.h \
+  ./include/bits/confname.h ./include/bits/getopt.h
+
+././include/libc-symbols.h:
+
+./include/bits/uClibc_arch_features.h:
+
+./include/features.h:
+
+./include/bits/uClibc_config.h:
+
+./include/sys/cdefs.h:
+
+./include/libc-internal.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h:
+
+./include/bits/stackinfo.h:
+
+./include/netdb.h:
+
+./include/netinet/in.h:
+
+./include/stdint.h:
+
+./include/bits/wchar.h:
+
+./include/bits/wordsize.h:
+
+./include/sys/socket.h:
+
+./include/sys/uio.h:
+
+./include/sys/types.h:
+
+./include/bits/types.h:
+
+./include/bits/kernel_types.h:
+
+./include/bits/typesizes.h:
+
+./include/bits/pthreadtypes.h:
+
+./include/bits/sched.h:
+
+./include/time.h:
+
+./include/endian.h:
+
+./include/bits/endian.h:
+
+./include/sys/select.h:
+
+./include/bits/select.h:
+
+./include/bits/sigset.h:
+
+./include/bits/time.h:
+
+./include/sys/sysmacros.h:
+
+./include/bits/uio.h:
+
+./include/bits/socket.h:
+
+./include/limits.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/limits.h:
+
+./include/bits/posix1_lim.h:
+
+./include/bits/local_lim.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/limits.h:
+
+./include/bits/uClibc_local_lim.h:
+
+./include/bits/posix2_lim.h:
+
+./include/bits/xopen_lim.h:
+
+./include/bits/stdio_lim.h:
+
+./include/bits/sockaddr.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/socket.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/sockios.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/ioctl.h:
+
+./include/bits/in.h:
+
+./include/bits/byteswap.h:
+
+./include/rpc/netdb.h:
+
+./include/bits/siginfo.h:
+
+./include/bits/netdb.h:
+
+./include/unistd.h:
+
+./include/bits/posix_opt.h:
+
+./include/bits/environments.h:
+
+./include/bits/confname.h:
+
+./include/bits/getopt.h:
+cmd_libc_inet_getnetbyad.os := rsdk-linux-gcc -c libc/inet/getnetbyad.c -o libc/inet/getnetbyad.os -include include/libc-symbols.h -Wall -Wstrict-prototypes -fno-strict-aliasing -fPIC -mabi=32 -fno-builtin -nostdinc -Iinclude -I. -Ilibc/sysdeps/linux/rlx -fno-asm -march=4181 -EB -msoft-float -DUCLIBC_INTERNAL -std=gnu99 -Os -funit-at-a-time -mno-split-addresses -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux/rlx -Ilibpthread/linuxthreads.old/sysdeps/rlx -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux -Ilibpthread/linuxthreads.old/sysdeps/pthread -Ilibpthread/linuxthreads.old -Ilibpthread -I/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/ -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6//include-fixed -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6/include -DNDEBUG "-mno-split-addresses" -MT libc/inet/getnetbyad.os -MD -MP -MF libc/inet/.getnetbyad.os.dep

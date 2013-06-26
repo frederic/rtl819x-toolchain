@@ -1,0 +1,20 @@
+#
+# samba version configuration
+#
+
+menuconfig APP_SAMBA
+	bool "samba support"
+	default n
+	---help---
+	Enable samba server
+if APP_SAMBA
+choice
+        prompt "samba version"
+        default APP_SAMBA-3.2.15
+        config APP_SAMBA-3.0.24
+                bool "samba-3.0.24"
+	config APP_SAMBA-3.2.15
+		bool "samba-3.2.15"
+endchoice
+endif
+

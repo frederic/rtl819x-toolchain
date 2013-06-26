@@ -1,0 +1,10 @@
+prefix=/HOME_OLD/home/bert/tmp/rlxlinux-v2.2/romfs
+exec_prefix=/HOME_OLD/home/bert/tmp/rlxlinux-v2.2/romfs
+libdir=${exec_prefix}/lib
+includedir=/HOME_OLD/home/bert/tmp/rlxlinux-v2.2/romfs/include
+
+Name: libnl
+Description: Convenience library for netlink sockets
+Version: 1.1
+Libs: -L${libdir} -lnl
+Cflags:

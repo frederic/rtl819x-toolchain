@@ -1,0 +1,110 @@
+<html>
+<! Copyright (c) Realtek Semiconductor Corp., 2003. All Rights Reserved. ->
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<% getIndex("no-cache"); %>
+<title>Operation Mode</title>
+<script type="text/javascript" src="util_gw.js"> </script>
+<script>
+var opmode = <% getIndex("opMode"); %> ;
+var wlanMode = <% getIndex("wlanMode"); %>*1;
+var isOtg_Auto = <% getIndex("isOtg_Auto"); %> ;
+var is_rpt_on = <% getIndex("repeaterEnabled"); %>;
+function ulinkerAutoClick(selValue)
+{
+	if(selValue == 1){
+		document.fmUlkOpMode.ulinker_auto[0].checked = true;
+		disableTextField(document.fmUlkOpMode.ulinker_manual_Sel);
+	}
+	else
+	{
+		document.fmUlkOpMode.ulinker_auto[1].checked = true;
+		enableTextField(document.fmUlkOpMode.ulinker_manual_Sel);
+		if(opmode == 0)//0:gateway
+		{
+			document.fmUlkOpMode.ulinker_manual_Sel.selectedIndex=0;
+		}
+		else if(opmode == 2)//0:WISP
+		{
+			document.fmUlkOpMode.ulinker_manual_Sel.selectedIndex=4;
+		}
+		else//1:bridge
+		{
+			if(wlanMode == 0)//0:AP
+			{
+				if(is_rpt_on == 1)
+					document.fmUlkOpMode.ulinker_manual_Sel.selectedIndex=3;
+				else
+					document.fmUlkOpMode.ulinker_manual_Sel.selectedIndex=1;
+			}
+			else //1:client
+			{
+				document.fmUlkOpMode.ulinker_manual_Sel.selectedIndex=2;
+			}
+		}
+	}
+}
+
+function init()
+{
+	ulinkerAutoClick(isOtg_Auto);
+	
+	
+}
+</script>
+</head>
+<body onload="init();">
+<blockquote>
+<h2><font color="#0000FF">Operation Mode</font></h2>
+
+
+<table border=0 width="500" cellspacing=0 cellpadding=0>
+  <tr><font size=2>
+  You can setup different modes for ULinker. Auto detect mode or Manual select.
+  </tr>
+  <tr><hr size=1 noshade align=top></tr>
+</table>
+<form action=/boafrm/formUlkOpMode method=POST name="fmUlkOpMode">
+<table border="0" width=500>
+	
+	<td colspan="2" height="10"></tr>
+	<tr>
+		<td width ="23%" valign="top">
+		<input type="radio" value="1" name="ulinker_auto" onClick="ulinkerAutoClick(this.value)" ></input>
+		<font size=2> <b> Auto Mode </b> </font>
+		</td>
+		
+	</tr>
+	<td colspan="2" height="10"></tr>
+
+	<tr>
+		<td width ="23%" valign="top">
+		<input type="radio" value="0" name="ulinker_auto" onClick="ulinkerAutoClick(this.value)" ></input>
+		<font size=2> <b> Manual Mode: </b> </font>
+		</td>
+		<td>
+			<select size="1" id="ulinker_manual_Sel" name="ulinker_manual_Sel">
+				<option value="2">Router</option>
+				<option value="0">AP</option>
+				<option value="1">Client</option>
+				<option value="3">Repeater</option>
+				<option value="4">WISP Repeater</option>
+			</select>
+		</td>
+	</tr>
+
+	
+	
+</table>
+
+  <input type="hidden" value="/ulinker_opmode.htm" name="submit-url">
+  <p><input type="submit" value="Apply Change" name="apply">
+&nbsp;&nbsp;
+  
+&nbsp;&nbsp;
+</form>
+</blockquote>
+</font>
+</body>
+
+</html>

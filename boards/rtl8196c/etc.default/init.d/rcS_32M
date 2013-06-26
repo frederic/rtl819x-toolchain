@@ -1,0 +1,113 @@
+#!/bin/sh
+ifconfig lo 127.0.0.1
+
+CINIT=1
+hostname rlx-linux
+mount -t proc proc /proc
+mount -t ramfs ramfs /var
+#insert module init here by sed
+mkdir /var/tmp
+mkdir /var/web
+mkdir /var/log
+mkdir /var/run
+mkdir /var/lock
+mkdir /var/system
+mkdir /var/dnrd
+mkdir /var/lib
+mkdir /var/lib/misc
+##For miniigd
+mkdir /var/linuxigd
+cp /etc/tmp/pics* /var/linuxigd 2>/dev/null
+##For pptp
+mkdir /var/ppp
+mkdir /var/ppp/peers
+#smbd
+mkdir /var/config
+mkdir /var/private
+mkdir /var/tmp/usb
+#snmpd
+mkdir /var/net-snmp
+
+cp /bin/pppoe.sh /var/ppp/true
+echo "#!/bin/sh" > /var/ppp/true
+#echo "PASS"     >> /var/ppp/true
+
+#for console login
+cp /etc/shadow.sample /var/shadow
+
+#extact web pages
+cd /web
+flash extr /web
+cd /
+
+mkdir -p /var/udhcpc
+mkdir -p /var/udhcpd
+cp /bin/init.sh /var/udhcpc/eth0.deconfig
+echo " " > /var/udhcpc/eth0.deconfig
+cp /bin/init.sh /var/udhcpc/eth1.deconfig
+echo " " > /var/udhcpc/eth1.deconfig
+cp /bin/init.sh /var/udhcpc/br0.deconfig
+echo " " > /var/udhcpc/br0.deconfig
+cp /bin/init.sh /var/udhcpc/wlan0.deconfig
+echo " " > /var/udhcpc/wlan0.deconfig
+
+if [ "$CINIT" = 1 ]; then
+startup.sh
+fi
+
+# for wapi certs related
+mkdir /var/myca
+# wapi cert(must done before init.sh)
+cp -rf /usr/local/ssl/* /var/myca/ 2>/dev/null
+# loadWapiFiles >/dev/null 2>&1
+ 
+# for wireless client mode 802.1x
+mkdir /var/1x
+cp -rf /usr/1x/* /var/1x/ 2>/dev/null
+ 
+# Start system script
+init.sh gw all
+
+# modify dst-cache setting
+echo "8192" > /proc/sys/net/ipv4/route/max_size
+echo "180" > /proc/sys/net/ipv4/route/gc_thresh
+echo 20 > /proc/sys/net/ipv4/route/gc_elasticity
+echo 35 > /proc/sys/net/ipv4/route/gc_interval
+echo 60 > /proc/sys/net/ipv4/route/secret_interval
+echo 10 > /proc/sys/net/ipv4/route/gc_timeout
+ 
+echo "4096" > /proc/sys/net/netfilter/nf_conntrack_max
+echo "600" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_established
+echo "20" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_time_wait
+echo "20" > /proc/sys/net/ipv4/netfilter/ip_conntrack_tcp_timeout_close
+echo "90" > /proc/sys/net/ipv4/netfilter/ip_conntrack_generic_timeout
+echo "90" > /proc/sys/net/ipv4/netfilter/ip_conntrack_udp_timeout
+echo "120" > /proc/sys/net/ipv4/netfilter/ip_conntrack_udp_timeout_stream
+echo "1048576" > /proc/sys/net/ipv4/rt_cache_rebuild_count
+echo "32" > /proc/sys/net/netfilter/nf_conntrack_expect_max
+#echo 1 > /proc/sys/net/ipv4/ip_forward #don't enable ip_forward before set MASQUERADE
+
+# for net parameter adjust
+echo 2048 > /proc/sys/fs/file-max
+echo 20 > /proc/sys/net/core/message_burst
+echo 5119 > /proc/sys/net/core/optmem_max
+echo 16383 > /proc/sys/net/core/rmem_max
+echo 16383 > /proc/sys/net/core/rmem_default
+echo 16383 > /proc/sys/net/core/wmem_max
+echo 8191 > /proc/sys/net/core/wmem_default
+echo 12 > /proc/sys/net/ipv4/ipfrag_time
+echo 115200 > /proc/sys/net/ipv4/ipfrag_high_thresh
+echo 57600 > /proc/sys/net/ipv4/ipfrag_low_thresh
+echo 8192 > /proc/sys/net/ipv4/inet_peer_threshold
+echo 100 > /proc/sys/net/ipv4/inet_peer_minttl
+echo 500 > /proc/sys/net/ipv4/inet_peer_maxttl
+echo 64 > /proc/sys/net/ipv4/tcp_max_orphans
+echo 96 128 192 > /proc/sys/net/ipv4/tcp_mem
+echo 2048 32767 65535 > /proc/sys/net/ipv4/tcp_rmem
+echo 2048 16384 32768 > /proc/sys/net/ipv4/tcp_wmem
+echo 96 128 192 > /proc/sys/net/ipv4/udp_mem
+
+# start web server
+webs&
+
+

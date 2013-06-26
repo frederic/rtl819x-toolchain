@@ -1,0 +1,174 @@
+#
+# Wireless LAN device configuration
+#
+config RTL8192CD
+	tristate "RTL8192C/D 802.11b/g/n support"
+
+config RTL_92C_SUPPORT
+        bool "Realtek 8192C wireless support "
+        depends on RTL8192CD && !RTL_92D_SUPPORT && !RTL_88E_SUPPORT
+        default y
+
+config RTL_88E_SUPPORT
+        bool "Realtek 8188E wireless support"
+        depends on RTL8192CD
+        select RTL_ODM_WLAN_DRIVER
+        default n
+
+config RTL_HOSTAPD_SUPPORT
+	bool "Realtek hostapd support"
+	depends on RTL8192CD && RTL_92C_SUPPORT
+	default n
+
+config HIGH_POWER_EXT_PA
+	bool "Enable external high power PA"
+	depends on RTL8192CD && !RTL_88E_SUPPORT
+	default n
+
+config HIGH_POWER_EXT_LNA
+	bool "Enable external LNA"
+	depends on RTL8192CD && RTL_92C_SUPPORT
+	default n
+
+config 	ANT_SWITCH
+	bool "Enable Antenna Diversity"
+	depends on RTL8192CD && !RTL_88E_SUPPORT
+	default n
+
+config RTL_DUAL_PCIESLOT_BIWLAN
+	bool "Enable both of the 2 pcie slot for bi-8192C support"
+	depends on RTL8192CD && RTL_8198 && !RTL_92D_SUPPORT && !RTL_88E_SUPPORT
+	default n
+
+config RTL_92D_SUPPORT
+	bool "Realtek 8192D wireless support " 
+	depends on RTL8192CD && !RTL_88E_SUPPORT
+	default n
+
+#config PCIE_POWER_SAVING
+#	bool "Enable PCIE power saving support"
+#	depends on RTL8192CD && !RTL_88E_SUPPORT
+#	default y if CONFIG_RTL8196C
+
+config RTL_92D_DMDP
+	bool "RTL8192D dual-MAC-dual-PHY mode"
+	depends on RTL8192CD && RTL_92D_SUPPORT && !RTL_DUAL_PCIESLOT_BIWLAN_D
+	default y
+
+config USB_POWER_BUS
+	bool "Use USB Power"
+	depends on RTL8192CD && RTL_92D_SUPPORT && !RTL_92C_SUPPORT
+	default n
+
+config RTL_DFS_SUPPORT
+	bool "DFS Support"
+        depends on RTL8192CD && RTL_92D_SUPPORT
+        default n
+
+config RTL_TX_EARLY_MODE_SUPPORT
+	bool "Tx Early Mode Support"
+        depends on RTL8192CD && RTL_92D_SUPPORT
+        default n
+
+config RTL_DUAL_PCIESLOT_BIWLAN_D
+         bool "Support Dual card:92C+92D"
+         depends on RTL8192CD && !RTL_88E_SUPPORT
+         select RTL_92C_SUPPORT
+         select RTL_92D_SUPPORT
+         default n
+
+config RTL8190_PRIV_SKB
+        bool "Private skb buffer management"
+        depends on RTL8192CD
+        default y
+
+config RTL_VAP_SUPPORT
+        bool "Virtual AP Support"
+        depends on RTL8192CD
+        default y
+
+config RTL_CLIENT_MODE_SUPPORT
+        bool "Client Mode Support"
+        depends on RTL8192CD
+        default y
+
+config RTL_REPEATER_MODE_SUPPORT
+	bool "Repeater Mode support"
+	depends on RTL8192CD && RTL_CLIENT_MODE_SUPPORT
+	default y
+
+config RTL_802_1X_CLIENT_SUPPORT
+	bool "Client Mode 802.1x Support"
+	depends on RTL8192CD && RTL_CLIENT_MODE_SUPPORT
+	default n
+
+config RTL_SUPPORT_MULTI_PROFILE
+	bool "Multiple AP profile Support"
+	depends on RTL8192CD && RTL_CLIENT_MODE_SUPPORT
+	default y
+
+config RTL_WDS_SUPPORT
+        bool "WDS Support"
+        depends on RTL8192CD
+        default y
+config ENABLE_EFUSE
+	bool "Efuse Support"
+	depends on RTL8192CD && !RTL_88E_SUPPORT
+	default n
+config RTL_WAPI_SUPPORT
+	bool "WAPI Support"
+	depends on RTL8192CD && !RTL_88E_SUPPORT
+	default n
+config  RTL_WAPI_LOCAL_AS_SUPPORT
+        bool "support local AS"
+        depends on RTL8192CD && RTL_WAPI_SUPPORT
+        default n
+config RTL_COMAPI_CFGFILE
+        bool "Config File support"
+        depends on RTL8192CD 
+        default n
+config RTL_COMAPI_WLTOOLS
+        bool "Wireless Tools v29 support"
+        depends on RTL8192CD
+        default n
+
+config WIRELESS_LAN_MODULE
+	bool
+	default y if RTL8192CD=m
+config MP_PSD_SUPPORT
+        bool "MP quick PSD support"
+        depends on RTL8192CD && !RTL_88E_SUPPORT
+        default n
+
+config RTL_P2P_SUPPORT
+	bool "Realtek P2P support " 
+	depends on RTL8192CD && !RTL_88E_SUPPORT
+	default n
+config RTL_WPS2_SUPPORT
+	bool "Realtek wps2.0 support " 
+	default y
+
+config PHY_EAT_40MHZ
+	bool "Clock Source, Select is 40MHz, otherwise 25MHz"
+	depends on !AUTO_PCIE_PHY_SCAN
+	default y
+
+config TXPWR_LMT
+	bool "Band Edge Limit support"
+	depends on RTL_92C_SUPPORT || RTL_92D_SUPPORT
+	default n
+
+config RTL_MESH_SUPPORT
+	bool "RTL Mesh Support"
+	depends on RTL8192CD && !RTL_88E_SUPPORT
+	default n
+
+config RTL_WLAN_DOS_FILTER
+	bool "Enable WLAN DoS Filter"
+	depends on RTL8192CD && !RTL_88E_SUPPORT
+	default n
+
+config RTL_ODM_WLAN_DRIVER
+	bool "Enable outsource dynamic mechanism driver"
+	depends on RTL8192CD && RTL_88E_SUPPORT
+	default y

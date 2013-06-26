@@ -1,0 +1,59 @@
+#!/bin/sh
+
+
+# Dynamic Link Files, External Reference.
+APMIBINC=`pwd`/../tnet/boa/src/
+APMIBLIB=`pwd`/../tnet/boa/src/apmib.so
+
+# Configured ?
+CONFIGURE=0
+diff config.status config.status.tr-snmp > diff.txt
+if [ ! -f config.status -o -s diff.txt ]; then
+	CONFIGURE=1
+fi
+rm -f diff.txt
+
+
+# Configure
+if [ $CONFIGURE = 1 ]; then
+make distclean
+./configure \
+--host=i686-pc-linux-gnu \
+--target=mips-linux \
+--enable-mini-agent \
+--disable-applications \
+--disable-manuals \
+--disable-scripts \
+--disable-mibs \
+--disable-mib-loading \
+--disable-des \
+--disable-privacy \
+--disable-md5 \
+--disable-debugging \
+--disable-snmptrapd-subagent \
+--disable-mfd-rewrites \
+--disable-embedded-perl \
+--disable-perl-cc-checks \
+--disable-shared \
+--enable-static \
+--with-cc=mips-uclibc-gcc \
+--with-linkcc=mips-uclibc-gcc \
+--with-ar=mips-uclibc-ar \
+--with-endianness=big \
+--with-cflags="-s -static -O2 -DHOME_GATEWAY -DWIFI_SIMPLE_CONFIG -DDOS_SUPPORT -DROUTE_SUPPORT -DSUPPORT_HNAP -DCONFIG_RTL8186_TR $EXTRA_CONFIG_CFLAGS -I$APMIBINC" \
+--with-ldflags="-static" \
+--with-libs="$APMIBLIB" \
+--without-opaque-special-types \
+--without-kmem-usage \
+--with-dummy-values \
+--with-persistent-directory="/etc/net-snmp" \
+--with-copy-persistent-files="no" \
+--with-default-snmp-version="2" \
+--with-sys-contact="AP" \
+--with-sys-location="Router" \
+--with-logfile="/var/log/snmpd.log" \
+--with-transports="UDP" \
+--with-out-transports="UDPIPv6 TCPIPv6 TCP Unix Callback AAL5PVC IPX" \
+--with-mib-modules="TRENDnet mibII/interfaces mibII/at mibII/ip mibII/icmp mibII/tcp mibII/udp mibII/snmp_mib mibII/vacm_conf" \
+--with-out-mib-modules="snmpv3mibs ucd_snmp agent_mibs agentx notification target utilities disman/event disman/schedule host mibII/tcpTable mibII/route_write mibII/sysORTable mibII/vacm_vars"
+fi

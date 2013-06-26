@@ -1,0 +1,68 @@
+#!/bin/sh
+
+ifconfig lo 127.0.0.1
+
+USE_SAMBA=0
+CINIT=1
+
+hostname rlx-linux
+
+mount -t proc proc /proc
+mount -t ramfs ramfs /var
+
+mkdir /var/tmp
+mkdir /var/web
+mkdir /var/log
+mkdir /var/run
+mkdir /var/lock
+mkdir /var/system
+mkdir /var/dnrd
+mkdir /var/lib
+mkdir /var/lib/misc
+
+##For miniigd
+mkdir /var/linuxigd
+cp /etc/tmp/pics* /var/linuxigd 2>/dev/null
+
+##For pptp
+mkdir /var/ppp
+mkdir /var/ppp/peers
+
+#smbd
+mkdir /var/config
+mkdir /var/private
+mkdir /var/tmp/usb
+
+cp /bin/pppoe.sh /var/ppp/true
+echo "#!/bin/sh" > /var/ppp/true
+#echo "PASS"     >> /var/ppp/true
+
+#extact web pages
+#cd /web
+#flash extr /web
+#cd /
+
+mkdir -p /var/udhcpc
+mkdir -p /var/udhcpd
+cp /bin/init.sh /var/udhcpc/eth0.deconfig
+echo " " > /var/udhcpc/eth0.deconfig
+cp /bin/init.sh /var/udhcpc/eth1.deconfig
+echo " " > /var/udhcpc/eth1.deconfig
+cp /bin/init.sh /var/udhcpc/br0.deconfig
+echo " " > /var/udhcpc/br0.deconfig
+cp /bin/init.sh /var/udhcpc/wlan0.deconfig
+echo " " > /var/udhcpc/wlan0.deconfig
+
+
+# for wapi certs related
+mkdir /var/myca
+# wapi cert(must done before init.sh)
+cp -rf /usr/local/ssl/* /var/myca/ 2>/dev/null
+# loadWapiFiles >/dev/null 2>&1
+ 
+# Start system script
+/bin/sh /bin/mp.sh
+UDPserver &
+
+
+

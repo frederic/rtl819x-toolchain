@@ -1,0 +1,95 @@
+<html>
+<head>
+	<script type="text/javascript" src="mtmcode.js"></script>
+	<script type="text/javascript" src="util_gw.js"></script>
+	<style>
+	.on {display:on}
+	.off {display:none}
+	</style>
+	<script language=JavaScript>
+	<!--
+		
+	var wscSelect;
+	
+	function loadSetting()
+	{
+		
+		wscSelect = window.opener.wscProvsionMethod;		
+		
+		document.getElementById("wsc_showkey").style.display = "none";
+		document.getElementById("wsc_keypad").style.display = "none";
+		document.getElementById("wsc_pbc").style.display = "none";
+		
+		if(wscSelect == 1)
+			document.getElementById("wsc_showkey").style.display = "";
+		else if(wscSelect == 2)
+			document.getElementById("wsc_keypad").style.display = "";
+		else if(wscSelect == 4)
+			document.getElementById("wsc_pbc").style.display = "";	
+		
+		
+		
+	}
+	
+	function confirmClick()
+	{
+		mf = document.formP2PWscConnect;		
+		
+		if(wscSelect == 2)
+		{
+			if(document.getElementById("wscPinCode").value=="")
+			{
+				alert("Please input WSC Pin Code.");
+				return false;
+			}
+						
+		}
+		get_by_id("action").value = "p2pWSCConnect";
+		
+		get_by_id("wscProvsionMethod").value = wscSelect;
+		get_by_id("wscProvsionDevMac").value = window.opener.wscProvsionDevMac;
+		
+		mf.submit();
+		
+  	window.close()
+
+	}
+
+	//-->
+	</script>
+</head>
+<body onload="loadSetting();">
+	<blockquote>
+	<form action=/boafrm/formWiFiDirect method=POST name="formP2PWscConnect">	
+	<input type=hidden id="action" name="action" value="">
+	<input type=hidden id="wscProvsionMethod" name="wscProvsionMethod" value="0">
+	<input type=hidden id="wscProvsionDevMac" name="wscProvsionDevMac" value="0">
+	<table border="0" width=300 height=30>
+	
+  <tr id="wsc_showkey" style="display:">
+  	<td><font size=2><b>Self-PIN Number:</b></td>
+   	<td><font size=2><b><% getInfo("wscLoocalPin");%></b></td>
+	</tr>    
+  
+  <tr id="wsc_keypad" style="display:">
+  	<td><font size=2><b>Key in PIN code:</b></td>
+   	<td><font size=2><input type="text" id="wscPinCode" name="wscPinCode" size="10" maxlength="8" value=""></td>
+	</tr>
+	
+	<tr id="wsc_pbc" style="display:">
+  	<td colspan="2"><font size=2><b>Use PBC for WSC provision</b></td>
+	</tr>  
+	
+	<tr><td colspan="2" height="30"></tr>
+		
+	<tr>
+		<td valign="top">
+		<input type="button" value="  OK  " id="cancel" onClick='confirmClick();'>		
+		</td>		
+	</tr>
+	
+</table>
+</form>
+	</blockquote>
+</body>
+</html>

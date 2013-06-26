@@ -1,0 +1,459 @@
+#!/bin/sh
+for i in $*; do
+	echo $i
+        eval $i
+done
+
+if [ -f $USERS_DIR/.config ]; then
+. $USERS_DIR/.config
+fi
+
+if [ -f $LINUX_DIR/.config ]; then
+. $LINUX_DIR/.config
+fi
+
+#if RAMFS no need to generate rootfs
+if [ "$CONFIG_BLK_DEV_INITRD" = "y" ]; then
+	exit 0
+fi
+
+RAMFSDIR=$PWD/romfs
+MKSQUASHFS=$USERS_DIR/squashfs4.0/squashfs-tools/mksquashfs
+#MKSQUASHFS_LZMA=$USERS_DIR/squashfs4.0/squashfs-tools/mksquashfs-lzma
+if [ "$CONFIG_APP_BOA" = "y" ]; then
+CVIMG=$USERS_DIR/boa/tools/cvimg
+else
+CVIMG=$USERS_DIR/goahead-2.1.1/LINUX/cvimg
+fi
+STRIPTOOL=$TOOLCHAIN_DIR/bin/rsdk-linux-strip
+SSTRIP=$TOOLCHAIN_DIR/bin/rsdk-linux-sstrip
+
+if [ "$CONFIG_RTL_FLASH_MAPPING_ENABLE" = "y" ]; then
+if [ -n $CONFIG_RTL_ROOT_IMAGE_OFFSET ]; then
+	ROOTFS_OFFSET=$CONFIG_RTL_ROOT_IMAGE_OFFSET
+	FLASH_SIZE=$CONFIG_RTL_FLASH_SIZE
+if [ "$CONFIG_RTL_WAPI_SUPPORT" = "y" ]; then
+	# last WAPI_SIZE to store wapi certs
+	# should be sync with users/wapi_utils/rwWapiFiles/wapiFiles.h
+	WAPI_SIZE=0x10000
+	MAX_ROOTFS_SIZE=$(($(($FLASH_SIZE))-$(($ROOTFS_OFFSET))-$(($WAPI_SIZE))))
+else
+	MAX_ROOTFS_SIZE=$(($(($FLASH_SIZE))-$(($ROOTFS_OFFSET))))
+fi
+else
+	ROOTFS_OFFSET=0xF0000	
+fi
+else
+	ROOTFS_OFFSET=0xF0000	
+fi
+
+
+#build symbol link for tmp
+#rm -rf $RAMFSDIR/tmp
+#ln -s /var/tmp $RAMFSDIR/tmp
+
+if [ "$CONFIG_SERIAL_SC16IS7X0_CONSOLE" = "y" ]; then
+CMN=65
+else
+CMN=64
+fi
+#DEVICES="ttyS0,c,4,64	console,c,4,64  null,c,1,3	mtdblock0,b,31,0"
+# filename type mode uid gid major minor
+
+echo "/dev/ttyS0     c 666 root root   4 64" > squashfs-pf-list.txt
+echo "/dev/console   c 666 root root   4 $CMN" >> squashfs-pf-list.txt
+echo "/dev/null      c 666 root root   1  3" >> squashfs-pf-list.txt
+echo "/dev/mtdblock0 b 666 root root  31  0" >> squashfs-pf-list.txt
+
+
+#DEVICES="$DEVICES  ttyS1,c,4,65   ppp,c,108,0 	ptyp0,c,2,0
+#	ptyp1,c,2,1	ttyp0,c,3,0	ttyp1,c,3,1	urandom,c,1,9"
+echo "/dev/ttyS1     c 666 root root   4 65" >> squashfs-pf-list.txt
+echo "/dev/ppp       c 666 root root 108  0" >> squashfs-pf-list.txt
+echo "/dev/ptyp0     c 666 root root   2  0" >> squashfs-pf-list.txt
+echo "/dev/ptyp1     c 666 root root   2  1" >> squashfs-pf-list.txt
+echo "/dev/ttyp0     c 666 root root   3  0" >> squashfs-pf-list.txt
+echo "/dev/ttyp1     c 666 root root   3  1" >> squashfs-pf-list.txt
+echo "/dev/urandom   c 666 root root   1  9" >> squashfs-pf-list.txt
+echo "/dev/ptmx      c 666 root tty    5  2" >> squashfs-pf-list.txt
+
+
+if [ "$USE_SAMBA" = 1 ]; then
+#DEVICES="$DEVICES   zero,c,1,5     random,c,1,8       urandom,c,1,9
+#        sda,b,8,0 sda1,b,8,1 sda2,b,8,2 sda3,b,8,3 sda4,b,8,4
+#        sda5,b,8,5 sda6,b,8,6 sda7,b,8,7
+#        sda8,b,8,8 sda9,b,8,9 sda10,b,8,10
+#        sda11,b,8,11 sda12,b,8,12
+#        sdb,b,8,16 sdb1,b,8,17 sdb2,b,8,18 sdb3,b,8,19 sdb4,b,8,20 
+#        sdb5,b,8,21 sdb6,b,8,22 sdb7,b,8,23
+#        sdb8,b,8,24 sdb9,b,8,25 sdb10,b,8,26
+#        sdb11,b,8,27 sdb12,b,8,28 "
+echo "/dev/fuse      c 666 root root   10  229" >> squashfs-pf-list.txt
+echo "/dev/misc/fuse      c 666 root root   10  229" >> squashfs-pf-list.txt
+echo "/dev/zero      c 666 root root   1  5" >> squashfs-pf-list.txt
+echo "/dev/random    c 666 root root   1  8" >> squashfs-pf-list.txt
+echo "/dev/urandom   c 666 root root   1  9" >> squashfs-pf-list.txt
+echo "/dev/sda       b 666 root root   8  0" >> squashfs-pf-list.txt
+echo "/dev/sda1      b 666 root root   8  1" >> squashfs-pf-list.txt
+echo "/dev/sda2      b 666 root root   8  2" >> squashfs-pf-list.txt
+echo "/dev/sda3      b 666 root root   8  3" >> squashfs-pf-list.txt
+echo "/dev/sda4      b 666 root root   8  4" >> squashfs-pf-list.txt
+echo "/dev/sda5      b 666 root root   8  5" >> squashfs-pf-list.txt
+echo "/dev/sda6      b 666 root root   8  6" >> squashfs-pf-list.txt
+echo "/dev/sda7      b 666 root root   8  7" >> squashfs-pf-list.txt
+echo "/dev/sda8      b 666 root root   8  8" >> squashfs-pf-list.txt
+echo "/dev/sda9      b 666 root root   8  9" >> squashfs-pf-list.txt
+echo "/dev/sda10     b 666 root root   8 10" >> squashfs-pf-list.txt
+echo "/dev/sda11     b 666 root root   8 11" >> squashfs-pf-list.txt
+echo "/dev/sda12     b 666 root root   8 12" >> squashfs-pf-list.txt
+echo "/dev/sda13     b 666 root root   8 13" >> squashfs-pf-list.txt
+echo "/dev/sda14     b 666 root root   8 14" >> squashfs-pf-list.txt
+echo "/dev/sda15     b 666 root root   8 15" >> squashfs-pf-list.txt
+
+echo "/dev/sdb       b 666 root root   8 16" >> squashfs-pf-list.txt
+echo "/dev/sdb1      b 666 root root   8 17" >> squashfs-pf-list.txt
+echo "/dev/sdb2      b 666 root root   8 18" >> squashfs-pf-list.txt
+echo "/dev/sdb3      b 666 root root   8 19" >> squashfs-pf-list.txt
+echo "/dev/sdb4      b 666 root root   8 20" >> squashfs-pf-list.txt
+echo "/dev/sdb5      b 666 root root   8 21" >> squashfs-pf-list.txt
+echo "/dev/sdb6      b 666 root root   8 22" >> squashfs-pf-list.txt
+echo "/dev/sdb7      b 666 root root   8 23" >> squashfs-pf-list.txt
+echo "/dev/sdb8      b 666 root root   8 24" >> squashfs-pf-list.txt
+echo "/dev/sdb9      b 666 root root   8 25" >> squashfs-pf-list.txt
+echo "/dev/sdb10     b 666 root root   8 26" >> squashfs-pf-list.txt
+echo "/dev/sdb11     b 666 root root   8 27" >> squashfs-pf-list.txt
+echo "/dev/sdb12     b 666 root root   8 28" >> squashfs-pf-list.txt
+echo "/dev/sdb13     b 666 root root   8 29" >> squashfs-pf-list.txt
+echo "/dev/sdb14     b 666 root root   8 30" >> squashfs-pf-list.txt
+echo "/dev/sdb15     b 666 root root   8 31" >> squashfs-pf-list.txt
+
+echo "/dev/sdc       b 666 root root   8  32" >> squashfs-pf-list.txt
+echo "/dev/sdc1      b 666 root root   8  33" >> squashfs-pf-list.txt
+echo "/dev/sdc2      b 666 root root   8  34" >> squashfs-pf-list.txt
+echo "/dev/sdc3      b 666 root root   8  35" >> squashfs-pf-list.txt
+echo "/dev/sdc4      b 666 root root   8  36" >> squashfs-pf-list.txt
+echo "/dev/sdc5      b 666 root root   8  37" >> squashfs-pf-list.txt
+echo "/dev/sdc6      b 666 root root   8  38" >> squashfs-pf-list.txt
+echo "/dev/sdc7      b 666 root root   8  39" >> squashfs-pf-list.txt
+echo "/dev/sdc8      b 666 root root   8  40" >> squashfs-pf-list.txt
+echo "/dev/sdc9      b 666 root root   8  41" >> squashfs-pf-list.txt
+echo "/dev/sdc10     b 666 root root   8 42" >> squashfs-pf-list.txt
+echo "/dev/sdc11     b 666 root root   8 43" >> squashfs-pf-list.txt
+echo "/dev/sdc12     b 666 root root   8 44" >> squashfs-pf-list.txt
+echo "/dev/sdc13     b 666 root root   8 45" >> squashfs-pf-list.txt
+echo "/dev/sdc14     b 666 root root   8 46" >> squashfs-pf-list.txt
+echo "/dev/sdc15     b 666 root root   8 47" >> squashfs-pf-list.txt
+
+echo "/dev/sdd       b 666 root root   8  48" >> squashfs-pf-list.txt
+echo "/dev/sdd1      b 666 root root   8  49" >> squashfs-pf-list.txt
+echo "/dev/sdd2      b 666 root root   8  50" >> squashfs-pf-list.txt
+echo "/dev/sdd3      b 666 root root   8  51" >> squashfs-pf-list.txt
+echo "/dev/sdd4      b 666 root root   8  52" >> squashfs-pf-list.txt
+echo "/dev/sdd5      b 666 root root   8  53" >> squashfs-pf-list.txt
+echo "/dev/sdd6      b 666 root root   8  54" >> squashfs-pf-list.txt
+echo "/dev/sdd7      b 666 root root   8  55" >> squashfs-pf-list.txt
+echo "/dev/sdd8      b 666 root root   8  56" >> squashfs-pf-list.txt
+echo "/dev/sdd9      b 666 root root   8  57" >> squashfs-pf-list.txt
+echo "/dev/sdd10     b 666 root root   8 58" >> squashfs-pf-list.txt
+echo "/dev/sdd11     b 666 root root   8 59" >> squashfs-pf-list.txt
+echo "/dev/sdd12     b 666 root root   8 60" >> squashfs-pf-list.txt
+echo "/dev/sdd13     b 666 root root   8 61" >> squashfs-pf-list.txt
+echo "/dev/sdd14     b 666 root root   8 62" >> squashfs-pf-list.txt
+echo "/dev/sdd15     b 666 root root   8 63" >> squashfs-pf-list.txt
+
+echo "/dev/sde       b 666 root root   8  64" >> squashfs-pf-list.txt
+echo "/dev/sde1      b 666 root root   8  65" >> squashfs-pf-list.txt
+echo "/dev/sde2      b 666 root root   8  66" >> squashfs-pf-list.txt
+echo "/dev/sde3      b 666 root root   8  67" >> squashfs-pf-list.txt
+echo "/dev/sde4      b 666 root root   8  68" >> squashfs-pf-list.txt
+echo "/dev/sde5      b 666 root root   8  69" >> squashfs-pf-list.txt
+echo "/dev/sde6      b 666 root root   8  70" >> squashfs-pf-list.txt
+echo "/dev/sde7      b 666 root root   8  71" >> squashfs-pf-list.txt
+echo "/dev/sde8      b 666 root root   8  72" >> squashfs-pf-list.txt
+echo "/dev/sde9      b 666 root root   8  73" >> squashfs-pf-list.txt
+echo "/dev/sde10     b 666 root root   8 74" >> squashfs-pf-list.txt
+echo "/dev/sde11     b 666 root root   8 75" >> squashfs-pf-list.txt
+echo "/dev/sde12     b 666 root root   8 76" >> squashfs-pf-list.txt
+echo "/dev/sde13     b 666 root root   8 77" >> squashfs-pf-list.txt
+echo "/dev/sde14     b 666 root root   8 78" >> squashfs-pf-list.txt
+echo "/dev/sde15     b 666 root root   8 79" >> squashfs-pf-list.txt
+
+
+echo "/dev/sdf       b 666 root root   8  80" >> squashfs-pf-list.txt
+echo "/dev/sdf1      b 666 root root   8  81" >> squashfs-pf-list.txt
+echo "/dev/sdf2      b 666 root root   8  82" >> squashfs-pf-list.txt
+echo "/dev/sdf3      b 666 root root   8  83" >> squashfs-pf-list.txt
+echo "/dev/sdf4      b 666 root root   8  84" >> squashfs-pf-list.txt
+echo "/dev/sdf5      b 666 root root   8  85" >> squashfs-pf-list.txt
+echo "/dev/sdf6      b 666 root root   8  86" >> squashfs-pf-list.txt
+echo "/dev/sdf7      b 666 root root   8  87" >> squashfs-pf-list.txt
+echo "/dev/sdf8      b 666 root root   8  88" >> squashfs-pf-list.txt
+echo "/dev/sdf9      b 666 root root   8  89" >> squashfs-pf-list.txt
+echo "/dev/sdf10     b 666 root root   8 90" >> squashfs-pf-list.txt
+echo "/dev/sdf11     b 666 root root   8 91" >> squashfs-pf-list.txt
+echo "/dev/sdf12     b 666 root root   8 92" >> squashfs-pf-list.txt
+echo "/dev/sdf13     b 666 root root   8 93" >> squashfs-pf-list.txt
+echo "/dev/sdf14     b 666 root root   8 94" >> squashfs-pf-list.txt
+echo "/dev/sdf15     b 666 root root   8 95" >> squashfs-pf-list.txt
+
+echo "/dev/sdg       b 666 root root   8  96" >> squashfs-pf-list.txt
+echo "/dev/sdg1      b 666 root root   8  97" >> squashfs-pf-list.txt
+echo "/dev/sdg2      b 666 root root   8  98" >> squashfs-pf-list.txt
+echo "/dev/sdg3      b 666 root root   8  99" >> squashfs-pf-list.txt
+echo "/dev/sdg4      b 666 root root   8  100" >> squashfs-pf-list.txt
+echo "/dev/sdg5      b 666 root root   8  101" >> squashfs-pf-list.txt
+echo "/dev/sdg6      b 666 root root   8  102" >> squashfs-pf-list.txt
+echo "/dev/sdg7      b 666 root root   8  103" >> squashfs-pf-list.txt
+echo "/dev/sdg8      b 666 root root   8  104" >> squashfs-pf-list.txt
+echo "/dev/sdg9      b 666 root root   8  105" >> squashfs-pf-list.txt
+echo "/dev/sdg10     b 666 root root   8 106" >> squashfs-pf-list.txt
+echo "/dev/sdg11     b 666 root root   8 107" >> squashfs-pf-list.txt
+echo "/dev/sdg12     b 666 root root   8 108" >> squashfs-pf-list.txt
+echo "/dev/sdg13     b 666 root root   8 109" >> squashfs-pf-list.txt
+echo "/dev/sdg14     b 666 root root   8 110" >> squashfs-pf-list.txt
+echo "/dev/sdg15     b 666 root root   8 111" >> squashfs-pf-list.txt
+
+echo "/dev/sdh       b 666 root root   8  112" >> squashfs-pf-list.txt
+echo "/dev/sdh1      b 666 root root   8  113" >> squashfs-pf-list.txt
+echo "/dev/sdh2      b 666 root root   8  114" >> squashfs-pf-list.txt
+echo "/dev/sdh3      b 666 root root   8  115" >> squashfs-pf-list.txt
+echo "/dev/sdh4      b 666 root root   8  116" >> squashfs-pf-list.txt
+echo "/dev/sdh5      b 666 root root   8  117" >> squashfs-pf-list.txt
+echo "/dev/sdh6      b 666 root root   8  118" >> squashfs-pf-list.txt
+echo "/dev/sdh7      b 666 root root   8  119" >> squashfs-pf-list.txt
+echo "/dev/sdh8      b 666 root root   8  120" >> squashfs-pf-list.txt
+echo "/dev/sdh9      b 666 root root   8  121" >> squashfs-pf-list.txt
+echo "/dev/sdh10     b 666 root root   8 122" >> squashfs-pf-list.txt
+echo "/dev/sdh11     b 666 root root   8 123" >> squashfs-pf-list.txt
+echo "/dev/sdh12     b 666 root root   8 124" >> squashfs-pf-list.txt
+echo "/dev/sdh13     b 666 root root   8 125" >> squashfs-pf-list.txt
+echo "/dev/sdh14     b 666 root root   8 126" >> squashfs-pf-list.txt
+echo "/dev/sdh15     b 666 root root   8 127" >> squashfs-pf-list.txt
+
+echo "/dev/sdi       b 666 root root   8  128" >> squashfs-pf-list.txt
+echo "/dev/sdi1      b 666 root root   8  129" >> squashfs-pf-list.txt
+echo "/dev/sdi2      b 666 root root   8  130" >> squashfs-pf-list.txt
+echo "/dev/sdi3      b 666 root root   8  131" >> squashfs-pf-list.txt
+echo "/dev/sdi4      b 666 root root   8  132" >> squashfs-pf-list.txt
+echo "/dev/sdi5      b 666 root root   8  133" >> squashfs-pf-list.txt
+echo "/dev/sdi6      b 666 root root   8  134" >> squashfs-pf-list.txt
+echo "/dev/sdi7      b 666 root root   8  135" >> squashfs-pf-list.txt
+echo "/dev/sdi8      b 666 root root   8  136" >> squashfs-pf-list.txt
+echo "/dev/sdi9      b 666 root root   8  137" >> squashfs-pf-list.txt
+echo "/dev/sdi10     b 666 root root   8 138" >> squashfs-pf-list.txt
+echo "/dev/sdi11     b 666 root root   8 139" >> squashfs-pf-list.txt
+echo "/dev/sdi12     b 666 root root   8 140" >> squashfs-pf-list.txt
+echo "/dev/sdi13     b 666 root root   8 141" >> squashfs-pf-list.txt
+echo "/dev/sdi14     b 666 root root   8 142" >> squashfs-pf-list.txt
+echo "/dev/sdi15     b 666 root root   8 143" >> squashfs-pf-list.txt
+
+echo "/dev/sdj       b 666 root root   8  144" >> squashfs-pf-list.txt
+echo "/dev/sdj1      b 666 root root   8  145" >> squashfs-pf-list.txt
+echo "/dev/sdj2      b 666 root root   8  146" >> squashfs-pf-list.txt
+echo "/dev/sdj3      b 666 root root   8  147" >> squashfs-pf-list.txt
+echo "/dev/sdj4      b 666 root root   8  148" >> squashfs-pf-list.txt
+echo "/dev/sdj5      b 666 root root   8  149" >> squashfs-pf-list.txt
+echo "/dev/sdj6      b 666 root root   8  150" >> squashfs-pf-list.txt
+echo "/dev/sdj7      b 666 root root   8  151" >> squashfs-pf-list.txt
+echo "/dev/sdj8      b 666 root root   8  152" >> squashfs-pf-list.txt
+echo "/dev/sdj9      b 666 root root   8  153" >> squashfs-pf-list.txt
+echo "/dev/sdj10     b 666 root root   8 154" >> squashfs-pf-list.txt
+echo "/dev/sdj11     b 666 root root   8 155" >> squashfs-pf-list.txt
+echo "/dev/sdj12     b 666 root root   8 156" >> squashfs-pf-list.txt
+echo "/dev/sdj13     b 666 root root   8 157" >> squashfs-pf-list.txt
+echo "/dev/sdj14     b 666 root root   8 158" >> squashfs-pf-list.txt
+echo "/dev/sdj15     b 666 root root   8 159" >> squashfs-pf-list.txt
+
+echo "/dev/sdk       b 666 root root   8  160" >> squashfs-pf-list.txt
+echo "/dev/sdk1      b 666 root root   8  161" >> squashfs-pf-list.txt
+echo "/dev/sdk2      b 666 root root   8  162" >> squashfs-pf-list.txt
+echo "/dev/sdk3      b 666 root root   8  163" >> squashfs-pf-list.txt
+echo "/dev/sdk4      b 666 root root   8  164" >> squashfs-pf-list.txt
+echo "/dev/sdk5      b 666 root root   8  165" >> squashfs-pf-list.txt
+echo "/dev/sdk6      b 666 root root   8  166" >> squashfs-pf-list.txt
+echo "/dev/sdk7      b 666 root root   8  167" >> squashfs-pf-list.txt
+echo "/dev/sdk8      b 666 root root   8  168" >> squashfs-pf-list.txt
+echo "/dev/sdk9      b 666 root root   8  169" >> squashfs-pf-list.txt
+echo "/dev/sdk10     b 666 root root   8 170" >> squashfs-pf-list.txt
+echo "/dev/sdk11     b 666 root root   8 171" >> squashfs-pf-list.txt
+echo "/dev/sdk12     b 666 root root   8 172" >> squashfs-pf-list.txt
+echo "/dev/sdk13     b 666 root root   8 173" >> squashfs-pf-list.txt
+echo "/dev/sdk14     b 666 root root   8 174" >> squashfs-pf-list.txt
+echo "/dev/sdk15     b 666 root root   8 175" >> squashfs-pf-list.txt
+
+echo "/dev/sdl       b 666 root root   8  176" >> squashfs-pf-list.txt
+echo "/dev/sdl1      b 666 root root   8  177" >> squashfs-pf-list.txt
+echo "/dev/sdl2      b 666 root root   8  178" >> squashfs-pf-list.txt
+echo "/dev/sdl3      b 666 root root   8  179" >> squashfs-pf-list.txt
+echo "/dev/sdl4      b 666 root root   8  180" >> squashfs-pf-list.txt
+echo "/dev/sdl5      b 666 root root   8  181" >> squashfs-pf-list.txt
+echo "/dev/sdl6      b 666 root root   8  182" >> squashfs-pf-list.txt
+echo "/dev/sdl7      b 666 root root   8  183" >> squashfs-pf-list.txt
+echo "/dev/sdl8      b 666 root root   8  184" >> squashfs-pf-list.txt
+echo "/dev/sdl9      b 666 root root   8  185" >> squashfs-pf-list.txt
+echo "/dev/sdl10     b 666 root root   8 186" >> squashfs-pf-list.txt
+echo "/dev/sdl11     b 666 root root   8 187" >> squashfs-pf-list.txt
+echo "/dev/sdl12     b 666 root root   8 188" >> squashfs-pf-list.txt
+echo "/dev/sdl13     b 666 root root   8 189" >> squashfs-pf-list.txt
+echo "/dev/sdl14     b 666 root root   8 190" >> squashfs-pf-list.txt
+echo "/dev/sdl15     b 666 root root   8 191" >> squashfs-pf-list.txt
+
+echo "/dev/sdm       b 666 root root   8  192" >> squashfs-pf-list.txt
+echo "/dev/sdm1      b 666 root root   8  193" >> squashfs-pf-list.txt
+echo "/dev/sdm2      b 666 root root   8  194" >> squashfs-pf-list.txt
+echo "/dev/sdm3      b 666 root root   8  195" >> squashfs-pf-list.txt
+echo "/dev/sdm4      b 666 root root   8  196" >> squashfs-pf-list.txt
+echo "/dev/sdm5      b 666 root root   8  197" >> squashfs-pf-list.txt
+echo "/dev/sdm6      b 666 root root   8  198" >> squashfs-pf-list.txt
+echo "/dev/sdm7      b 666 root root   8  199" >> squashfs-pf-list.txt
+echo "/dev/sdm8      b 666 root root   8  200" >> squashfs-pf-list.txt
+echo "/dev/sdm9      b 666 root root   8  201" >> squashfs-pf-list.txt
+echo "/dev/sdm10     b 666 root root   8 202" >> squashfs-pf-list.txt
+echo "/dev/sdm11     b 666 root root   8 203" >> squashfs-pf-list.txt
+echo "/dev/sdm12     b 666 root root   8 204" >> squashfs-pf-list.txt
+echo "/dev/sdm13     b 666 root root   8 205" >> squashfs-pf-list.txt
+echo "/dev/sdm14     b 666 root root   8 206" >> squashfs-pf-list.txt
+echo "/dev/sdm15     b 666 root root   8 207" >> squashfs-pf-list.txt
+
+echo "/dev/sdn       b 666 root root   8  208" >> squashfs-pf-list.txt
+echo "/dev/sdn1      b 666 root root   8  209" >> squashfs-pf-list.txt
+echo "/dev/sdn2      b 666 root root   8  210" >> squashfs-pf-list.txt
+echo "/dev/sdn3      b 666 root root   8  211" >> squashfs-pf-list.txt
+echo "/dev/sdn4      b 666 root root   8  212" >> squashfs-pf-list.txt
+echo "/dev/sdn5      b 666 root root   8  213" >> squashfs-pf-list.txt
+echo "/dev/sdn6      b 666 root root   8  214" >> squashfs-pf-list.txt
+echo "/dev/sdn7      b 666 root root   8  215" >> squashfs-pf-list.txt
+echo "/dev/sdn8      b 666 root root   8  216" >> squashfs-pf-list.txt
+echo "/dev/sdn9      b 666 root root   8  217" >> squashfs-pf-list.txt
+echo "/dev/sdn10     b 666 root root   8 218" >> squashfs-pf-list.txt
+echo "/dev/sdn11     b 666 root root   8 219" >> squashfs-pf-list.txt
+echo "/dev/sdn12     b 666 root root   8 220" >> squashfs-pf-list.txt
+echo "/dev/sdn13     b 666 root root   8 221" >> squashfs-pf-list.txt
+echo "/dev/sdn14     b 666 root root   8 222" >> squashfs-pf-list.txt
+echo "/dev/sdn15     b 666 root root   8 223" >> squashfs-pf-list.txt
+
+echo "/dev/sdo       b 666 root root   8  224" >> squashfs-pf-list.txt
+echo "/dev/sdo1      b 666 root root   8  225" >> squashfs-pf-list.txt
+echo "/dev/sdo2      b 666 root root   8  226" >> squashfs-pf-list.txt
+echo "/dev/sdo3      b 666 root root   8  227" >> squashfs-pf-list.txt
+echo "/dev/sdo4      b 666 root root   8  228" >> squashfs-pf-list.txt
+echo "/dev/sdo5      b 666 root root   8  229" >> squashfs-pf-list.txt
+echo "/dev/sdo6      b 666 root root   8  230" >> squashfs-pf-list.txt
+echo "/dev/sdo7      b 666 root root   8  231" >> squashfs-pf-list.txt
+echo "/dev/sdo8      b 666 root root   8  232" >> squashfs-pf-list.txt
+echo "/dev/sdo9      b 666 root root   8  233" >> squashfs-pf-list.txt
+echo "/dev/sdo10     b 666 root root   8 234" >> squashfs-pf-list.txt
+echo "/dev/sdo11     b 666 root root   8 235" >> squashfs-pf-list.txt
+echo "/dev/sdo12     b 666 root root   8 236" >> squashfs-pf-list.txt
+echo "/dev/sdo13     b 666 root root   8 237" >> squashfs-pf-list.txt
+echo "/dev/sdo14     b 666 root root   8 238" >> squashfs-pf-list.txt
+echo "/dev/sdo15     b 666 root root   8 239" >> squashfs-pf-list.txt
+
+echo "/dev/sdp       b 666 root root   8  240" >> squashfs-pf-list.txt
+echo "/dev/sdp1      b 666 root root   8  241" >> squashfs-pf-list.txt
+echo "/dev/sdp2      b 666 root root   8  242" >> squashfs-pf-list.txt
+echo "/dev/sdp3      b 666 root root   8  243" >> squashfs-pf-list.txt
+echo "/dev/sdp4      b 666 root root   8  244" >> squashfs-pf-list.txt
+echo "/dev/sdp5      b 666 root root   8  245" >> squashfs-pf-list.txt
+echo "/dev/sdp6      b 666 root root   8  246" >> squashfs-pf-list.txt
+echo "/dev/sdp7      b 666 root root   8  247" >> squashfs-pf-list.txt
+echo "/dev/sdp8      b 666 root root   8  248" >> squashfs-pf-list.txt
+echo "/dev/sdp9      b 666 root root   8  249" >> squashfs-pf-list.txt
+echo "/dev/sdp10     b 666 root root   8 250" >> squashfs-pf-list.txt
+echo "/dev/sdp11     b 666 root root   8 251" >> squashfs-pf-list.txt
+echo "/dev/sdp12     b 666 root root   8 252" >> squashfs-pf-list.txt
+echo "/dev/sdp13     b 666 root root   8 253" >> squashfs-pf-list.txt
+echo "/dev/sdp14     b 666 root root   8 254" >> squashfs-pf-list.txt
+echo "/dev/sdp15     b 666 root root   8 255" >> squashfs-pf-list.txt
+
+fi
+
+#DEVICES="$DEVICES  mtdblock1,b,31,1"
+echo "/dev/mtdblock1 b 666 root root  31  1" >> squashfs-pf-list.txt
+echo "/dev/mtdblock2 b 666 root root  31  2" >> squashfs-pf-list.txt
+echo "/dev/mtdblock3 b 666 root root  31  3" >> squashfs-pf-list.txt
+
+if [ "$GW_VPN" = 1  ];then
+#DEVICES="$DEVICES  random,c,1,8"
+echo "/dev/random    c 666 root root   1  8" >> squashfs-pf-list.txt
+fi
+
+if [ "$VOIP_SUPPORT" != "" ]; then
+#DEVICES="$DEVICES  pcmctrl0,c,244,0"
+echo "/dev/pcmctrl0  c 666 root root 244  0" >> squashfs-pf-list.txt
+fi
+
+ln -s /tmp/log $RAMFSDIR/dev/log
+
+#for dev in $DEVICES; do
+#	name=`echo $dev |cut -d"," -f1`
+#	type=`echo $dev |cut -d"," -f2 `
+#	major=`echo $dev |cut -d"," -f3 `
+#	minor=`echo $dev |cut -d"," -f4 `
+#	mknod -m666 $RAMFSDIR/dev/$name $type $major $minor
+#    	chmod 777 $RAMFSDIR/dev/$name
+#done
+
+#ln -s /var/web $RAMFSDIR/web
+
+################################################
+# At First: we get the strip-file list 
+
+# At Last: Copy debugging scripts
+DBG_SCRPT="ib iw idd irf ob ow od orf rssi acltd setmib getmib"
+for scrpt in $DBG_SCRPT ; do
+	cp ./script/script_dbg/$scrpt $RAMFSDIR/bin
+done
+
+# Friendly API
+if [ "$CONFIG_RTL_COMAPI_CFGFILE" != "n" -a  "$CONFIG_RTL_COMAPI_CFGFILE" != "" ]; then
+        mkdir $RAMFSDIR/etc/Wireless
+        ln -s /var/RTL8192CD.dat $RAMFSDIR/etc/Wireless/RTL8192CD.dat
+fi
+
+#find $RAMFSDIR/. -name ".svn" | xargs -r rm -rf
+
+sync;sync;sync;
+echo "============Create Squashfs====================="
+if [ "$CONFIG_SQUASHFS_LZMA" = "y" ]; then
+	rm -f squashfs-lzma.o
+        #$MKSQUASHFS_LZMA $RAMFSDIR squashfs-lzma.o -be -always-use-fragments 
+        #$MKSQUASHFS $RAMFSDIR squashfs-lzma.o -comp lzma -always-use-fragments 
+        $MKSQUASHFS $RAMFSDIR squashfs-lzma.o -comp lzma -nopad -always-use-fragments -pf squashfs-pf-list.txt
+        if [ "$USE_SAMBA" = 1 -o "$USE_4M" = 1 ]; then
+		$CVIMG root squashfs-lzma.o root.bin 2D0000 $ROOTFS_OFFSET
+	else
+		$CVIMG root squashfs-lzma.o root.bin F0000 $ROOTFS_OFFSET
+	fi
+		IMGSIZE=`du -s squashfs-lzma.o |  cut -f1`
+else
+	rm -f squashfs.o
+	#$MKSQUASHFS $RAMFSDIR squashfs.o -always-use-fragments
+	$MKSQUASHFS $RAMFSDIR squashfs.o -always-use-fragments -pf squashfs-pf-list.txt
+	$CVIMG root squashfs.o root.bin F0000 $ROOTFS_OFFSET
+	IMGSIZE=`du -s squashfs.o |  cut -f1`
+fi
+ROOTSIZE=`du -s $RAMFSDIR | cut -f1`
+IMGBYTES=`du -b root.bin | cut -f1`
+echo "=============================================="
+echo "Summary:"
+echo "==>Squashfs disk size  = $ROOTSIZE	KBytes"
+echo "==>Squashfs image size = $IMGSIZE	KBytes"
+
+if [ "$CONFIG_RTL_FLASH_MAPPING_ENABLE" = "y" ]; then
+if [ $IMGBYTES -gt $MAX_ROOTFS_SIZE ]; then
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+echo "Error:"
+echo "====root is too big to burn into flash  ====="
+echo "===>max root size      = $MAX_ROOTFS_SIZE  Bytes" 
+echo "===>current root size  = $IMGBYTES Bytes" 
+exit 1
+fi
+fi
+AVAILABLE_ROOTFS_SIZE=$(($(($MAX_ROOTFS_SIZE))-$(($IMGBYTES))))
+echo "====root flash size check ======"
+echo "===>root flash start offset = $ROOTFS_OFFSET ====="
+echo "===>root flash end  offset = $FLASH_SIZE ====="
+echo "===>max root size      = $MAX_ROOTFS_SIZE  Bytes" 
+echo "===>current root size  = $IMGBYTES Bytes" 
+echo "===>available root size  = $AVAILABLE_ROOTFS_SIZE Bytes" 

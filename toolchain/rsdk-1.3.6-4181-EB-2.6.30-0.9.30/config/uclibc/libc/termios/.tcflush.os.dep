@@ -1,0 +1,77 @@
+libc/termios/tcflush.os libc/termios/tcflush.os: libc/termios/tcflush.c \
+  ././include/libc-symbols.h ./include/bits/uClibc_arch_features.h \
+  ./include/errno.h ./include/features.h ./include/bits/uClibc_config.h \
+  ./include/sys/cdefs.h ./include/libc-internal.h \
+  /home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h \
+  ./include/bits/stackinfo.h ./include/bits/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/errno.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm-generic/errno-base.h \
+  ./include/bits/uClibc_errno.h ./include/tls.h ./include/termios.h \
+  ./include/bits/types.h ./include/bits/wordsize.h \
+  ./include/bits/kernel_types.h ./include/bits/typesizes.h \
+  ./include/bits/pthreadtypes.h ./include/bits/sched.h \
+  ./include/bits/termios.h ./include/sys/ttydefaults.h \
+  ./include/sys/ioctl.h ./include/bits/ioctls.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/ioctls.h \
+  /opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/ioctl.h \
+  ./include/bits/ioctl-types.h
+
+././include/libc-symbols.h:
+
+./include/bits/uClibc_arch_features.h:
+
+./include/errno.h:
+
+./include/features.h:
+
+./include/bits/uClibc_config.h:
+
+./include/sys/cdefs.h:
+
+./include/libc-internal.h:
+
+/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/../lib/gcc/mips-linux/3.4.6-1.3.6/include/stddef.h:
+
+./include/bits/stackinfo.h:
+
+./include/bits/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/linux/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/errno.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm-generic/errno-base.h:
+
+./include/bits/uClibc_errno.h:
+
+./include/tls.h:
+
+./include/termios.h:
+
+./include/bits/types.h:
+
+./include/bits/wordsize.h:
+
+./include/bits/kernel_types.h:
+
+./include/bits/typesizes.h:
+
+./include/bits/pthreadtypes.h:
+
+./include/bits/sched.h:
+
+./include/bits/termios.h:
+
+./include/sys/ttydefaults.h:
+
+./include/sys/ioctl.h:
+
+./include/bits/ioctls.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/ioctls.h:
+
+/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/asm/ioctl.h:
+
+./include/bits/ioctl-types.h:
+cmd_libc_termios_tcflush.os := rsdk-linux-gcc -c libc/termios/tcflush.c -o libc/termios/tcflush.os -include include/libc-symbols.h -Wall -Wstrict-prototypes -fno-strict-aliasing -fPIC -mabi=32 -fno-builtin -nostdinc -Iinclude -I. -Ilibc/sysdeps/linux/rlx -fno-asm -march=4181 -EB -msoft-float -DUCLIBC_INTERNAL -std=gnu99 -Os -funit-at-a-time -mno-split-addresses -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux/rlx -Ilibpthread/linuxthreads.old/sysdeps/rlx -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux -Ilibpthread/linuxthreads.old/sysdeps/pthread -Ilibpthread/linuxthreads.old -Ilibpthread -I/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/ -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6//include-fixed -I/home/STools/RLX/rsdk-1.3.6/linux/uclibc/bin/.lib/gcc/mips-linux/3.4.6-1.3.6/include -DNDEBUG "-mno-split-addresses" -MT libc/termios/tcflush.os -MD -MP -MF libc/termios/.tcflush.os.dep

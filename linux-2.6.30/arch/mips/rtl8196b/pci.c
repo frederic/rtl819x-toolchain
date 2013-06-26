@@ -1,0 +1,1 @@
+/home/bo_zhao/8196/linux-2.6.19/linux-2.6.x/arch/mips/realtek/rtl8196b/pci-rtl8196.c

@@ -1,0 +1,40 @@
+extra/locale/locale_data.os extra/locale/locale_data.os:  \
+ extra/locale/locale_data.c include/libc-symbols.h \
+  include/bits/uClibc_arch_features.h \
+  /home/STools/RLX/rsdk-1.4.3/linux/uclibc/bin/../lib/gcc/mips-linux/4.1.2-1.4.3/include/stddef.h \
+  include/stdint.h include/features.h include/bits/uClibc_config.h \
+  include/sys/cdefs.h include/libc-internal.h include/bits/stackinfo.h \
+  include/bits/wchar.h include/bits/wordsize.h extra/locale/c8tables.h \
+  extra/locale/wctables.h extra/locale/lt_defines.h \
+  extra/locale/locale_mmap.h
+
+include/libc-symbols.h:
+
+include/bits/uClibc_arch_features.h:
+
+/home/STools/RLX/rsdk-1.4.3/linux/uclibc/bin/../lib/gcc/mips-linux/4.1.2-1.4.3/include/stddef.h:
+
+include/stdint.h:
+
+include/features.h:
+
+include/bits/uClibc_config.h:
+
+include/sys/cdefs.h:
+
+include/libc-internal.h:
+
+include/bits/stackinfo.h:
+
+include/bits/wchar.h:
+
+include/bits/wordsize.h:
+
+extra/locale/c8tables.h:
+
+extra/locale/wctables.h:
+
+extra/locale/lt_defines.h:
+
+extra/locale/locale_mmap.h:
+cmd_extra_locale_locale_data.os := rsdk-linux-gcc -c extra/locale/locale_data.c -o extra/locale/locale_data.os -include include/libc-symbols.h -Wall -Wstrict-prototypes -fno-strict-aliasing -fPIC -mabi=32 -fno-stack-protector -fno-builtin -nostdinc -Iinclude -I. -Ilibc/sysdeps/linux/rlx -fno-asm -march=5181 -EL -msoft-float -DUCLIBC_INTERNAL -std=gnu99 -Os -funit-at-a-time -fno-tree-loop-optimize -fno-tree-dominator-opts -fno-strength-reduce -mno-split-addresses -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux/rlx -Ilibpthread/linuxthreads.old/sysdeps/rlx -Ilibpthread/linuxthreads.old/sysdeps/unix/sysv/linux -Ilibpthread/linuxthreads.old/sysdeps/pthread -Ilibpthread/linuxthreads.old -Ilibpthread -I/opt/cadpc4/tonywu/risc/rlx_linux/wrapper/kernel/linux-2.6.30/include/ -I/home/STools/RLX/rsdk-1.4.3/linux/uclibc/bin/.lib/gcc/mips-linux/4.1.2-1.4.3//include-fixed -I/home/STools/RLX/rsdk-1.4.3/linux/uclibc/bin/.lib/gcc/mips-linux/4.1.2-1.4.3/include -DNDEBUG "-mno-split-addresses" -D__WCHAR_ENABLED -Iextra/locale -Iextra/locale -MT extra/locale/locale_data.os -MD -MP -MF extra/locale/.locale_data.os.dep

@@ -1,0 +1,502 @@
+#
+# Realtek Semiconductor Corp.
+#
+# RLX Linux Kernel Configuration
+#
+# Tony Wu (tonywu@realtek.com)
+# Dec. 07, 2008
+#
+
+source "../target/config.in"
+
+config MIPS
+    bool
+    default y
+    select EMBEDDED
+
+config TRAD_SIGNALS
+    bool
+    default y
+
+config EMBEDDED
+    bool
+    default y
+
+#
+# 32BIT
+#
+config 32BIT
+  bool
+  default y
+
+config BOOT_32BIT
+  bool
+  default y
+
+config BINFMT_ELF32
+  bool
+  default y
+
+config BINFMT_ELF
+  bool
+  default y
+
+config SYS_SUPPORTS_32BIT_KERNEL
+  bool
+  default y
+
+config CPU_SUPPORTS_32BIT_KERNEL
+  bool
+  default y
+
+#
+# CPU
+#
+config CPU_RLX4180
+  bool
+  default y if ARCH_CPU_RLX4180
+
+config CPU_RLX4181
+  bool
+  default y if ARCH_CPU_RLX4181
+
+config CPU_RLX5181
+  bool
+  default y if ARCH_CPU_RLX5181
+
+config CPU_RLX5280
+  bool
+  default y if ARCH_CPU_RLX5280
+
+config CPU_RLX4281
+  bool
+  default y if ARCH_CPU_RLX4281
+
+config CPU_RLX5281
+  bool
+  default y if ARCH_CPU_RLX5281
+
+config CPU_HAS_RADIAX
+  bool
+  default y if ARCH_CPU_RADIAX
+
+config CPU_HAS_SLEEP
+  bool
+  default y if ARCH_CPU_SLEEP
+
+config CPU_HAS_ULS
+  bool
+  default y if ARCH_CPU_ULS
+
+config CPU_HAS_LLSC
+  bool
+  default y if ARCH_CPU_LLSC
+
+config CPU_HAS_SYNC
+  bool
+  default y if ARCH_CPU_SYNC
+
+config MMU
+    bool
+    default y
+
+config PAGE_SIZE_4KB
+  bool
+  default y
+
+#
+# CPU may reorder R->R, R->W, W->R, W->W
+# Reordering beyond LL and SC is handled in WEAK_REORDERING_BEYOND_LLSC
+#
+config WEAK_ORDERING
+    bool
+
+#
+# CPU may reorder reads and writes beyond LL/SC
+# CPU may reorder R->LL, R->LL, W->LL, W->LL, R->SC, R->SC, W->SC, W->SC
+#
+config WEAK_REORDERING_BEYOND_LLSC
+    bool
+
+#
+# CACHE
+#
+config CPU_HAS_WBC
+   bool
+   default y if ARCH_CACHE_WBC
+
+config CPU_HAS_L2C
+   bool
+   default y if ARCH_CACHE_L2C
+
+#
+## WRITE BUFFER
+##
+config CPU_HAS_WB
+   bool
+   default n
+
+#
+# DMA
+#
+config DMA_NONCOHERENT
+  bool
+  default y
+  select DMA_NEED_PCI_MAP_STATE
+
+config DMA_NEED_PCI_MAP_STATE
+  bool
+
+config ZONE_DMA
+  bool
+
+#
+# ENDIAN
+#
+config CPU_BIG_ENDIAN
+  bool
+  default y if ARCH_CPU_EB
+
+config CPU_LITTLE_ENDIAN
+  bool
+  default y if ARCH_CPU_EL
+
+#
+# IRQ
+#
+config IRQ_CPU
+  bool
+  default y if ARCH_IRQ_CPU
+
+config IRQ_VEC
+  bool
+  default y if ARCH_IRQ_VEC
+
+config GENERIC_HARDIRQS
+    bool
+    default y
+
+config GENERIC_IRQ_PROBE
+    bool
+    default n
+
+config GENERIC_HARDIRQS_NO__DO_IRQ
+    def_bool y
+
+#
+# BUS
+#
+config HW_HAS_PCI
+  bool
+  default y if ARCH_BUS_PCI
+
+config ARCH_SUPPORTS_MSI
+  bool
+  default y if ARCH_BUS_PCI_MSI
+
+config HW_HAS_USB
+  bool
+  default y if ARCH_BUS_USB
+
+#
+# end of RLX configuration
+#
+
+config RWSEM_GENERIC_SPINLOCK
+	bool
+	default y
+
+config RWSEM_XCHGADD_ALGORITHM
+	bool
+
+config ARCH_SUPPORTS_OPROFILE
+	bool
+	default y if !MIPS_MT_SMTC
+
+config GENERIC_FIND_NEXT_BIT
+	bool
+	default y
+
+config GENERIC_HWEIGHT
+	bool
+	default y
+
+config GENERIC_CALIBRATE_DELAY
+	bool
+	default y
+
+config GENERIC_CLOCKEVENTS
+	bool
+	default y
+
+config GENERIC_TIME
+	bool
+	default y
+
+config GENERIC_CMOS_UPDATE
+	bool
+	default n
+
+config SCHED_OMIT_FRAME_POINTER
+	bool
+	default y
+
+#
+# Select some configuration options automatically based on user selections.
+#
+config EARLY_PRINTK
+	bool "Early printk" if EMBEDDED && DEBUG_KERNEL
+	depends on SYS_HAS_EARLY_PRINTK
+	default y
+	help
+	  This option enables special console drivers which allow the kernel
+	  to print messages very early in the bootup process.
+
+	  This is useful for kernel debugging when your machine crashes very
+	  early before the console code is initialized. For normal operation,
+	  it is not recommended because it looks ugly on some machines and
+	  doesn't cooperate with an X server. You should normally say N here,
+	  unless you want to debug such a crash.
+
+config SYS_HAS_EARLY_PRINTK
+	bool
+
+config NO_IOPORT
+	def_bool n
+
+config GENERIC_ISA_DMA
+	bool
+	select ZONE_DMA if GENERIC_ISA_DMA_SUPPORT_BROKEN=n
+
+config GENERIC_ISA_DMA_SUPPORT_BROKEN
+	bool
+	select GENERIC_ISA_DMA
+
+config GENERIC_GPIO
+	bool
+
+config SWAP_IO_SPACE
+	bool
+
+#
+# Set to y for ptrace access to watch registers.
+#
+config HARDWARE_WATCHPOINTS
+       bool
+       default y if CPU_MIPSR1 || CPU_MIPSR2
+
+menu "Kernel type"
+
+#
+# - Highmem only makes sense for the 32-bit kernel.
+# - The current highmem code will only work properly on physically indexed
+#   caches such as R3000, SB1, R7000 or those that look like they're virtually
+#   indexed such as R4000/R4400 SC and MC versions or R10000.  So for the
+#   moment we protect the user and offer the highmem option only on machines
+#   where it's known to be safe.  This will not offer highmem on a few systems
+#   such as MIPS32 and MIPS64 CPUs which may have virtual and physically
+#   indexed CPUs but we're playing safe.
+# - We use SYS_SUPPORTS_HIGHMEM to offer highmem only for systems where we
+#   know they might have memory configurations that could make use of highmem
+#   support.
+#
+config HIGHMEM
+	bool "High Memory Support"
+	depends on 32BIT && CPU_SUPPORTS_HIGHMEM && SYS_SUPPORTS_HIGHMEM
+
+config CPU_SUPPORTS_HIGHMEM
+	bool
+
+config SYS_SUPPORTS_HIGHMEM
+	bool
+
+config ARCH_FLATMEM_ENABLE
+	def_bool y
+
+config ARCH_DISCONTIGMEM_ENABLE
+	def_bool n
+
+config ARCH_POPULATES_NODE_MAP
+	def_bool y
+
+config NODES_SHIFT
+	int
+	default "6"
+	depends on NEED_MULTIPLE_NODES
+
+source "mm/Kconfig"
+
+config SMP
+    def_bool n
+
+source "kernel/time/Kconfig"
+
+#
+# Timer Interrupt Frequency Configuration
+#
+
+choice
+	prompt "Timer frequency"
+	default HZ_250
+	help
+	 Allows the configuration of the timer frequency.
+
+	config HZ_48
+		bool "48 HZ" if SYS_SUPPORTS_48HZ || SYS_SUPPORTS_ARBIT_HZ
+
+	config HZ_100
+		bool "100 HZ" if SYS_SUPPORTS_100HZ || SYS_SUPPORTS_ARBIT_HZ
+
+	config HZ_128
+		bool "128 HZ" if SYS_SUPPORTS_128HZ || SYS_SUPPORTS_ARBIT_HZ
+
+	config HZ_250
+		bool "250 HZ" if SYS_SUPPORTS_250HZ || SYS_SUPPORTS_ARBIT_HZ
+
+	config HZ_256
+		bool "256 HZ" if SYS_SUPPORTS_256HZ || SYS_SUPPORTS_ARBIT_HZ
+
+	config HZ_1000
+		bool "1000 HZ" if SYS_SUPPORTS_1000HZ || SYS_SUPPORTS_ARBIT_HZ
+
+	config HZ_1024
+		bool "1024 HZ" if SYS_SUPPORTS_1024HZ || SYS_SUPPORTS_ARBIT_HZ
+
+endchoice
+
+config SYS_SUPPORTS_48HZ
+	bool
+
+config SYS_SUPPORTS_100HZ
+	bool
+
+config SYS_SUPPORTS_128HZ
+	bool
+
+config SYS_SUPPORTS_250HZ
+	bool
+
+config SYS_SUPPORTS_256HZ
+	bool
+
+config SYS_SUPPORTS_1000HZ
+	bool
+
+config SYS_SUPPORTS_1024HZ
+	bool
+
+config SYS_SUPPORTS_ARBIT_HZ
+	bool
+	default y if !SYS_SUPPORTS_48HZ && !SYS_SUPPORTS_100HZ && \
+		     !SYS_SUPPORTS_128HZ && !SYS_SUPPORTS_250HZ && \
+		     !SYS_SUPPORTS_256HZ && !SYS_SUPPORTS_1000HZ && \
+		     !SYS_SUPPORTS_1024HZ
+
+config HZ
+	int
+	default 48 if HZ_48
+	default 100 if HZ_100
+	default 128 if HZ_128
+	default 250 if HZ_250
+	default 256 if HZ_256
+	default 1000 if HZ_1000
+	default 1024 if HZ_1024
+
+source "kernel/Kconfig.preempt"
+
+config KEXEC
+	bool "Kexec system call (EXPERIMENTAL)"
+	depends on EXPERIMENTAL
+	help
+	  kexec is a system call that implements the ability to shutdown your
+	  current kernel, and to start another kernel.  It is like a reboot
+	  but it is independent of the system firmware.   And like a reboot
+	  you can start any kernel with it, not just Linux.
+
+	  The name comes from the similarity to the exec system call.
+
+	  It is an ongoing process to be certain the hardware in a machine
+	  is properly shutdown, so do not be surprised if this code does not
+	  initially work for you.  It may help to enable device hotplugging
+	  support.  As of this writing the exact hardware interface is
+	  strongly in flux, so no good recommendation can be made.
+
+config SECCOMP
+	bool "Enable seccomp to safely compute untrusted bytecode"
+	depends on PROC_FS
+	default y
+	help
+	  This kernel feature is useful for number crunching applications
+	  that may need to compute untrusted bytecode during their
+	  execution. By using pipes or other transports made available to
+	  the process as file descriptors supporting the read/write
+	  syscalls, it's possible to isolate those applications in
+	  their own address space using seccomp. Once seccomp is
+	  enabled via /proc/<pid>/seccomp, it cannot be disabled
+	  and the task is only allowed to execute a few safe syscalls
+	  defined by each seccomp mode.
+
+	  If unsure, say Y. Only embedded should say N here.
+
+endmenu
+
+config LOCKDEP_SUPPORT
+	bool
+	default y
+
+config STACKTRACE_SUPPORT
+	bool
+	default n
+
+source "init/Kconfig"
+
+config PROBE_INITRD_HEADER
+	bool "Probe initrd header created by addinitrd"
+	depends on BLK_DEV_INITRD
+	help
+	  Probe initrd header at the last page of kernel image.
+	  Say Y here if you are using arch/rlx/boot/addinitrd.c to
+	  add initrd or initramfs image to the kernel image.
+	  Otherwise, say N.
+
+source "kernel/Kconfig.freezer"
+
+menu "Bus options (PCI/USB)"
+
+config PCI
+	bool "Support for PCI controller"
+	depends on HW_HAS_PCI
+	select PCI_DOMAINS
+	help
+	  Find out whether you have a PCI motherboard. PCI is the name of a
+	  bus system, i.e. the way the CPU talks to the other stuff inside
+	  your box. Other bus systems are ISA, EISA, or VESA. If you have PCI,
+	  say Y, otherwise N.
+
+config PCI_DOMAINS
+	bool
+
+source "drivers/pci/Kconfig"
+source "drivers/pci/hotplug/Kconfig"
+source "drivers/pcmcia/Kconfig"
+
+endmenu
+
+menu "Power management options"
+
+config ARCH_SUSPEND_POSSIBLE
+	def_bool y
+	depends on !SMP
+
+source "kernel/power/Kconfig"
+
+endmenu
+
+source "net/Kconfig"
+source "drivers/Kconfig"
+source "fs/Kconfig"
+source "arch/rlx/Kconfig.debug"
+source "security/Kconfig"
+source "crypto/Kconfig"
+source "lib/Kconfig"
+

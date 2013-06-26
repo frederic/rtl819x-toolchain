@@ -1,0 +1,28 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<title>Configuring DNSv6</title><SCRIPT LANGUAGE="JavaScript">
+function onclick_func()
+{
+	if(Dnsv6form.enable_dnsv6.checked == false)	{		Dnsv6form.routername.disabled=true;
+	}	else
+	{
+		Dnsv6form.routername.disabled=false;	}
+}
+</SCRIPT>
+</head>
+
+<body bgcolor="#ffffff" text="#000000">
+<form method="POST" action="/boafrm/formDnsv6" name=Dnsv6form>
+<b>Configuring DNSv6</b><BR>  <BR>
+<td bgColor=#aaddff>Enable</td><td bgColor=#ddeeff><input type=checkbox name=enable_dnsv6 value =1 <% getIPv6Info("enable_dnsv6"); %> onclick="onclick_func()"></td>
+<table cellSpacing=1 cellPadding=2 border=0>
+<tr><td bgColor=#aaddff>router name</td><td bgColor=#ddeeff><input type=text name=routername size=15 maxlength=15 value="<% getIPv6Info("routername"); %>"></td></tr>
+</table>
+<input type="hidden" value="/dnsv6.htm" name="submit-url">
+<tr><td colspan=2><input type=submit name="submit" value="Save"></td></tr>
+</form>
+</body>
+</html> 

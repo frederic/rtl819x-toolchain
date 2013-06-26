@@ -1,0 +1,67 @@
+REALTEK-SNMP-MIB DEFINITIONS ::= BEGIN
+
+--
+-- Top-level infrastructure of the Net-SNMP project enterprise MIB tree
+--
+
+IMPORTS
+    MODULE-IDENTITY, enterprises FROM SNMPv2-SMI;
+
+realtekSnmp MODULE-IDENTITY
+    LAST-UPDATED "200201300000Z"
+    ORGANIZATION "www.net-snmp.org"
+    CONTACT-INFO    
+	 "postal:   McInnis and Sounder
+
+          email:    mcinnis1010@gmail.com  littlefox16@gmail.com"
+    DESCRIPTION
+	"Top-level infrastructure of the Realtek-SNMP project enterprise MIB tree"
+    REVISION     "200612170001v"
+    DESCRIPTION
+	"First draft"
+    ::= { enterprises 1234}
+
+
+--
+--  Net-SNMP enterprise-specific management objects
+--
+
+nctuSnmp OBJECT IDENTIFIER ::= {realtekSnmp 1}
+
+reinitialization OBJECT-TYPE
+	SYNTAX  Integer32
+	ACCESS  read-write
+	STATUS  mandatory
+	DESCRIPTION
+		"reinitialize snmp and all related staff"
+	DEFVAL { 0 }
+	::= { nctuSnmp 1 }
+		
+submit OBJECT-TYPE
+	SYNTAX  Integer32
+	ACCESS  read-write
+	STATUS  mandatory
+	DESCRIPTION
+		"restore all paramters into flash memory"
+	DEFVAL { 0 }
+	::= { nctuSnmp 2 }
+
+rwCommunity OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..63))
+	ACCESS  read-write
+	STATUS  mandatory
+
+	DESCRIPTION
+		"Set community setting"
+	::= { nctuSnmp 3 }
+	
+roCommunity OBJECT-TYPE
+	SYNTAX  OCTET STRING (SIZE (0..63))
+	ACCESS  read-write
+	STATUS  mandatory
+
+	DESCRIPTION
+		"Read community setting"
+	::= { nctuSnmp 4 }
+	
+END

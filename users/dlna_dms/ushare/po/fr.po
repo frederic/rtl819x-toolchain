@@ -1,0 +1,307 @@
+# French translations for uShare package.
+# Copyright (C) 2005-2007 http://ushare.geexbox.org
+# This file is distributed under the same license as the ushare package.
+# Alexis Saettler <asbin@asbin.org>, 2005-2007.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: uShare 1.0\n"
+"Report-Msgid-Bugs-To: ushare@geexbox.org\n"
+"POT-Creation-Date: 2007-11-18 16:25+0100\n"
+"PO-Revision-Date: 2007-07-05 20:55+0200\n"
+"Last-Translator: Alexis Saettler <asbin@asbin.org>\n"
+"Language-Team: uShare French trad <ushare@geexbox.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: src/ushare.c:263
+msgid "Stopping UPnP Service ...\n"
+msgstr "Arrêt du service UPnP ...\n"
+
+#: src/ushare.c:316
+msgid "Initializing UPnP subsystem ...\n"
+msgstr "Initialisation du système UPnP ...\n"
+
+#: src/ushare.c:320
+msgid "Cannot initialize UPnP subsystem\n"
+msgstr "Impossible d'initialiser le système UPnP ...\n"
+
+#: src/ushare.c:325
+msgid "Could not set Max content UPnP\n"
+msgstr "Impossible de configurer la taille max pour UPnP\n"
+
+#: src/ushare.c:328
+msgid "Starting in XboX 360 compliant profile ...\n"
+msgstr "Démarre en mode compatibilité pour XboX 360 ...\n"
+
+#: src/ushare.c:333
+msgid "Starting in DLNA compliant profile ...\n"
+msgstr "Démarre en mode compatibilité DLNA ...\n"
+
+#: src/ushare.c:342
+#, c-format
+msgid "UPnP MediaServer listening on %s:%d\n"
+msgstr "Serveur Multimédia UPnP en écoute sur %s:%d\n"
+
+#: src/ushare.c:350
+msgid "Cannot set virtual directory callbacks\n"
+msgstr "Impossible de créer les retours des dossiers virtuels\n"
+
+#: src/ushare.c:358
+msgid "Cannot add virtual directory for web server\n"
+msgstr "Impossible d'ajouter le dossier virtuel du serveur web\n"
+
+#: src/ushare.c:368 src/ushare.c:386
+msgid "Cannot register UPnP device\n"
+msgstr "Impossible d'enregistrer le périphérique UPnP\n"
+
+#: src/ushare.c:376
+msgid "Cannot unregister UPnP device\n"
+msgstr "Impossible de supprimer le périphérique UPnP\n"
+
+#: src/ushare.c:391
+msgid "Sending UPnP advertisement for device ...\n"
+msgstr "Envoit des informations UPnP du périphérique ...\n"
+
+#: src/ushare.c:394
+msgid "Listening for control point connections ...\n"
+msgstr "Attente de connexions ...\n"
+
+#: src/ushare.c:450
+#, c-format
+msgid "Interface %s is down.\n"
+msgstr "L'interface %s est arrêtée.\n"
+
+#: src/ushare.c:451 src/ushare.c:462
+msgid "Recheck uShare's configuration and try again !\n"
+msgstr "Revérifiez la configuration de uShare et recommencez !\n"
+
+#: src/ushare.c:461
+#, c-format
+msgid "Can't find interface %s.\n"
+msgstr "Impossible de trouver l'interface %s.\n"
+
+#: src/ushare.c:622
+msgid "Reloading configuration...\n"
+msgstr "Rechargement de la configuration...\n"
+
+#: src/ushare.c:683 src/ushare.c:771
+msgid "Error: no content directory to be shared.\n"
+msgstr "Erreur : aucun répertoire de contenus à partager.\n"
+
+#: src/ushare.c:691
+#, c-format
+msgid "%s (version %s), a lightweight UPnP Media Server.\n"
+msgstr "%s (version %s), un serveur mutlimédia UPnP léger.\n"
+
+#: src/ushare.c:693
+#, c-format
+msgid "Benjamin Zores (C) 2005-2007, for GeeXboX Team.\n"
+msgstr "Benjamin Zores (C) 2005-2007, pour l'équipe GeeXboX.\n"
+
+#: src/ushare.c:694
+#, c-format
+msgid "See http://ushare.geexbox.org/ for updates.\n"
+msgstr "Voir http://ushare.geexbox.org/ pour les mises à jour.\n"
+
+#: src/ushare.c:711
+msgid ""
+"Server is shutting down: other clients will be notified soon, Bye bye ...\n"
+msgstr ""
+"Arrêt du serveur en cours : les autres clients seront notifié bientôt. Au "
+"revoir !\n"
+
+#: src/ushare.c:746
+#, c-format
+msgid "Warning: can't parse file \"%s\".\n"
+msgstr "Attention : impossible de lire le fichier \"%s\".\n"
+
+#: src/ushare.c:802
+#, c-format
+msgid "Error: failed to daemonize program : %s\n"
+msgstr "Erreur : impossible de démoniser le programme : %s\n"
+
+#: src/ushare.c:825
+msgid "Terminates the uShare server"
+msgstr "Arrêt du serveur uShare"
+
+#: src/metadata.c:402
+msgid "Failed to add the RB lookup tree\n"
+msgstr "Impossible d'ajouter l'arbre de recherche RB\n"
+
+#: src/metadata.c:530
+msgid "Cannot create RB tree for lookups\n"
+msgstr "Impossible de créer l'arbre RB pour les recherches\n"
+
+#: src/metadata.c:537
+msgid "Building Metadata List ...\n"
+msgstr "Création de la liste de données\n"
+
+#: src/metadata.c:550
+#, c-format
+msgid "Looking for files in content directory : %s\n"
+msgstr "Recherche des fichiers dans le répertoire de contenus : %s\n"
+
+#: src/metadata.c:574
+#, c-format
+msgid "Found %d files and subdirectories.\n"
+msgstr "%d fichiers et sous-répertoires trouvés.\n"
+
+#: src/cfgparser.c:166
+#, c-format
+msgid "Warning: port doesn't fit IANA port assignements.\n"
+msgstr "Attention : ce port ne suit pas les recommendations IANA.\n"
+
+#: src/cfgparser.c:168
+#, c-format
+msgid ""
+"Warning: Only Dynamic or Private Ports can be used (from 49152 through "
+"65535)\n"
+msgstr ""
+"Attention : seuls les ports dynamiques ou privés peuvent être utilisés (de "
+"49152 à 65535)\n"
+
+#: src/cfgparser.c:318
+#, c-format
+msgid ""
+"Usage: ushare [-n name] [-i interface] [-p port] [-c directory] [[-c "
+"directory]...]\n"
+msgstr ""
+"Usage : ushare [-n nom] [-i interface] [-p port] [-c répertoire] [[-c "
+"répertoire]...]\n"
+
+#: src/cfgparser.c:319
+#, c-format
+msgid "Options:\n"
+msgstr "Options :\n"
+
+#: src/cfgparser.c:320
+#, c-format
+msgid " -n, --name=NAME\tSet UPnP Friendly Name (default is '%s')\n"
+msgstr " -n, --name=NOM\t\tDéfini le nom UPnP ('%s' par défaut)\n"
+
+#: src/cfgparser.c:322
+#, c-format
+msgid " -i, --interface=IFACE\tUse IFACE Network Interface (default is '%s')\n"
+msgstr ""
+" -i, --interface=IFACE\tUtiliser l'interface réseau IFACE ('%s' par défaut)\n"
+
+#: src/cfgparser.c:324
+#, c-format
+msgid " -f, --cfg=FILE\t\tConfig file to be used\n"
+msgstr " -f, --cfg=FICHIER\tFichier de configuration à utiliser\n"
+
+#: src/cfgparser.c:325
+#, c-format
+msgid " -p, --port=PORT\tForces the HTTP server to run on PORT\n"
+msgstr " -p, --port=PORT\tForce le serveur HTTP à utiliser ce PORT\n"
+
+#: src/cfgparser.c:326
+#, c-format
+msgid " -q, --telnet-port=PORT\tForces the TELNET server to run on PORT\n"
+msgstr " -q, --telnet-port=PORT\tForce le server TELNET à utiliser ce PORT\n"
+
+#: src/cfgparser.c:327
+#, c-format
+msgid " -c, --content=DIR\tShare the content of DIR directory\n"
+msgstr " -c, --content=REP\tPartage le contenu du répertoire REP\n"
+
+#: src/cfgparser.c:328
+#, c-format
+msgid " -w, --no-web\t\tDisable the control web page (enabled by default)\n"
+msgstr ""
+" -w, --no-web\t\tDésactive la page de contrôle web (activée par défaut)\n"
+
+#: src/cfgparser.c:329
+#, c-format
+msgid " -t, --no-telnet\tDisable the TELNET control (enabled by default)\n"
+msgstr ""
+" -t, --no-telnet\tDésactiver le contrôle par TELNET (activé par défaut)\n"
+
+#: src/cfgparser.c:330
+#, c-format
+msgid ""
+" -o, --override-iconv-err\tIf iconv fails parsing name, still add to media "
+"contents (hoping the renderer can handle it)\n"
+msgstr ""
+" -o, --override-iconv-err\tSi iconv n'arrive pas à traduire le nom du "
+"fichier, ajouter tout de même le contenu (en espérant que le lecteur puisse "
+"le lire)\n"
+
+#: src/cfgparser.c:331
+#, c-format
+msgid " -v, --verbose\t\tSet verbose display\n"
+msgstr " -v, --verbose\t\tMode bavard\n"
+
+#: src/cfgparser.c:332
+#, c-format
+msgid " -x, --xbox\t\tUse XboX 360 compliant profile\n"
+msgstr " -x, --xbox\t\tUtiliser le mode de compatibilité XboX 360\n"
+
+#: src/cfgparser.c:334
+#, c-format
+msgid " -d, --dlna\t\tUse DLNA compliant profile (PlayStation3 needs this)\n"
+msgstr ""
+" -d, --dlna\t\tUtiliser le mode de compatibilité DLNA pour PlayStation3\n"
+
+#: src/cfgparser.c:336
+#, c-format
+msgid " -D, --daemon\t\tRun as a daemon\n"
+msgstr " -D, --daemon\t\tDémarrer en mode démon\n"
+
+#: src/cfgparser.c:337
+#, c-format
+msgid " -V, --version\t\tDisplay the version of uShare and exit\n"
+msgstr ""
+" -V, --version\t\tAffiche la version de uShare et quitte le programme\n"
+
+#: src/cfgparser.c:338
+#, c-format
+msgid " -h, --help\t\tDisplay this help\n"
+msgstr " -h, --help\t\tAffiche cette aide\n"
+
+#: src/presentation.c:108 src/presentation.c:143
+msgid "uShare Information Page"
+msgstr "Page d'information de uShare"
+
+#: src/presentation.c:155
+msgid "uShare UPnP A/V Media Server"
+msgstr "uShare - Serveur Multimédia A/V UPnP"
+
+#: src/presentation.c:156
+msgid "Information Page"
+msgstr "Page d'information"
+
+#: src/presentation.c:163
+msgid "Version"
+msgstr "Version"
+
+#: src/presentation.c:166
+msgid "Device UDN"
+msgstr "Périphérique UDN"
+
+#: src/presentation.c:168
+msgid "Number of shared files and directories"
+msgstr "Nombre de fichiers et sous-répertoires partagés"
+
+#: src/presentation.c:178
+msgid "Share"
+msgstr "Partage"
+
+#: src/presentation.c:184
+msgid "unShare!"
+msgstr "Départager !"
+
+#: src/presentation.c:190
+msgid "Add a new share :  "
+msgstr "Ajouter un partage :  "
+
+#: src/presentation.c:196
+msgid "Share!"
+msgstr "Partager !"
+
+#: src/presentation.c:207
+msgid "Refresh Shares ..."
+msgstr "Rafraîchir les partages ..."

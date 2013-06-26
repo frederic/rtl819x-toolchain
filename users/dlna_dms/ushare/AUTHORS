@@ -1,0 +1,20 @@
+Author
+======
+
+Benjamin Zores  <ben@geexbox.org>
+
+With many contributions from :
+- Alexis Saettler  <asbin@asbin.org>
+- Amir Shalem  <amir@boom.org.il>
+- Rémi Turboult for some UPnP standard compliance check.
+- Bernd Loske for some buffer overrun fix.
+- Eric Tanguy for Fedora RPM build and startup scripts.
+- Julien Lincy for a better UPnP CDS respect and
+  commercial UPnP players compliance.
+- Jonathan (no_dice at users.sourceforge.net) for large files support.
+- Mostafa Hosseini <mostafah@axentra.com> for XboX 360 compliance, several UPnP compliance fixes and basic 'Search' support.
+- Phil Chandler for RedBlack balanced tree sorting algorithm and some memory optimizations.
+- Navaho Gunleg <navahogunleg@gmail.com> for MacOSX build fix.
+- Sven Almgren <sven@tras.se> for Telnet Control interface.
+
+Please send remarks, questions, bug reports to <ushare@geexbox.org>.

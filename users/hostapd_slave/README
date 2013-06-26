@@ -1,0 +1,41 @@
+==================================================================================================================================
+hapd_slave - 
+    
+    It's a daemon acts as a "slave" for Remote hostapd(through the Ethernet(GMII/MII/PHY)).
+It will response for processing the incoming ethernet packet for inband control . For example
+it will trigger the ioctl to the WLAN driver,if the inband packet is for ioctl.
+It also process the netlink event from the WLAN driver and these events will be encapsulate into 
+inband event packet and send to HOST.
+
+
+NOTE : 
+
+1. Beacuse of the ethernet type 0x8899 and 0x9000 is used for inband control in this daemon,
+please do not use them in other applications.
+
+2. If you need to change the Local interface(default: "br0") for tx/rx the inband packet in your system ,please
+modify the codes below to fit your requirement (hapd_slave.c).
+
+........
+........
+#define LOCAL_NETIF  ("br0")
+....... 
+
+
+
+================================================================================================================================
+sysinit -
+
+   It's a application to init the 8198/8196C platform including init the bridge setting,bring the ethernet interface down/up...etc.
+
+
+
+NOTE :
+
+1.The default MAC address of the system is "00:12:34:56:78:99", it can be changed in sysinit.h.
+
+2.The default Local interface for inband control is "br0',it can be changed in sysinit.h.
+
+3.The deafult inband port(IF_MII) is belong to interface "eth0",it can be changed in sysinit.h. 
+
+=================================================================================================================================

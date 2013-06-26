@@ -1,0 +1,92 @@
+----------------
+RSDK Release 1.5
+----------------
+
+We are pleased to announce the release of RSDK version 1.5 on March 31, 2010.
+RSDK stands for Realtek Software Development Kit. It is the software 
+development kit for Realtek's in-house processor cores. 
+Version 1.5.0 is the first stable release for branch 1.5.
+
+What's new in release 1.5:
+
+1. gcc-4.4.2
+
+The major version of gcc has come to 4.4. At this moment the note is made, 
+it reached 4.4.2 with less bugs and more stability. 4.4.2 is the version 
+recruited in this release. Here is a brief list of notable technique items 
+that are added or enhanced since 4.2.
+
+GCC has much more significant improvements from 4.3 to 4.4 on the quality and 
+the size of its code generation.
+
+  4.3) The gcc middle-end has been integrated with the MPFR library, resulting
+       consistent correct codes regardless of the math library implementation or
+       floating point precision of the host platform.
+
+  4.3) A new forward propagation pass on RTL was added, resulting in compile-time
+       improvements as well as better code generation in some cases.
+
+  4.3) Improved mips16/32 mixed-mode code generation. The support of mips16 
+       in previous RSDK versions, such as -mno-data-in-code, are ported to
+       base on it. Other features also get revised and bug-fixed  
+       (small-data allocation).
+
+  4.4) A new register allocator called integrated register allocator (IRA) 
+       has been introduced to replace the old one.
+
+  4.4) A new instruction scheduler and software pipeliner, based on the selective
+       scheduling approach, has been added.
+
+  4.4) MIPS16 o32 PIC mode is now supported.
+
+  Other changes/new features can be found at official gcc release notes.
+
+  Along with the porting of our previous work on gcc to 4.4.2, we provide further
+  improvements:
+
+  RTK) Optimized support of existent processors as well as the newly added Taroko
+       series (RX4281 and RX5281).
+
+2. uClibc-0.9.30
+
+The uClibc C library has been upgraded 0.9.30. The memcpy and memset functions 
+in uClibc 0.9.30 have also been patched for RLX/LX processor cores to improve 
+performance by using word copy whenever possible and to support processor cores 
+with and without unsupported unaligned load/store instructions.
+
+RSDK wrapper is fully supported on RSDK 1.5. Customized wrappers for specific 
+Linux and uClibc versions can be generated upon request.
+
+3. RSDK Supplementary Library Module
+
+A supplementary library module has been added to enrich RSDK's capability in 
+functional profiling, performance tuning, and remote debugging. The supplementary 
+library includes following modules:
+
+   a. CP3 library - CP3 performance counter
+   b. Profiler library - function-level profiling support
+   c. GDB I/O - remote I/O via GDB remote serial protocol
+   d. RLXCOV - RLX code coverage analysis library
+   e. RLXULS - RLX unaligned load/store library
+
+
+CPUs supported by RSDK release 1.5 
+
+1. LX4180: 
+All versions 
+
+2. RLX4181 
+All versions 
+
+3. LX5280 
+All versions 
+
+4. RLX5181 
+All versions 
+
+5. RLX4281 
+All versions 
+
+6. RLX5281 
+All versions
+

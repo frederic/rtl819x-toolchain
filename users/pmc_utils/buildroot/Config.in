@@ -1,0 +1,21 @@
+config BR2_PACKAGE_DLS_CONTROLLER
+	bool "Controller for dallas GPON device"
+	default n
+	help
+	   Support for dallas devices.
+
+comment "Dallas work mode"
+choice
+        prompt "Choose Dallas work mode"
+        depends BR2_PACKAGE_DLS_CONTROLLER
+        default BR2_DALLAS_NON-SLAVE_MODE
+        config  BR2_DALLAS_NON-SLAVE_MODE
+                bool "Non-slave mode"
+                help
+                Choose non-slave mode as the default work mode."
+        config  BR2_DALLAS_SLAVE_MODE
+                bool "Slave mode"
+                help
+                Choose slave mode as the default work mode."
+
+endchoice

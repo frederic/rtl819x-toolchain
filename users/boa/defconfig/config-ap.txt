@@ -1,0 +1,386 @@
+;
+;	RTL865x system configuration file for AP mode
+;
+;	$Id: config-ap.txt,v 1.17 2008/04/18 01:48:42 davidhsu Exp $
+;
+;	Copyright (c) Realtek Semiconductor Corp., 2004. All Rights Reserved.
+
+; Hardware setting
+; ---------------------------------------------------------------------------
+HW_NIC0_ADDR=00e04c865101	; Ethernet LAN address
+HW_NIC1_ADDR=00e04c865106	; WAN mac address
+
+; WLAN0 interface.
+HW_WLAN0_WLAN_ADDR=00e04c865101	; wlan0 MAC address
+HW_WLAN0_WLAN_ADDR1=00e04c865102
+HW_WLAN0_WLAN_ADDR2=00e04c865103
+HW_WLAN0_WLAN_ADDR3=00e04c865104
+HW_WLAN0_WLAN_ADDR4=00e04c865105
+HW_WLAN0_REG_DOMAIN=1		; FCC=1, IC=2, ETSI=3, SPAIN=4, FRANCE=5, MKK=6, ISRAEL=7
+HW_WLAN0_RF_TYPE=10			; 10-RTL8190(11 b/g/n)
+HW_WLAN0_TX_POWER_CCK=0 0 0 0 0 0 0 0 0 0 0 0 0 0 ; channel 1~14 Tx power for CCK
+HW_WLAN0_TX_POWER_OFDM=0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+				; channel 1~162 Tx power for HT OFDM. ch1-14 for 2.4G, other ch for 5G
+HW_WLAN0_ANT_DIVERSITY=0	; 1 - enable diversity, 0 - disable diversity
+HW_WLAN0_TX_ANT=0		; Tx antenna, 0 - A , 1 - B
+HW_WLAN0_INIT_GAIN=4		; baseband initial gain value
+HW_WLAN0_CCA_MODE=0		; CCA mode
+HW_WLAN0_LED_TYPE=2	; Except 0/1 is hardware wired, others are controlled by software
+			; 	WLAN-LED0		WLAN-LED1
+			; =============================================================
+			;  0	tx			rx
+			;  1	enabled/tx/rx		N/A
+			;  2	link			tx/rx (data, management packet)
+			;  3	link/tx/rx		N/A (data packet)
+			;  4	link			tx-data/rx-data (data packet)
+			;  5	link/tx-data/rx-data	N/A (data packet)
+			;  6	enable			tx/rx (data packet)
+			;  7	enable/tx-data/rx-data  N/A (data packet)
+HW_WLAN0_11N_XCAP=0			; RF 40MHz crystal auto-calibration parameter, the value from 0~64
+HW_WLAN0_11N_LOFDMPWD=0		; Power gain setting difference between HT OFDM and legacy OFDM, the value from 0~64
+HW_WLAN0_11N_ANTPWD_C=0		; Power gain setting difference between RF path A and RF path C, the value from 0~64
+HW_WLAN0_11N_THER_RFIC=0	; RF thermal parameter, the value from 0~64
+HW_WLAN0_WSC_PIN="00000000"	; WPS PIN number.
+							; Set null will cause system generate it auto
+
+; Firmware factory-default setting
+; ---------------------------------------------------------------------------
+; LAN interface
+DEF_DEVICE_NAME="RTL865x"	; device logical namem, referred by uPNP IGD name
+DEF_ELAN_MAC_ADDR=000000000000	; Ethernet MAC clone address
+DEF_IP_ADDR=192.168.1.254	; ip address
+DEF_DHCP_CLIENT_START=192.168.1.100	; DHCP client range - start address
+DEF_DHCP_CLIENT_END=192.168.1.200	; DHCP client range - end address
+DEF_SUBNET_MASK=255.255.255.0		; subnet mask
+DEF_DEFAULT_GATEWAY=0.0.0.0		; default route
+DEF_DHCP=2			; DHCP mode, 0 - fixed ip, 1 - dhcp client, 2 - dhcp server
+DEF_STP_ENABLED=0		; spanning tree protocol flag, 0 - disable, 1 - enable
+DEF_DHCPRSVDIP_ENABLED=0;static DHCP, 0-disable, 1-enable
+DEF_DHCPRSVDIP_TBL_NUM=0
+; web management
+DEF_SUPER_NAME=super		; supervisor user name, if NULL, supervisor account will be disabled
+DEF_SUPER_PASSWORD=super	; supervisor user password, if NULL, supervisor account will be disabled
+DEF_USER_NAME=			; user name
+DEF_USER_PASSWORD=		; user password
+
+DEF_SCRLOG_ENABLED=0		; system Log flag, 0 - disabled, 1 - enabled (not supported yet)
+DEF_AUTODISCOVERY_ENABLED=1	; auto-discovery flag, 0 - disabled, 1 - enabled
+DEF_OP_MODE=1			; operation mode, 0 - bridge LAN: br0 (eth0+wlan0)
+						;  1 - bridge LAN: br0 (eth0+eth1+wlan0)
+
+
+; WLAN0 interface. Note: "WLAN0" PCI0 controller
+DEF_WLAN0_WLAN_MAC_ADDR=000000000000; clone mac address
+DEF_WLAN0_SSID=RTL865x-AP	; SSID
+DEF_WLAN0_CHANNEL=11		; channel number
+DEF_WLAN0_WEP=0			; WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits
+DEF_WLAN0_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+DEF_WLAN0_WEP64_KEY2=0000000000
+DEF_WLAN0_WEP64_KEY3=0000000000
+DEF_WLAN0_WEP64_KEY4=0000000000
+DEF_WLAN0_WEP128_KEY1=00000000000000000000000000	; WEP-128bits key1~key4
+DEF_WLAN0_WEP128_KEY2=00000000000000000000000000
+DEF_WLAN0_WEP128_KEY3=00000000000000000000000000
+DEF_WLAN0_WEP128_KEY4=00000000000000000000000000
+DEF_WLAN0_WEP_DEFAULT_KEY=0	; default tx key id (0-3)
+DEF_WLAN0_WEP_KEY_TYPE=1	; key type, 0 - ASCII, 1 - hex
+DEF_WLAN0_FRAG_THRESHOLD=2346	; fragment threshold, 256-2346
+DEF_WLAN0_RTS_THRESHOLD=2347	; RTS threshold, 0 - 2347
+DEF_WLAN0_BASIC_RATES=15	; basic rate, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+DEF_WLAN0_SUPPORTED_RATES=4095	; supported rate,  bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+DEF_WLAN0_BEACON_INTERVAL=100	; beacon interval in ms(20-1024) 
+DEF_WLAN0_PREAMBLE_TYPE=0	; preamble type, 0 - long preamble, 1 - short preamble
+DEF_WLAN0_AUTH_TYPE=2		; athentication type, 0 - open system, 1 - shared key, 2 - auto (both)
+DEF_WLAN0_HIDDEN_SSID=0		; hidden ssid, 0 - disable, 1 - enable
+DEF_WLAN0_WLAN_DISABLED=0	; wlan interface flag, 0 - wlan enabled, 1 - wlan disabled
+DEF_WLAN0_INACTIVITY_TIME=30000	; wlan client inactivity time (in 10ms)
+DEF_WLAN0_RATE_ADAPTIVE_ENABLED=1	; tx rate adaptive enable/disable, 1 - enabled, 0 - disabled
+DEF_WLAN0_MACAC_NUM=0		; existing table entry number for mac access control
+DEF_WLAN0_MACAC_ENABLED=0	; wlan mac access control flag, 0 - disable, 1 - enable
+DEF_WLAN0_DTIM_PERIOD=1		; DTIM period
+DEF_WLAN0_BLOCK_RELAY=0		; blocking packets between wireless client (relay),
+				; 0 - disabled, 1 - block relay, 2 - block relay but passup
+DEF_WLAN0_BAND=11		; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+DEF_WLAN0_FIX_RATE=0		; fixed data rate, 0-disable, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+DEF_WLAN0_MODE=0		; operation mode, 0-AP, 1-client, 2-WDS, 3-AP+WDS
+
+DEF_WLAN0_ENCRYPT=0		; 0 - Encrypt disabled, 1 - WEP, 2 - WPA, 4 - WPA2, 6 - WPA2 mixed
+DEF_WLAN0_ENABLE_1X=0		; 802.1x flag, 0 - disabled, 1 - enabled
+DEF_WLAN0_WPA_AUTH=2		; WPA authentication type, 1 - WPA-Radius, 2 - PSK
+DEF_WLAN0_WPA_CIPHER_SUITE=1	; WPA Cipher suite, 1 - TKIP, 2 - AES
+DEF_WLAN0_WPA_PSK=		; WPA PSK value
+DEF_WLAN0_WPA_GROUP_REKEY_TIME=86400; group key update time (in sec)
+DEF_WLAN0_RS_IP=0.0.0.0		; Radius serverIP address
+DEF_WLAN0_RS_PORT=1812		; Radius server port
+DEF_WLAN0_RS_PASSWORD=		; Radius server password
+DEF_WLAN0_RS_MAXRETRY=3		; Max retry of Radius server
+DEF_WLAN0_RS_INTERVAL_TIME=5	; Interval time of retry
+DEF_WLAN0_WPA2_PRE_AUTH=0	; WPA2 pre-authentication flag, 0 - disable, 1 - enable
+DEF_WLAN0_WPA2_CIPHER_SUITE=2	; WPA Cipher suite, 1 - TKIP, 2 - AES
+DEF_WLAN0_MACCLONE_ENABLED=0	; wlan mac clone flag (client mode used), 0 - disable, 1 - enable
+DEF_WLAN0_IAPP_DISABLED=0	; IAPP flag, 0 - IAPP enabled, 1 - IAPP disabled
+DEF_WLAN0_PROTECTION_DISABLED=1	; 802.11g protection mode flag, 0 - protection enable, 1 - protection disabled
+
+DEF_WLAN0_WDS_ENABLED=0		; WDS flag, 0 - disable, 1 - enable
+DEF_WLAN0_WDS_NUM=0		; existing table entry number for WDS AP
+DEF_WLAN0_WDS_ENCRYPT=0		; WDS WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits, 3-TKIP, 4-AES
+DEF_WLAN0_WDS_WEP_KEY=0000000000	; WEP key
+DEF_WLAN0_WDS_PSK_FORMAT=0	; psk format, 0 - ACSII, 1 - hex
+DEF_WLAN0_WDS_PSK=		; psk value
+
+; Universal repeater
+DEF_REPEATER_ENABLED1=0		; enable/disable universal repeater for wlan0
+DEF_REPEATER_SSID1=		; ssid of wlan0 extended interface
+DEF_WLAN0_VAP4_WLAN_DISABLED=1	; 1 - disabled, 0 - enabled
+
+; for WPS
+DEF_WLAN0_WSC_METHOD=3			; metheod, 1: PIN, 2: PBC, 3: both
+DEF_WLAN0_WSC_AUTH=1			; auth type (1: open)
+DEF_WLAN0_WSC_ENC=1				; encrypt type (1: open)
+DEF_WLAN0_WSC_UPNP_ENABLED=1	; upnp enabled flag (1: enabled)
+DEF_WLAN0_WSC_REGISTRAR_ENABLED=1 ; internal registrar enabled flag (1: enabled)
+
+; Universal repeater
+DEF_REPEATER_ENABLED2=0		; enable/disable universal repeater for wlan1
+DEF_REPEATER_SSID2=		; ssid of wlan1 extended interface
+
+;for 802.11N
+DEF_WLAN0_CHANNEL_BONDING=1 ;0-20MHz, 1-40MHz
+DEF_WLAN0_CONTROL_SIDEBAND=0 ;0-Upper, 1-Lower
+DEF_WLAN0_AGGREGATION=1 ;0-disable, 1-A-MPDU
+DEF_WLAN0_SHORT_GI=1 ;0-disable, 1-enable
+DEF_WLAN0_WMM_ENABLED=1
+
+; virtual AP1
+DEF_WLAN0_VAP0_SSID=RTL865x-GW-VAP1			; SSID
+DEF_WLAN0_VAP0_BAND=11						; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+DEF_WLAN0_VAP0_WMM_ENABLED=1				; wmm, 0 - disable, 1 - enable
+DEF_WLAN0_VAP0_HIDDEN_SSID=0				; hidden ssid, 0 - disable, 1 - enable
+DEF_WLAN0_VAP0_RATE_ADAPTIVE_ENABLED=1		; tx rate adaptive, 1 - enabled, 0 - disabled
+DEF_WLAN0_VAP0_ACCESS=0						; access mode, 0 - LAN+WAN, 1 - WAN
+DEF_WLAN0_VAP0_WLAN_DISABLED=1				; vap on/off, 1 - vap disabled, 0- vap enabled
+DEF_WLAN0_VAP0_RS_MAXRETRY=3				; Max retry of Radius server
+DEF_WLAN0_VAP0_RS_INTERVAL_TIME=5			; Interval time of retry
+DEF_WLAN0_VAP0_RS_PORT=1812					; Radius server port
+
+; virtual AP2
+DEF_WLAN0_VAP1_SSID=RTL865x-GW-VAP2			; SSID
+DEF_WLAN0_VAP1_BAND=11						; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+DEF_WLAN0_VAP1_WMM_ENABLED=1				; wmm, 0 - disable, 1 - enable
+DEF_WLAN0_VAP1_HIDDEN_SSID=0				; hidden ssid, 0 - disable, 1 - enable
+DEF_WLAN0_VAP1_RATE_ADAPTIVE_ENABLED=1		; tx rate adaptive, 1 - enabled, 0 - disabled
+DEF_WLAN0_VAP1_ACCESS=0						; access mode, 0 - LAN+WAN, 1 - WAN
+DEF_WLAN0_VAP1_WLAN_DISABLED=1				; vap on/off, 1 - vap disabled, 0- vap enabled
+DEF_WLAN0_VAP1_RS_MAXRETRY=3				; Max retry of Radius server
+DEF_WLAN0_VAP1_RS_INTERVAL_TIME=5			; Interval time of retry
+DEF_WLAN0_VAP1_RS_PORT=1812					; Radius server port
+
+; virtual AP3
+DEF_WLAN0_VAP2_SSID=RTL865x-GW-VAP3			; SSID
+DEF_WLAN0_VAP2_BAND=11						; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+DEF_WLAN0_VAP2_WMM_ENABLED=1				; wmm, 0 - disable, 1 - enable
+DEF_WLAN0_VAP2_HIDDEN_SSID=0				; hidden ssid, 0 - disable, 1 - enable
+DEF_WLAN0_VAP2_RATE_ADAPTIVE_ENABLED=1		; tx rate adaptive, 1 - enabled, 0 - disabled
+DEF_WLAN0_VAP2_ACCESS=0						; access mode, 0 - LAN+WAN, 1 - WAN
+DEF_WLAN0_VAP2_WLAN_DISABLED=1				; vap on/off, 1 - vap disabled, 0- vap enabled
+DEF_WLAN0_VAP2_RS_MAXRETRY=3				; Max retry of Radius server
+DEF_WLAN0_VAP2_RS_INTERVAL_TIME=5			; Interval time of retry
+DEF_WLAN0_VAP2_RS_PORT=1812					; Radius server port
+
+; virtual AP4
+DEF_WLAN0_VAP3_SSID=RTL865x-GW-VAP4			; SSID
+DEF_WLAN0_VAP3_BAND=11						; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+DEF_WLAN0_VAP3_WMM_ENABLED=1				; wmm, 0 - disable, 1 - enable
+DEF_WLAN0_VAP3_HIDDEN_SSID=0				; hidden ssid, 0 - disable, 1 - enable
+DEF_WLAN0_VAP3_RATE_ADAPTIVE_ENABLED=1		; tx rate adaptive, 1 - enabled, 0 - disabled
+DEF_WLAN0_VAP3_ACCESS=0						; access mode, 0 - LAN+WAN, 1 - WAN
+DEF_WLAN0_VAP3_WLAN_DISABLED=1				; vap on/off, 1 - vap disabled, 0- vap enabled
+DEF_WLAN0_VAP3_RS_MAXRETRY=3				; Max retry of Radius server
+DEF_WLAN0_VAP3_RS_INTERVAL_TIME=5			; Interval time of retry
+DEF_WLAN0_VAP3_RS_PORT=1812					; Radius server port
+
+; repeater vxd interface
+DEF_WLAN0_VXD_ENCRYPT=0		; 0 - Encrypt disabled, 1 - WEP, 2 - WPA, 4 - WPA2, 6 - WPA2 mixed
+DEF_WLAN0_VXD_ENABLE_1X=0		; 802.1x flag, 0 - disabled, 1 - enabled
+DEF_WLAN0_VXD_WPA_AUTH=2		; WPA authentication type, 1 - WPA-Radius, 2 - PSK
+DEF_WLAN0_VXD_WPA_CIPHER_SUITE=1	; WPA Cipher suite, 1 - TKIP, 2 - AES
+DEF_WLAN0_VXD_WPA_PSK=		; WPA PSK value
+DEF_WLAN0_VXD_WPA_GROUP_REKEY_TIME=86400; group key update time (in sec)
+DEF_WLAN0_VXD_RS_IP=0.0.0.0		; Radius serverIP address
+DEF_WLAN0_VXD_RS_PORT=1812		; Radius server port
+DEF_WLAN0_VXD_RS_PASSWORD=		; Radius server password
+DEF_WLAN0_VXD_RS_MAXRETRY=3		; Max retry of Radius server
+DEF_WLAN0_VXD_RS_INTERVAL_TIME=5	; Interval time of retry
+DEF_WLAN0_VXD_WPA2_PRE_AUTH=0	; WPA2 pre-authentication flag, 0 - disable, 1 - enable
+DEF_WLAN0_VXD_WPA2_CIPHER_SUITE=2	; WPA Cipher suite, 1 - TKIP, 2 - AES
+
+
+; Firmware current-used setting
+; ---------------------------------------------------------------------------
+; LAN interface
+DEVICE_NAME="RTL865x"		; device logical namem, referred by uPNP IGD name
+ELAN_MAC_ADDR=000000000000	; Ethernet MAC clone address
+IP_ADDR=192.168.1.254		; ip address
+DHCP_CLIENT_START=192.168.1.100	; DHCP client range - start address
+DHCP_CLIENT_END=192.168.1.200	; DHCP client range - end address
+SUBNET_MASK=255.255.255.0	; subnet mask
+DEFAULT_GATEWAY=0.0.0.0		; default route
+DHCP=2				; DHCP mode, 0 - fixed ip, 1 - dhcp client, 2 - dhcp server
+STP_ENABLED=0			; spanning tree protocol flag, 0 - disable, 1 - enable
+DHCPRSVDIP_ENABLED=0;static DHCP, 0-disable, 1-enable
+DHCPRSVDIP_TBL_NUM=0
+
+; web management
+SUPER_NAME=super		; supervisor user name, if NULL, supervisor account will be disabled
+SUPER_PASSWORD=super		; supervisor user password, if NULL, supervisor account will be disabled
+USER_NAME=			; user name
+USER_PASSWORD=			; user password
+
+; system management
+SCRLOG_ENABLED=0		; system Log flag, 0 - disabled, 1 - enabled (not supported yet)
+AUTODISCOVERY_ENABLED=1		; auto-discovery flag, 0 - disabled, 1 - enabled
+OP_MODE=0			; operation mode, 0 - bridge LAN: br0 (eth0+wlan0)
+				; 		  1 - bridge LAN: br0 (eth0+eth1+wlan0)
+
+; WLAN0 interface. Note: "WLAN0" means PCI0 wlan controller
+WLAN0_WLAN_MAC_ADDR=000000000000; clone mac address
+WLAN0_SSID=RTL865x-AP		; SSID
+WLAN0_CHANNEL=11		; channel number
+WLAN0_WEP=0			; WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits
+WLAN0_WEP64_KEY1=0000000000	; WEP-64bits key1~key4
+WLAN0_WEP64_KEY2=0000000000
+WLAN0_WEP64_KEY3=0000000000
+WLAN0_WEP64_KEY4=0000000000
+WLAN0_WEP128_KEY1=00000000000000000000000000	; WEP-128bits key1~key4
+WLAN0_WEP128_KEY2=00000000000000000000000000
+WLAN0_WEP128_KEY3=00000000000000000000000000
+WLAN0_WEP128_KEY4=00000000000000000000000000
+WLAN0_WEP_DEFAULT_KEY=0		; default tx key id (0-3)
+WLAN0_WEP_KEY_TYPE=1		; key type, 0 - ASCII, 1 - hex
+WLAN0_FRAG_THRESHOLD=2346	; fragment threshold, 256-2346
+WLAN0_RTS_THRESHOLD=2347	; RTS threshold, 0 - 2347
+WLAN0_BASIC_RATES=15		; basic rate, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+WLAN0_SUPPORTED_RATES=4095	; supported rate,  bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+WLAN0_BEACON_INTERVAL=100	; beacon interval in ms(20-1024) 
+WLAN0_PREAMBLE_TYPE=0		; preamble type, 0 - long preamble, 1 - short preamble
+WLAN0_AUTH_TYPE=2		; athentication type, 0 - open system, 1 - shared key, 2 - auto (both)
+WLAN0_HIDDEN_SSID=0		; hidden ssid, 0 - disable, 1 - enable
+WLAN0_WLAN_DISABLED=0		; wlan interface flag, 0 - wlan enabled, 1 - wlan disabled
+WLAN0_INACTIVITY_TIME=30000	; wlan client inactivity time (in 10ms)
+WLAN0_RATE_ADAPTIVE_ENABLED=1 	; tx rate adaptive enable/disable, 1 - enabled, 0 - disabled
+WLAN0_MACAC_NUM=0		; existing table entry number for mac access control
+WLAN0_MACAC_ENABLED=0		; wlan mac access control flag, 0 - disable, 1 - enable
+WLAN0_DTIM_PERIOD=1		; DTIM period
+WLAN0_BLOCK_RELAY=0		; blocking packets between wireless client (relay),
+				; 0 - disabled, 1 - block relay, 2 - block relay but passup
+WLAN0_BAND=11			; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+WLAN0_FIX_RATE=0		; fixed data rate, 0-disable, bit0~bit11 for rate 1,2,5.5,11,6,9,12,18,24,36,48,54M
+WLAN0_MODE=0			; operation mode, 0-AP, 1-client, 2-WDS, 3-AP+WDS
+
+WLAN0_ENCRYPT=0			; 0 - Encrypt disabled, 1 - WEP, 2 - WPA, 4 - WPA2, 6 - WPA2 mixed
+WLAN0_ENABLE_1X=0		; 802.1x flag, 0 - disabled, 1 - enabled
+WLAN0_WPA_AUTH=2		; WPA authentication type, 1 - WPA-Radius, 2 - PSK
+WLAN0_WPA_CIPHER_SUITE=1	; WPA Cipher suite, 1 - TKIP, 2 - AES
+WLAN0_WPA_PSK=			; WPA PSK value
+WLAN0_WPA_GROUP_REKEY_TIME=86400; group key update time (in sec)
+WLAN0_RS_IP=0.0.0.0		; Radius serverIP address
+WLAN0_RS_PORT=1812		; Radius server port
+WLAN0_RS_PASSWORD=		; Radius server password
+WLAN0_RS_MAXRETRY=3		; Max retry of Radius server
+WLAN0_RS_INTERVAL_TIME=5	; Interval time of retry
+WLAN0_WPA2_PRE_AUTH=0		; WPA2 pre-authentication flag, 0 - disable, 1 - enable
+WLAN0_WPA2_CIPHER_SUITE=2	; WPA Cipher suite, 1 - TKIP, 2 - AES
+WLAN0_MACCLONE_ENABLED=0	; wlan mac clone flag (client mode used), 0 - disable, 1 - enable
+WLAN0_IAPP_DISABLED=0		; IAPP flag, 0 - IAPP enabled, 1 - IAPP disabled
+WLAN0_PROTECTION_DISABLED=1	; 802.11g protection mode flag, 0 - protection enable, 1 - protection disabled
+
+WLAN0_WDS_ENABLED=0		; WDS flag, 0 - disable, 1 - enable
+WLAN0_WDS_NUM=0			; existing table entry number for WDS AP
+WLAN0_WDS_ENCRYPT=0			; WDS WEP flag, 0 - WEP disable, 1 - WEP-64bits, 2 - WEP-128bits, 3-TKIP, 4-AES
+WLAN0_WDS_WEP_KEY=0000000000	; WEP key
+WLAN0_WDS_PSK_FORMAT=0		; psk format, 0 - ACSII, 1 - hex
+WLAN0_WDS_PSK=			; psk value
+
+
+
+; for WPS
+WLAN0_WSC_METHOD=3			; metheod, 1: PIN, 2: PBC, 3: both
+WLAN0_WSC_AUTH=1			; auth type (1: open)
+WLAN0_WSC_ENC=1				; encrypt type (1: open)
+WLAN0_WSC_UPNP_ENABLED=1	; upnp enabled flag (1: enabled)
+WLAN0_WSC_REGISTRAR_ENABLED=1 ; internal registrar enabled flag (1: enabled)
+
+;for 802.11N
+WLAN0_CHANNEL_BONDING=1 ;0-20MHz, 1-40MHz
+WLAN0_CONTROL_SIDEBAND=0 ;0-Upper, 1-Lower
+WLAN0_AGGREGATION=1 ;0-disable, 1-A-MPDU
+WLAN0_SHORT_GI=1 ;0-disable, 1-enable
+WLAN0_WMM_ENABLED=1
+
+; Universal repeater
+REPEATER_ENABLED1=0		; enable/disable universal repeater for wlan0
+REPEATER_SSID1=			; ssid of wlan0 extended interface
+WLAN0_VAP4_WLAN_DISABLED=1	; 1 - disabled, 0 - enabled
+
+; virtual AP1
+WLAN0_VAP0_SSID=RTL865x-GW-VAP1			; SSID
+WLAN0_VAP0_BAND=11						; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+WLAN0_VAP0_WMM_ENABLED=1				; wmm, 0 - disable, 1 - enable
+WLAN0_VAP0_HIDDEN_SSID=0				; hidden ssid, 0 - disable, 1 - enable
+WLAN0_VAP0_RATE_ADAPTIVE_ENABLED=1		; tx rate adaptive, 1 - enabled, 0 - disabled
+WLAN0_VAP0_ACCESS=0						; access mode, 0 - LAN+WAN, 1 - WAN
+WLAN0_VAP0_WLAN_DISABLED=1				; vap on/off, 1 - vap disabled, 0- vap enabled
+WLAN0_VAP0_RS_MAXRETRY=3				; Max retry of Radius server
+WLAN0_VAP0_RS_INTERVAL_TIME=5			; Interval time of retry
+WLAN0_VAP0_RS_PORT=1812					; Radius server port
+
+; virtual AP2
+WLAN0_VAP1_SSID=RTL865x-GW-VAP2			; SSID
+WLAN0_VAP1_BAND=11						; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+WLAN0_VAP1_WMM_ENABLED=1				; wmm, 0 - disable, 1 - enable
+WLAN0_VAP1_HIDDEN_SSID=0				; hidden ssid, 0 - disable, 1 - enable
+WLAN0_VAP1_RATE_ADAPTIVE_ENABLED=1		; tx rate adaptive, 1 - enabled, 0 - disabled
+WLAN0_VAP1_ACCESS=0						; access mode, 0 - LAN+WAN, 1 - WAN
+WLAN0_VAP1_WLAN_DISABLED=1				; vap on/off, 1 - vap disabled, 0- vap enabled
+WLAN0_VAP1_RS_MAXRETRY=3				; Max retry of Radius server
+WLAN0_VAP1_RS_INTERVAL_TIME=5			; Interval time of retry
+WLAN0_VAP1_RS_PORT=1812					; Radius server port
+
+; virtual AP3
+WLAN0_VAP2_SSID=RTL865x-GW-VAP3			; SSID
+WLAN0_VAP2_BAND=11						; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+WLAN0_VAP2_WMM_ENABLED=1				; wmm, 0 - disable, 1 - enable
+WLAN0_VAP2_HIDDEN_SSID=0				; hidden ssid, 0 - disable, 1 - enable
+WLAN0_VAP2_RATE_ADAPTIVE_ENABLED=1		; tx rate adaptive, 1 - enabled, 0 - disabled
+WLAN0_VAP2_ACCESS=0						; access mode, 0 - LAN+WAN, 1 - WAN
+WLAN0_VAP2_WLAN_DISABLED=1				; vap on/off, 1 - vap disabled, 0 - vap enabled
+WLAN0_VAP2_RS_MAXRETRY=3				; Max retry of Radius server
+WLAN0_VAP2_RS_INTERVAL_TIME=5			; Interval time of retry
+WLAN0_VAP2_RS_PORT=1812					; Radius server port
+
+; virtual AP4
+WLAN0_VAP3_SSID=RTL865x-GW-VAP4			; SSID
+WLAN0_VAP3_BAND=11						; bit mask of band selection, 1-11b, 2-11g, 4-11a, 8-11n
+WLAN0_VAP3_WMM_ENABLED=1				; wmm, 0 - disable, 1 - enable
+WLAN0_VAP3_HIDDEN_SSID=0				; hidden ssid, 0 - disable, 1 - enable
+WLAN0_VAP3_RATE_ADAPTIVE_ENABLED=1		; tx rate adaptive, 1 - enabled, 0 - disabled
+WLAN0_VAP3_ACCESS=0						; access mode, 0 - LAN+WAN, 1 - WAN
+WLAN0_VAP3_WLAN_DISABLED=1				; vap on/off, 1 - vap disabled, 0 - vap enabled
+WLAN0_VAP3_RS_MAXRETRY=3				; Max retry of Radius server
+WLAN0_VAP3_RS_INTERVAL_TIME=5			; Interval time of retry
+WLAN0_VAP3_RS_PORT=1812					; Radius server port
+
+; repeater vxd interface
+WLAN0_VXD_ENCRYPT=0		; 0 - Encrypt disabled, 1 - WEP, 2 - WPA, 4 - WPA2, 6 - WPA2 mixed
+WLAN0_VXD_ENABLE_1X=0		; 802.1x flag, 0 - disabled, 1 - enabled
+WLAN0_VXD_WPA_AUTH=2		; WPA authentication type, 1 - WPA-Radius, 2 - PSK
+WLAN0_VXD_WPA_CIPHER_SUITE=1	; WPA Cipher suite, 1 - TKIP, 2 - AES
+WLAN0_VXD_WPA_PSK=		; WPA PSK value
+WLAN0_VXD_WPA_GROUP_REKEY_TIME=86400; group key update time (in sec)
+WLAN0_VXD_RS_IP=0.0.0.0		; Radius serverIP address
+WLAN0_VXD_RS_PORT=1812		; Radius server port
+WLAN0_VXD_RS_PASSWORD=		; Radius server password
+WLAN0_VXD_RS_MAXRETRY=3		; Max retry of Radius server
+WLAN0_VXD_RS_INTERVAL_TIME=5	; Interval time of retry
+WLAN0_VXD_WPA2_PRE_AUTH=0	; WPA2 pre-authentication flag, 0 - disable, 1 - enable
+WLAN0_VXD_WPA2_CIPHER_SUITE=2	; WPA Cipher suite, 1 - TKIP, 2 - AES

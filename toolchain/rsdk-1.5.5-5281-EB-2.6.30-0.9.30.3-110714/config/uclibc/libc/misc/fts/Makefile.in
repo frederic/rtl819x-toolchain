@@ -1,0 +1,22 @@
+# FTS Makefile for uClibc
+#
+# Copyright (C) 2009 STMicroelectronics Ltd.
+# Author: Salvatore Cro <salvatore....@st.com>
+#
+# Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
+#
+
+CSRC := fts.c
+
+MISC_FTS_DIR := $(top_srcdir)libc/misc/fts
+MISC_FTS_OUT := $(top_builddir)libc/misc/fts
+
+MISC_FTS_SRC := $(patsubst %.c,$(MISC_FTS_DIR)/%.c,$(CSRC))
+MISC_FTS_OBJ := $(patsubst %.c,$(MISC_FTS_OUT)/%.o,$(CSRC))
+
+libc-$(UCLIBC_HAS_FTS) += $(MISC_FTS_OBJ)
+
+objclean-$(UCLIBC_HAS_FTS) += misc_fts_clean
+
+misc_fts_clean:
+	$(do_rm) $(addprefix $(MISC_FTS_OUT)/*., o os)

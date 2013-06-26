@@ -1,0 +1,358 @@
+##### hostapd configuration file ##############################################
+
+interface=wlan0
+bridge=br0
+driver=realtek
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+logger_stdout_level=2
+dump_file=/tmp/hostapd.dump
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+
+##### IEEE 802.11 related configuration #######################################
+
+ssid=Realtek_HAPD_AP_OPEN
+#country_code=US
+#ieee80211d=1
+hw_mode=g
+channel=7
+beacon_int=100
+dtim_period=2
+max_num_sta=32
+rts_threshold=2347
+fragm_threshold=2346
+supported_rates=10 20 55 110 60 90 120 180 240 360 480 540
+basic_rates=10 20
+preamble=1
+macaddr_acl=0
+#accept_mac_file=/tmp/hostapd.accept
+#deny_mac_file=/tmp/hostapd.deny
+ignore_broadcast_ssid=0
+#tx_queue_data3_aifs=7
+#tx_queue_data3_cwmin=15
+#tx_queue_data3_cwmax=1023
+#tx_queue_data3_burst=0
+#tx_queue_data2_aifs=3
+#tx_queue_data2_cwmin=15
+#tx_queue_data2_cwmax=63
+#tx_queue_data2_burst=0
+#tx_queue_data1_cwmin=7
+#tx_queue_data1_cwmax=15
+#tx_queue_data1_burst=3.0
+#tx_queue_data0_aifs=1
+#tx_queue_data0_cwmin=3
+#tx_queue_data0_cwmax=7
+#tx_queue_data0_burst=1.5
+#tx_queue_after_beacon_aifs=2
+#tx_queue_after_beacon_cwmin=15
+#tx_queue_after_beacon_cwmax=1023
+#tx_queue_after_beacon_burst=0
+#tx_queue_beacon_aifs=2
+#tx_queue_beacon_cwmin=3
+#tx_queue_beacon_cwmax=7
+#tx_queue_beacon_burst=1.5
+wmm_enabled=1
+wmm_ac_bk_cwmin=4
+wmm_ac_bk_cwmax=10
+wmm_ac_bk_aifs=7
+wmm_ac_bk_txop_limit=0
+wmm_ac_bk_acm=0
+wmm_ac_be_aifs=3
+wmm_ac_be_cwmin=4
+wmm_ac_be_cwmax=10
+wmm_ac_be_txop_limit=0
+wmm_ac_be_acm=0
+wmm_ac_vi_aifs=2
+wmm_ac_vi_cwmin=3
+wmm_ac_vi_cwmax=4
+wmm_ac_vi_txop_limit=94
+wmm_ac_vi_acm=0
+wmm_ac_vo_aifs=2
+wmm_ac_vo_cwmin=2
+wmm_ac_vo_cwmax=3
+wmm_ac_vo_txop_limit=47
+wmm_ac_vo_acm=0
+ap_max_inactivity=300
+bridge_packets=1
+#max_listen_interval=100
+
+auth_algs=8
+#wep_default_key=0
+#wep_key0="11111"
+#wep_key1="11111"
+#wep_key2="11111"
+#wep_key3="11111"
+#wep_key_len_broadcast=5
+#wep_key_len_unicast=5
+#wep_rekey_period=86400
+
+##### IEEE 802.11n related configuration ######################################
+
+ieee80211n=1
+#ht_capab=[HT40-][SHORT-GI-20][SHORT-GI-40]
+
+##### IEEE 802.1X-2004 related configuration ##################################
+
+#ieee8021x=1
+#eapol_version=1
+#eap_message=hello
+#eapol_key_index_workaround=0
+#eap_reauth_period=3600
+#use_pae_group_addr=1
+
+##### Integrated EAP server ###################################################
+
+#eap_server=1
+#eap_user_file=/tmp/hostapd.eap_user
+#ca_cert=/etc/hostapd.ca.pem
+#server_cert=/etc/hostapd.server.pem
+#private_key=/etc/hostapd.server.prv
+#private_key_passwd=secret passphrase
+#check_crl=1
+#dh_file=/etc/hostapd.dh.pem
+#eap_sim_db=unix:/tmp/hlr_auc_gw.sock
+#pac_opaque_encr_key=000102030405060708090a0b0c0d0e0f
+#eap_fast_a_id=101112131415161718191a1b1c1d1e1f
+#eap_fast_a_id_info=test server
+#eap_fast_prov=3
+#pac_key_lifetime=604800
+#pac_key_refresh_time=86400
+#eap_sim_aka_result_ind=1
+#tnc=1
+
+##### IEEE 802.11f - Inter-Access Point Protocol (IAPP) #######################
+
+#iapp_interface=br0
+
+##### RADIUS client configuration #############################################
+
+own_ip_addr=192.168.1.254
+#nas_identifier=ap.example.com
+#auth_server_addr=192.168.1.188
+#auth_server_port=1812
+#auth_server_shared_secret=realtek_123
+#acct_server_addr=127.0.0.1
+#acct_server_port=1813
+#acct_server_shared_secret=secret
+#radius_retry_primary_interval=600
+#radius_acct_interim_interval=600
+#dynamic_vlan=0
+#vlan_file=/etc/hostapd.vlan
+#vlan_tagged_interface=eth0
+
+##### RADIUS authentication server configuration ##############################
+
+#radius_server_clients=/etc/hostapd.radius_clients
+#radius_server_auth_port=1812
+#radius_server_ipv6=1
+
+##### WPA/IEEE 802.11i configuration ##########################################
+
+#wpa=3
+#wpa_psk=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+#wpa_passphrase=1234567890123
+#wpa_psk_file=/etc/hostapd.wpa_psk
+#wpa_key_mgmt=WPA-PSK
+#wpa_pairwise=CCMP TKIP
+#rsn_pairwise=CCMP
+#wpa_group_rekey=86400
+#wpa_strict_rekey=1
+#wpa_gmk_rekey=86400
+#wpa_ptk_rekey=600
+#rsn_preauth=1
+#rsn_preauth_interfaces=eth0
+#peerkey=1
+#ieee80211w=0
+#assoc_sa_query_max_timeout=1000
+#assoc_sa_query_retry_timeout=201
+#okc=1
+
+##### IEEE 802.11r configuration ##############################################
+
+#mobility_domain=a1b2
+#r0_key_lifetime=10000
+#r1_key_holder=000102030405
+#reassociation_deadline=1000
+#r0kh=02:01:02:03:04:05 r0kh-1.example.com 000102030405060708090a0b0c0d0e0f
+#r0kh=02:01:02:03:04:06 r0kh-2.example.com 00112233445566778899aabbccddeeff
+#r1kh=02:01:02:03:04:05 02:11:22:33:44:55 000102030405060708090a0b0c0d0e0f
+#r1kh=02:01:02:03:04:06 02:11:22:33:44:66 00112233445566778899aabbccddeeff
+#pmk_r1_push=1
+
+##### Passive scanning ########################################################
+
+#passive_scan_listen=10000
+#passive_scan_mode=1
+#ap_table_max_size=255
+#ap_table_expiration_time=3600
+
+##### Wi-Fi Protected Setup (WPS) #############################################
+
+wps_state=2
+ap_setup_locked=0
+uuid=63041253-1019-2006-1228-00D24C819881
+#wps_pin_requests=/var/run/hostapd_wps_pin_requests
+device_name=Realtek HAPD_DEV AP
+manufacturer=Realtek Semiconductor Corp.
+model_name=RTL8xxx
+model_number=EV-2009-02-06
+serial_number=123456789012347
+device_type=6-0050F204-1
+os_version=80000000
+config_methods=push_button keypad
+ap_pin=33543208
+#skip_cred_build=1
+#extra_cred=hostapd.cred
+#wps_cred_processing=0
+#ap_settings=hostapd.ap_settings
+#upnp_iface=br0
+#friendly_name=Realtek HAPD_FR AP
+#manufacturer_url=http://www.example.com/
+#model_description=Wireless Access Point
+#model_url=http://www.example.com/model/
+#upc=123456789012
+
+##### Multiple BSSID support ##################################################
+
+#bss=wlan0_0
+#ssid=test2
+
+#bss=wlan0_1
+#bssid=00:d2:4c:81:98:81
+# ...
+
+##### Realtek priv config support #############################################
+
+## CCK Tx power level for 14 channels (28 hex digits) for path A
+## Value: RF module dependent
+pwrlevelCCK_A=44 44 44 44 44 44 44 44 44 43 43 43 43 43
+
+## CCK Tx power level for 14 channels (28 hex digits) for path B
+## Value: RF module dependent
+pwrlevelCCK_B=42 42 42 41 41 41 41 41 41 41 41 41 41 41
+
+## 40MHz mode HT OFDM 1 spatial stream Tx power level for 14 channels (28 hex digits) for path A
+## Value: RF module dependent
+pwrlevelHT40_1S_A=45 45 45 45 45 45 45 45 45 44 44 44 44 44
+
+## 40MHz mode HT OFDM 1 spatial stream Tx power level for 14 channels (28 hex digits) for path B
+## Value: RF module dependent
+pwrlevelHT40_1S_B=42 42 42 42 42 42 42 42 42 42 42 42 42 42
+
+## 40MHz mode HT OFDM 2 spatial stream Tx power difference between HT40_1S for 14 channels (28 hex digits). 
+## Bit[3:0] for path A. Bit[7:4] for path B.
+## Value: RF module dependent
+pwrdiffHT40_2S=00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+## 20MHz mode HT OFDM Tx power difference between HT40_1S for 14 channels (28 hex digits). 
+## Bit[3:0] for path A. Bit[7:4] for path B.
+## Value: RF module dependent
+pwrdiffHT20=35 35 35 17 17 17 17 17 17 33 33 33 33 33
+
+## Legacy OFDM Tx power difference between HT40_1S for 14 channels (28 hex digits). 
+## Bit[3:0] for path A. Bit[7:4] for path B.
+## Value: RF module dependent
+pwrdiffOFDM=69 69 69 51 51 51 51 51 51 67 67 67 67 67
+
+## Thermal value
+## Value: 0-255
+ther=13	
+
+## Physical band selection
+## BIT(0): 2G
+## BIT(1): 5G		  
+phyBandSelect=0	
+
+## S/w encryption enabled/disabled
+## 0 = Disable 
+## 1 = Enable  																											   
+swcrypto=0	
+
+## Regulation domain
+## Value: 1-10 (FCC, IC, ETSI, SPAIN, FRANCE, MKK, ISREAL, MKK1, MKK2, MKK3)			   
+regdomain=1 
+
+## Auto rate adaptive
+## 0 = Disable 
+## 1 = Enable  
+autorate=1
+
+## Fixed Tx rate
+## Bit0-bit11 for 1,2,5.5,11,6,9,12,18,24,,36,48,54M
+## Bit12-Bit27 for MCS0,MCS1,¡K,MCS15
+## Works only when autorate disabled.
+fixrate=0
+
+## Forcedly disable protection mode
+## 0 = Auto
+## 1 = Force diable protection 	   
+disable_protection=1		   
+
+## Forcedly OLBC detection
+## 0 = Auto
+## 1 = Force disable olbc protection
+disable_olbc=0	   
+
+## Deny the association from legacy STA
+## 0 = Disable
+## 1 = Deny association from legacy (11B) STA
+deny_legacy=0	
+
+## Operation mode (AP or client)
+## 8  = Infrastructure client
+## 16 = AP
+## 32 = Ad-hoc client																   
+opmode=16	
+
+## Tell driver if multiple AP function is enabled or disabled
+## 0 = Disable 
+## 1 = Enable																  
+vap_enable=0
+
+## Support 40M bandwidth in 11n mode
+## 0 = 20MHz
+## 1 = 40MHz
+use40M=1  
+
+## Control sideband offset
+## 0 = Don't care
+## 1 = Secondary channel is below the primary channel
+## 2 = Secondary channel is above the primary channel
+2ndchoffset=1
+
+ampdu=1											 
+coexist=0																								
+rssi_dump=0						
+mp_specific=0				  
+use_ext_pa=0
+
+
+
+##### Realtek WDS config support #############################################
+## 0 = disable wds ; 1 = enable wds
+wds_enable=1
+
+## Config WDS AP List
+wds_num=2
+wds_mac1=00:e0:4c:81:96:39
+wds_mac2=22:55:33:66:55:66
+#wds_mac3=
+#wds_mac4=
+
+## choose one of these encryptions for wds_enc_type
+## 0 = No privacy
+## 1 = WEP 40
+## 2 = WPA TKIP
+## 4 = WPA2 CCMP
+## 5 = WEP 104
+wds_enc_type=1
+
+## wds_ssid & wds_passphrase are used for generating 
+## wpa key if encryption type is TKIP or CCMP
+wds_ssid=REALTEK
+wds_passphrase=123456789012345
+
+## Set WEP key if encryption type is WEP 40 or WEP 104
+wds_wepkey="12345"

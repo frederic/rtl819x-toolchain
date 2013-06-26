@@ -1,0 +1,211 @@
+socket.o: socket.c ./config.h ./includes.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/string.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/features.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_config.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_arch_features.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/cdefs.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/gcc/stddef.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/stdio.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/types.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/wordsize.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/kernel_types.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/typesizes.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/pthreadtypes.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sched.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_stdio.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/wchar.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/wchar.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_mutex.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/pthread.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sched.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/time.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/time.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_clk_tck.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/signal.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigset.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/initspin.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigthread.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_pthread.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/gcc/stdarg.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/stdio_lim.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/stdlib.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/types.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/endian.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/endian.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/select.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/select.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/sysmacros.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/alloca.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/syslog.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/syslog.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/unistd.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/posix_opt.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/confname.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/getopt.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/errno.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/errno.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/errno.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/errno.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm-generic/errno-base.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/signum.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/siginfo.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigaction.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigcontext.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sgidefs.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigstack.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/netdb.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/netinet/in.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/stdint.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/socket.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/uio.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uio.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/socket.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/limits.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/gcc/limits.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/posix1_lim.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/local_lim.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/limits.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_local_lim.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/posix2_lim.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sockaddr.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/socket.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/sockios.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/ioctl.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/in.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/byteswap.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/rpc/netdb.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/netdb.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/pwd.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/grp.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/inttypes.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/param.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/param.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/param.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/time.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/ioctl.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/ioctls.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/ioctls.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/ioctl-types.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/ttydefaults.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/stat.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/stat.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/fcntl.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/fcntl.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/netinet/ip6.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/netinet/icmp6.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/arpa/inet.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/sysctl.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/sysctl.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/kernel.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/types.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/net/if.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/net/if_arp.h \
+  /home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/getopt.h \
+  ./radvd.h ./defaults.h
+socket.c :
+./config.h :
+./includes.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/string.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/features.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_config.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_arch_features.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/cdefs.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/gcc/stddef.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/stdio.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/types.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/wordsize.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/kernel_types.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/typesizes.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/pthreadtypes.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sched.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_stdio.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/wchar.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/wchar.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_mutex.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/pthread.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sched.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/time.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/time.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_clk_tck.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/signal.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigset.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/initspin.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigthread.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_pthread.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/gcc/stdarg.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/stdio_lim.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/stdlib.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/types.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/endian.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/endian.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/select.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/select.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/sysmacros.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/alloca.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/syslog.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/syslog.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/unistd.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/posix_opt.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/confname.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/getopt.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/errno.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/errno.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/errno.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/errno.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm-generic/errno-base.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/signum.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/siginfo.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigaction.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigcontext.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sgidefs.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sigstack.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/netdb.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/netinet/in.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/stdint.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/socket.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/uio.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uio.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/socket.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/limits.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/gcc/limits.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/posix1_lim.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/local_lim.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/limits.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/uClibc_local_lim.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/posix2_lim.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/sockaddr.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/socket.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/sockios.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/ioctl.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/in.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/byteswap.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/rpc/netdb.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/netdb.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/pwd.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/grp.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/inttypes.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/param.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/param.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/param.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/time.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/ioctl.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/ioctls.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/asm/ioctls.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/ioctl-types.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/ttydefaults.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/stat.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/stat.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/fcntl.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/bits/fcntl.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/netinet/ip6.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/netinet/icmp6.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/arpa/inet.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/sys/sysctl.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/sysctl.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/kernel.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/linux/types.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/net/if.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/net/if_arp.h :
+/home198/backup/backup2/cary_lee/30/910/toolchain/rsdk-1.3.6-5181-EB-2.6.30-0.9.30/include/getopt.h :
+./radvd.h :
+./defaults.h :

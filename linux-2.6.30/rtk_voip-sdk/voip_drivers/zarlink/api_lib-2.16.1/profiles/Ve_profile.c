@@ -1,0 +1,26 @@
+
+#include "Ve_profile.h"
+#ifdef CONFIG_RTK_VOIP_DRIVERS_SLIC_ZARLINK_ON_NEW_ARCH
+#include "snd_define.h"
+#else
+#include "Slic_api.h"
+#endif
+
+/************** User defined Cadence_Definitions **************/
+#ifdef CONFIG_RTK_VOIP_SLIC_ZARLINK_880_SERIES
+VpProfileDataType LE880_RING_CAD_USER_DEF[] = 
+{
+  /* Cadence Profile */
+ 0x00, 0x08, 0x00, 0x0E, 0x00, 0x00, 0x00, 0x0A, 0x01, 0x07, 0x21, 0x90,
+ 0x01, 0x05, 0x23, 0x20, 0x40, 0x00
+};
+#endif
+
+#ifdef CONFIG_RTK_VOIP_SLIC_ZARLINK_890_SERIES
+VpProfileDataType LE890_RING_CAD_USER_DEF[] = 
+{
+  /* Cadence Profile */
+ 0x00, 0x08, 0x00, 0x0E, 0x00, 0x00, 0x00, 0x0A, 0x01, 0x07, 0x21, 0x90,
+ 0x01, 0x05, 0x23, 0x20, 0x40, 0x00
+};
+#endif

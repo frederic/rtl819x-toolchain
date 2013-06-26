@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# This script is an input filter for printcap printing on a unix machine. It
+# uses the smbclient program to print the file to the specified smb server
+# and service.
+# For example you could have a printcap entry like this
+#
+# smb:lp=/dev/null:sd=/usr/spool/smb:sh:if=/usr/local/smb/smbprint
+#
+# which would create a unix printer called "smb" that will print via this 
+# script. You will need to create the spool directory /usr/spool/smb with
+# appropriate permissions and ownerships for your system.
+
+# Set these to the server and service you wish to print to
+server=fjall
+service=spool
+password=""
+
+(
+	echo "print -"
+	cat
+) | /home/tridge/server/smbclient "\\\\$server\\$service" $password -N -P > /dev/null
+
