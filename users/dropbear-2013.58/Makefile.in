@@ -213,3 +213,9 @@ distclean: clean tidy
 
 tidy:
 	-rm -f *~ *.gcov */*~
+
+romfs:
+	$(ROMFSINST) dropbear /bin/dropbear
+	$(ROMFSINST) dbclient /bin/dbclient
+	$(ROMFSINST) dropbearkey /bin/dropbearkey
+	$(ROMFSINST) dropbearconvert /bin/dropbearconvert
