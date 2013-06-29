@@ -449,3 +449,6 @@ releasetar:
 
 depend: $(GENSRC)
 	${srcdir}/mkdep -c $(CC) $(DEFS) $(INCLS) $(SRC)
+
+romfs:
+	$(ROMFSINST) tcpdump /bin/tcpdump
