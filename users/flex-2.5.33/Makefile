@@ -5,7 +5,7 @@ OBJEXT = o
 #CC = gcc
 CC = mips-linux-gcc
 CFLAGS += -g -Os
-AR = mips-uclibc-ar
+AR = mips-linux-ar
 #LDFLAGS = 
 lib_LIBRARIES = libfl.a
 
