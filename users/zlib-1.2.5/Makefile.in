@@ -234,6 +234,9 @@ tags:
 depend:
 	makedepend -- $(CFLAGS) -- *.[ch]
 
+romfs:
+	$(ROMFSINST) libz.so.1.2.5 /lib/libz.so.1
+
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 
 adler32.o zutil.o: zutil.h zlib.h zconf.h

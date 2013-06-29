@@ -235,8 +235,7 @@ depend:
 	makedepend -- $(CFLAGS) -- *.[ch]
 
 romfs:
-	$(ROMFSINST) libz.so.1.2.5 /lib/libz.so.1.2.5
-	$(ROMFSINST) -s libz.so.1.2.5 /lib/libz.so.1
+	$(ROMFSINST) libz.so.1.2.5 /lib/libz.so.1
 
 # DO NOT DELETE THIS LINE -- make depend depends on it.
 
