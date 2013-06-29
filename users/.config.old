@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # RLX Linux builder
-# Thu Jan  5 15:10:38 2012
+# Thu Jan  5 15:50:11 2012
 #
 
 #
@@ -48,11 +48,13 @@ CONFIG_APP_NTPCLIENT=y
 # CONFIG_APP_ORAYDDNS is not set
 # CONFIG_APP_PATHSEL is not set
 CONFIG_APP_PPPD=y
+# CONFIG_PPPOE_DISCONNECT_FLOW_PATCH is not set
 CONFIG_APP_PPTP=y
 # CONFIG_APP_ECMH is not set
 # CONFIG_APP_RADVD is not set
 CONFIG_APP_RELOAD=y
 CONFIG_APP_ROUTED=y
+CONFIG_APP_FWD=y
 CONFIG_APP_RTK_CMD=y
 # CONFIG_APP_SAMBA is not set
 CONFIG_APP_SCRIPT=y
@@ -75,6 +77,7 @@ CONFIG_APP_WSC=y
 # CONFIG_APP_NFBI_HOST is not set
 # CONFIG_APP_IOH is not set
 # CONFIG_APP_NMBS is not set
+# CONFIG_APP_AUTORUNIMG is not set
 
 #
 # USB3G support
