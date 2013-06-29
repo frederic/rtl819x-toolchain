@@ -552,4 +552,18 @@ config APP_LIBICONV
 	help
 	 libiconv-1.14
 	default y
+config APP_DROPBEAR
+	bool "dropbear"
+	select LIB_Z
+	help
+	 Dropbear SSH server
+config LIB_PCAP
+	bool "libpcap"
+	help
+	 PCAP library
+config APP_TCPDUMP
+	bool "tcpdump"
+	select LIB_PCAP
+	help
+	 tcpdump
 ##############################################################################

@@ -208,6 +208,8 @@ app_$(CONFIG_APP_TR069)			+= cwmp-tr069
 app_$(CONFIG_APP_UWIFI)		+= uWiFi
 app_$(CONFIG_APP_NMBS)		+= nbserver
 app_$(CONFIG_APP_AUTORUNIMG)    += autorun_img_tool
+app_$(CONFIG_APP_DROPBEAR)	+= dropbear-2013.58
+app_$(CONFIG_APP_TCPDUMP)	+= tcpdump-4.3.0
 
 # USB3G
 app_$(CONFIG_APP_COMGT)			+= comgt.0.32
@@ -258,6 +260,7 @@ ifdef CONFIG_RTL_802_1X_CLIENT_SUPPORT
 lib_$(CONFIG_APP_OPENSSL-0.9.8B)	+= openssl-0.9.8b
 lib_$(CONFIG_APP_OPENSSL-0.9.8I)	+= openssl-0.9.8i
 endif
+lib_$(CONFIG_LIB_PCAP)	+= libpcap-1.3.0
 
 lib:
 ifneq ($(lib_y),)
@@ -444,6 +447,22 @@ ifeq ($(CONFIG_APP_RADVD),y)
 	fi
 endif
 
+ifeq ($(CONFIG_APP_DROPBEAR),y)
+	@if [ ! -e ./dropbear-2013.58/Makefile ]; then \
+		cd ./dropbear-2013.58; \
+		./configure --host=mips-linux --with-zlib=../zlib-1.2.5/; \
+		touch Makefile.in; \
+	fi
+endif
+
+ifeq ($(CONFIG_APP_TCPDUMP),y)
+	@if [ ! -e ./tcpdump-4.3.0/Makefile ]; then \
+		cd ./tcpdump-4.3.0; \
+		ac_cv_linux_vers=2 ./configure --host=mips-linux; \
+		touch Makefile.in; \
+	fi
+endif
+
 prepare_lib:
 ifeq ($(CONFIG_APP_LIBICONV),y)
 	cd ./libiconv-1.14; \
@@ -456,6 +475,17 @@ ifeq ($(CONFIG_APP_LIBICONV),y)
 	make; \
 	cd ..
 endif
+
+ifeq ($(CONFIG_LIB_PCAP),y)
+	cd ./libpcap-1.3.0; \
+	if [ ! -f libpcap_config_done ]; then \
+		./configure --host=mips-linux --with-pcap=linux; \
+		rm -f libpcap_config_done; touch libpcap_config_done; \
+	fi; \
+	make; \
+	cd ..
+endif
+
 
 prepare_app:
 ifeq ($(CONFIG_APP_SNMP),y)
