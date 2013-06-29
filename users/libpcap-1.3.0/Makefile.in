@@ -148,7 +148,7 @@ TAGFILES = \
 
 CLEANFILES = $(OBJ) libpcap.* $(TESTS) \
 	$(PROG)-`cat $(srcdir)/VERSION`.tar.gz $(GENSRC) $(GENHDR) \
-	lex.yy.c pcap-config
+	lex.yy.c pcap-config libpcap_config_done
 
 MAN1 = pcap-config.1
 
@@ -733,3 +733,6 @@ Makefile: Makefile.in config.status
 	./config.status
 	@echo your Makefile was out of date, now run $(MAKE) again
 	exit 1
+romfs:
+	
+
