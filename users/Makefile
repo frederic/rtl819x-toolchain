@@ -450,7 +450,7 @@ endif
 ifeq ($(CONFIG_APP_DROPBEAR),y)
 	@if [ ! -e ./dropbear-2013.58/Makefile ]; then \
 		cd ./dropbear-2013.58; \
-		./configure --host=mips-linux --with-zlib=../zlib-1.2.5/; \
+		./configure --host=mips-linux --disable-openpty --with-zlib=../zlib-1.2.5/; \
 		touch Makefile.in; \
 	fi
 endif

@@ -97,6 +97,9 @@ echo "32" > /proc/sys/net/netfilter/nf_conntrack_expect_max
 #echo 1 > /proc/sys/net/ipv4/ip_forward #don't enable ip_forward before set MASQUERADE
 #echo 2048 > /proc/sys/net/core/hot_list_length
 
+# start dropbear server
+dropbear -E
+
 # start web server
 webs&
 

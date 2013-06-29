@@ -17,14 +17,12 @@ a=0
 while read line
 do  a=$(($a+1));
 	name=`echo $line |cut -d" " -f1`
-	#name=`echo $lname |cut -d"/" -f3`
+	mode=`echo $line |cut -d" " -f3`
 	type=`echo $line |cut -d" " -f2 `
 	major=`echo $line |cut -d" " -f6 `
 	minor=`echo $line |cut -d" " -f7 `
-    echo $name $type $major $minor
-    #echo $a;
-	mknod -m666 $RAMFSDIR/$name $type $major $minor
-	chmod 777 $RAMFSDIR/$name
+    echo $name $type $mode $major $minor
+    mknod -m $mode $RAMFSDIR/$name $type $major $minor
 done < $SQUASHFS_PF_LIST
 
 echo "Total dev count is: $a";

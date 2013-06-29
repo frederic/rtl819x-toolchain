@@ -68,12 +68,13 @@ echo "/dev/mtdblock0 b 666 root root  31  0" >> squashfs-pf-list.txt
 
 #DEVICES="$DEVICES  ttyS1,c,4,65   ppp,c,108,0 	ptyp0,c,2,0
 #	ptyp1,c,2,1	ttyp0,c,3,0	ttyp1,c,3,1	urandom,c,1,9"
+echo "/dev/tty       c 622 root root   5  0" >> squashfs-pf-list.txt
 echo "/dev/ttyS1     c 666 root root   4 65" >> squashfs-pf-list.txt
 echo "/dev/ppp       c 666 root root 108  0" >> squashfs-pf-list.txt
 echo "/dev/ptyp0     c 666 root root   2  0" >> squashfs-pf-list.txt
 echo "/dev/ptyp1     c 666 root root   2  1" >> squashfs-pf-list.txt
-echo "/dev/ttyp0     c 666 root root   3  0" >> squashfs-pf-list.txt
-echo "/dev/ttyp1     c 666 root root   3  1" >> squashfs-pf-list.txt
+echo "/dev/ttyp0     c 622 root root   3  0" >> squashfs-pf-list.txt
+echo "/dev/ttyp1     c 622 root root   3  1" >> squashfs-pf-list.txt
 echo "/dev/urandom   c 666 root root   1  9" >> squashfs-pf-list.txt
 echo "/dev/ptmx      c 666 root tty    5  2" >> squashfs-pf-list.txt
 
