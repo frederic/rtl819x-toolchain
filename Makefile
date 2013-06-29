@@ -147,7 +147,7 @@ users_menuconfig:
 	$(MAKE) -C $(DIR_USERS) menuconfig; 
 
 #
-# 3. romfs
+# 3. romfs + ulibs
 #
 #	[ -d $(DIR_ROMFS) ] || mkdir $(DIR_ROMFS)
 .PHONY: romfs
@@ -156,7 +156,7 @@ romfs:
 	cp -R $(DIR_RSDK)/lib/*.so $(DIR_ROMFS)/lib
 	cp -R $(DIR_RSDK)/lib/*.so.* $(DIR_ROMFS)/lib
 	chmod 755 $(DIR_ROMFS)/lib/*.so
-	$(MAKE) -C $(DIR_USERS) TOOLCHAIN=$(TOOLCHAIN) romfs || exit $$?
+	$(MAKE) -C $(DIR_USERS) TOOLCHAIN=$(TOOLCHAIN) romfs ulibs || exit $$?
 	$(LSTRIP) $(DIR_ROMFS)
 
 #
