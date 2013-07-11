@@ -38,6 +38,9 @@ all : lib/localcharset.h force
 	cd man && $(MAKE) all
 	if test -d tests; then cd tests && $(MAKE) all; fi
 
+romfs:
+
+
 lib/localcharset.h :
 	builddir="`pwd`"; cd libcharset && $(MAKE) all && $(MAKE) install-lib libdir="$$builddir/lib" includedir="$$builddir/lib"
 
