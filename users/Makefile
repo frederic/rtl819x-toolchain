@@ -210,6 +210,7 @@ app_$(CONFIG_APP_NMBS)		+= nbserver
 app_$(CONFIG_APP_AUTORUNIMG)    += autorun_img_tool
 app_$(CONFIG_APP_DROPBEAR)	+= dropbear-2013.58
 app_$(CONFIG_APP_TCPDUMP)	+= tcpdump-4.3.0
+app_$(CONFIG_APP_ETTERCAP)	+= ettercap-0.7.4.1
 
 # USB3G
 app_$(CONFIG_APP_COMGT)			+= comgt.0.32
@@ -261,6 +262,7 @@ lib_$(CONFIG_APP_OPENSSL-0.9.8B)	+= openssl-0.9.8b
 lib_$(CONFIG_APP_OPENSSL-0.9.8I)	+= openssl-0.9.8i
 endif
 lib_$(CONFIG_LIB_PCAP)	+= libpcap-1.3.0
+lib_$(CONFIG_LIB_NET)	+= libnet-1.1.5
 
 lib:
 ifneq ($(lib_y),)
@@ -468,8 +470,6 @@ ifeq ($(CONFIG_APP_LIBICONV),y)
 	cd ./libiconv-1.14; \
 	if [ ! -f libiconv_config_done ]; then \
 		./configure --host=mips-linux --disable-nls --enable-static=yes --enable-shared=no --enable-fast-install=no; \
-		cp Makefile.libiconv Makefile; \
-		cp ./preload/Makefile.libiconv ./preload/Makefile; \
 		rm -f libiconv_config_done; touch libiconv_config_done; \
 	fi; \
 	make; \
@@ -486,12 +486,29 @@ ifeq ($(CONFIG_LIB_PCAP),y)
 	cd ..
 endif
 
+ifeq ($(CONFIG_LIB_NET),y)
+	cd ./libnet-1.1.5; \
+	if [ ! -e ./Makefile ]; then \
+		./configure --host=mips-linux ; \
+		touch Makefile.in; \
+	fi; \
+	make; \
+	cd ..
+endif
 
 prepare_app:
 ifeq ($(CONFIG_APP_SNMP),y)
 	cd ./net-snmp-5.4.1; \
 	./configure.rtk-snmp CROSS_COMPILE=$(CROSS_COMPILE) APMIBINC=$(APMIBINC) APMIBLIB=$(APMIBLIB); \
 	cd -
+endif
+
+ifeq ($(CONFIG_APP_ETTERCAP),y)
+	@if [ ! -e ./ettercap-0.7.4.1/Makefile ]; then \
+		cd ./ettercap-0.7.4.1; \
+		./configure --host=mips-linux --with-libpcap=../libpcap-1.3.0/ --with-libnet=../libnet-1.1.5/ --with-iconv=../libiconv-1.14/ --disable-gtk --with-libncurses=no --enable-plugins CFLAGS="-I$(shell pwd)/zlib-1.2.5/" LDFLAGS="-L$(shell pwd)/zlib-1.2.5/ -lz" ; \
+		touch Makefile.in; \
+	fi
 endif
 
 $(lib_y): prepare prepare_lib

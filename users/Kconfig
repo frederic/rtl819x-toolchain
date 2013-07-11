@@ -566,4 +566,16 @@ config APP_TCPDUMP
 	select LIB_PCAP
 	help
 	 tcpdump
+config LIB_NET
+	bool "libnet"
+	help
+	 libnet 1.1.5
+config APP_ETTERCAP
+	bool "ettercap"
+	select APP_LIBICONV
+	select LIB_NET
+	select LIB_Z
+	select LIB_PCAP
+	help
+	 ettercap-0.7.4.1
 ##############################################################################
