@@ -649,6 +649,8 @@ ps: ps-recursive
 
 ps-am:
 
+romfs:
+
 uninstall-am: uninstall-binSCRIPTS
 
 .MAKE: $(RECURSIVE_CLEAN_TARGETS) $(RECURSIVE_TARGETS) install-am \
