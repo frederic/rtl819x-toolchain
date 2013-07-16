@@ -42,9 +42,6 @@ test: all
 	find ./plug-ins -name '*.so' -exec ln -fs {} ./ \;
 	./shtool fixperm ./
 
-romfs:
-	$(ROMFSINST) ettercap /bin/ettercap
-
 install-exec-hook:
 	rm -f $(libdir)/ettercap/*.la
 # vim:ts=4:noexpandtab
