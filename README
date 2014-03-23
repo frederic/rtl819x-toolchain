@@ -1,0 +1,96 @@
+Linux SDK for ALFA AIP-W512
+---------------------------
+
+== Overview
+This toolchain allows you to build custom firmware image for the ALFA Network AIP-W512 Wireless AP/router. 
+The SoC of this board is RTL8196E, based on a Lexra core (modified MIPS).
+
+Some applications have been added in the source tree:
+* dropbear
+* libpcap
+* tcpdump
+* ettercap
+
+== Disclaimer
+
+Flash at your own risk.
+
+== Requirements
+
+A linux host.
+This toolchain has been tested on 32-bit Ubuntu 9.10, 13.10 and on 64-bit Debian Jessie.
+
+== Configuration
+
+To configure the toolchain for the AIP-W512 board, use this command in top directory:
+> $ make menuconfig
+
+	> Selected Target : rtl8196e
+	> Selected Kernel : linux-2.6.30
+	> Selected Busybox : busybox-1.13
+	> Selected toolchain : rsdk-1.3.6-4181-EB-2.6.30-0.9.30
+	> Selected board configuration : 96E+88E GW
+	> Config users : yes
+
+Then exit and save this new configuration.
+The next configuration screen allows you to choose built-in applications.
+(Only ettercap, dropbear and tcpdump have been tested at this time.)
+Again, exit and save this new configuration.
+
+** Known issue **
+If you get the error "Error :  error opening terminal xterm", create this symbolic link:
+> # ln -s /lib/terminfo/x/xterm /usr/share/terminfo/x/xterm
+
+== Build
+
+> $ make
+
+Generated firmware image (rootfs+kernel)
+$top/image/fw.bin
+
+** Known issue **
+If you get the error:
+libtool eval: 1: libtool_args+=: not found
+libtool eval: 1: compile_command+=: not found
+...
+
+you have to link /bin/sh file to /bin/bash :
+> # unlink /bin/sh
+> # ln -s /bin/bash /bin/sh
+> $ export SHELL=/bin/bash
+
+== Filesystem customization
+
+To customize /etc/ directory, you can edit files in $top/target/etc.default/.
+
+Otherwise, you can edit 'romfs' target in $top/target/Makefile to add files.
+e.g. to add a root directory: $(ROMFSINST) root /root
+
+You must rebuild to apply changes:
+
+> $ make
+
+== Flash
+
+A successful build generates few images:
+$top/image/linux.bin (kernel)
+$top/image/root.bin (rootfs)
+$top/image/webpages.bin (web pages)
+$top/image/fw.bin (kernel+rootfs+web pages)
+
+You have to flash fw.bin (never tried others) by following one of these methods:
+
+ * TFTP (bootloader):
+	- Connect UART port (speed 38400)
+		Serial port pinout
+		->1 VCC
+		  2 TX
+		  3 RX
+		  4 GND
+	- Press 'Esc' key at boot to interrupt
+	- Upload image by TFTP : atftp -p -l $top/image/fw.bin 192.168.1.6
+
+ * Web interface (tcp/80): In the menu >Management>Upgrade firmware
+
+Network configuration won't be altered.
+Default root password is 'root'.
