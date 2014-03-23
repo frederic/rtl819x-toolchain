@@ -17004,7 +17004,13 @@ fi
 
 
 
-
+ if false; then
+  HAVE_PCRE_TRUE=
+  HAVE_PCRE_FALSE='#'
+else
+  HAVE_PCRE_TRUE='#'
+  HAVE_PCRE_FALSE=
+fi
 
 
 ac_ec_pcre=no
