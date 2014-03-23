@@ -470,7 +470,7 @@ if [ "$CONFIG_SQUASHFS_LZMA" = "y" ]; then
 	rm -f squashfs-lzma.o
         #$MKSQUASHFS_LZMA $RAMFSDIR squashfs-lzma.o -be -always-use-fragments 
         #$MKSQUASHFS $RAMFSDIR squashfs-lzma.o -comp lzma -always-use-fragments 
-        $MKSQUASHFS $RAMFSDIR squashfs-lzma.o -comp lzma -always-use-fragments -pf squashfs-pf-list.txt
+        $MKSQUASHFS $RAMFSDIR squashfs-lzma.o -comp lzma -always-use-fragments -pf squashfs-pf-list.txt -all-root
         if [ "$USE_SAMBA" = 1 -o "$USE_4M" = 1 ]; then
 		$CVIMG root squashfs-lzma.o root.bin 2D0000 $ROOTFS_OFFSET
 	else
@@ -480,7 +480,7 @@ if [ "$CONFIG_SQUASHFS_LZMA" = "y" ]; then
 else
 	rm -f squashfs.o
 	#$MKSQUASHFS $RAMFSDIR squashfs.o -always-use-fragments
-	$MKSQUASHFS $RAMFSDIR squashfs.o -always-use-fragments -pf squashfs-pf-list.txt
+	$MKSQUASHFS $RAMFSDIR squashfs.o -always-use-fragments -pf squashfs-pf-list.txt -all-root
 	$CVIMG root squashfs.o root.bin F0000 $ROOTFS_OFFSET
 	IMGSIZE=`du -s squashfs.o |  cut -f1`
 fi
