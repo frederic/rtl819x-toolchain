@@ -506,7 +506,7 @@ endif
 ifeq ($(CONFIG_APP_ETTERCAP),y)
 	@if [ ! -e ./ettercap-0.7.4.1/Makefile ]; then \
 		cd ./ettercap-0.7.4.1; \
-		./configure --host=mips-linux --with-libpcap=../libpcap-1.3.0/ --with-libnet=../libnet-1.1.5/ --with-iconv=../libiconv-1.14/ --disable-gtk --with-libncurses=no --enable-plugins CFLAGS="-I$(shell pwd)/zlib-1.2.5/" LDFLAGS="-L$(shell pwd)/zlib-1.2.5/ -lz" ; \
+		./configure --host=mips-linux --with-libpcap=../libpcap-1.3.0/ --with-libnet=../libnet-1.1.5/ --with-iconv=../libiconv-1.14/ --disable-gtk --with-libncurses=no --with-openssl=no --enable-plugins CFLAGS="-I$(shell pwd)/zlib-1.2.5/" LDFLAGS="-L$(shell pwd)/zlib-1.2.5/ -lz" ; \
 		touch Makefile.in; \
 	fi
 endif
