@@ -81,14 +81,20 @@ $top/image/fw.bin (kernel+rootfs+web pages)
 You have to flash fw.bin (never tried others) by following one of these methods:
 
  * TFTP (bootloader):
-	- Connect UART port (speed 38400)
-		Serial port pinout
-		->1 VCC
+	- Connect LAN ethernet port of the device to your network
+	- Find out serial port
+		UART Pinout
+		->1 VCC (with arrow on PCB)
 		  2 TX
 		  3 RX
 		  4 GND
+	- Connect UART port with settings: 38400 8N1
+		> # screen /dev/ttyUSB0 38400 8N1
 	- Press 'Esc' key at boot to interrupt
-	- Upload image by TFTP : atftp -p -l $top/image/fw.bin 192.168.1.6
+	- Here a shell. Enter '?' to get help message
+	- Enter 'IPCONFIG' command to display device's IP address, and modify if needed
+	- Upload image by TFTP
+		> $ atftp -p -l $top/image/fw.bin 192.168.1.6
 
  * Web interface (tcp/80): In the menu >Management>Upgrade firmware
 
